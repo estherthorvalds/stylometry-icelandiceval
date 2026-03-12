@@ -1,0 +1,31 @@
+# stylometry-icelandiceval
+
+Stílmælingar á íslensku — mælipróf til að meta stílgetu risamállíkana í íslensku textaframleiðslu.
+
+A research project developing a stylometric evaluation benchmark for the [Icelandic LLM Leaderboard](https://huggingface.co/spaces/mideind/icelandic-llm-leaderboard) maintained by Miðeind.
+
+## Project structure
+
+```
+stylometry-icelandiceval/
+├── README.md
+├── research_log.md          # Rannsóknardagbók
+├── decisions_log.md          # Ákvarðanaskrá
+├── reference_tracker.csv     # Heimildaskrá
+├── data/                     # Gögn mæliprófs (seinna)
+└── scripts/                  # Keyrsluskriftur (seinna)
+```
+
+## Verkefnisáfangar / Project phases
+
+1. **Rannsókn / Literature survey** — Map existing generation/style evaluation benchmarks across languages, with focus on low-resource languages
+2. **Hönnun mæliprófs / Benchmark design** — Design an Icelandic stylometry benchmark with well-defined correctness criteria
+3. **Keyrsla og greining / Evaluation** — Run the benchmark on selected models and analyze results
+
+## Ráðgjafar / Advisors
+
+- [Miðeind](https://mideind.is/)
+
+## Context
+
+This project addresses a known gap on the Icelandic LLM Leaderboard: the absence of a benchmark that systematically evaluates language generation quality and style.

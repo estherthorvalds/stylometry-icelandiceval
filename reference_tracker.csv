@@ -1,0 +1,2 @@
+Nr.,Titill,Höfundar,Ár,Tungumál,Hvað er mælt,Aðferð (Method),Hvernig er rétt svar skilgreint,Lág-auðlinda,Tengist stíl,Mikilvægi (1-5),Athugasemdir,Slóð (URL)
+1,Belebele: a parallel reading comprehension dataset,Bandarkar et al. (Meta),2023,"122 tungumál, þ.m.t. íslenska",Lesskilningur - Reading comprehension,MCQ (4 valkostir),Eitt rétt svar úr texta,Nei — fjöl-tungumála,Nei,3,"Notað á Miðeind stigatöflu. Faglega þýtt, ekki vélþýtt.",https://ai.meta.com/research/publications/the-belebele-benchmark-a-parallel-reading-comprehension-dataset-in-122-language-variants/
