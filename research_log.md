@@ -98,21 +98,23 @@ Sniðmát:
 - Til að hafa 1 rétt svar væri betra að nota 4 valmöguleika en 2 (minna af ágiskunum sem gefa rétt svar fyrir).
 - Þýdd próf geta verið lærð utanbókar á öðrum málum - ofmátun.
 - Mikilvæg atriði geta týnst í vélþýddum spurningum (ARC prófið mjög undarlegt).
-- Biber/Milička aðferðin er fræðilega sterk en full aðlögun að íslensku er of stórt verkefni
-- Möguleg lausn: proof of concept með einni vídd (frásagnarvídd / narrativity) sem er vel skilgreind með markaðri íslensrki málheild (eða aðra vel þáttaða texta?)
-- Verkefnið gæti verið: skýrsla + ein vídd útfærð og prófuð sem proof of concept
-- Fríða Á. Sigurðardóttir gæti verið dæmi um mínimalískan stíl á íslensku
+- Biber/Milička aðferðin er fræðilega sterk en full aðlögun að íslensku er of stórt verkefni.
+- Möguleg lausn: proof of concept með einni vídd (frásagnarvídd / narrativity) sem er vel skilgreind með markaðri íslenskri málheild (eða aðra vel þáttaða texta?).
+- Verkefnið gæti verið: skýrsla + ein vídd útfærð og prófuð sem proof of concept.
+- Fríða Á. Sigurðardóttir gæti verið dæmi um mínimalískan stíl á íslensku.
+- Biber/Milička aðferðin leysir hugsanlega vandamál Miðeindar um „eitt rétt svar“ — í stað þess að dæma hvort stíll sé réttur eða rangur er textinn mældur í víddum (t.d. frásagnarvídd). Þetta er ekki spurning um rétt/rangt heldur hvar textinn lendir á kvarða.
 
 **Opnar spurningar:**
 - Væri betra að nota nokkra „dómara“ og finna meðaltal? 
-- Túlkanlegar víddir (t.d. frásagnarvídd) skv. Biber, frekar en eitt rétt svar — hægt að nota til að passa að verkefni verði ekki stærra en fyrirmæli segja til um
-- Hvaða málfræðilegir eiginleikar myndu skilgreina frásagnarvídd í íslensku? (beygingarform sagna, persónufornöfn, tíðarform — en íslenska hefur annað kerfi en enska)
+- Hvaða málfræðilegir eiginleikar myndu skilgreina frásagnarvídd í íslensku? (beyging sagna, persónufornöfn, tíð)
 - Er til nógu stórt merkt málheild á íslensku til að keyra factor analysis?
 - Gæti perplexity (eins og Steinþór notaði) verið viðbótarmæling við hliðina á stílvíddum?
 
 **Næstu skref:**
 - Lesa Milička (2025) — hvaða eiginleikar voru notaðir fyrir tékknesku?
 - Skoða Biber (1995) Dimensions of Register Variation — hvernig aðlagaði hann aðferðina að öðrum tungumálum?
+- Væri góð hugmynd að gera tvöfalt próf um frásagnargetu líkana? Kanna getu þeirra til að flokka frásögn í texta vs. að búa hann til?
+- Er frásagnargeta mögulega of marglaga til að nota sem fyrsta proof of concept? Væri betra að nota eitthvað einfaldara eins og formlegt vs. óformlegt? Eða læsilegt vs. ólæsilegt sbr. Steinþór?
 - Bæta öllum nýjum heimildum í reference_tracker.csv
-- Hafa samband við Steinunni um stöðu verkefnis og proof of concept hugmynd
-- Bera undir Huldu hjá Miðeind
+- Hafa samband við Steinunni um stöðu verkefnis og proof of concept hugmynd.
+- Bera undir Huldu hjá Miðeind.
