@@ -1,2 +1,17 @@
 Nr.,Titill,Höfundar,Ár,Tungumál,Hvað er mælt,Aðferð (Method),Hvernig er rétt svar skilgreint,Lág-auðlinda,Tengist stíl,Mikilvægi (1-5),Athugasemdir,Slóð (URL)
-1,Belebele: a parallel reading comprehension dataset,Bandarkar et al. (Meta),2023,"122 tungumál, þ.m.t. íslenska",Lesskilningur - Reading comprehension,MCQ (4 valkostir),Eitt rétt svar úr texta,Nei — fjöl-tungumála,Nei,3,"Notað á Miðeind stigatöflu. Faglega þýtt, ekki vélþýtt.",https://ai.meta.com/research/publications/the-belebele-benchmark-a-parallel-reading-comprehension-dataset-in-122-language-variants/
+
+1,Belebele: a parallel reading comprehension dataset,Bandarkar et al. (Meta),2023,"122 tungumál, þ.m.t. íslenska",Lesskilningur - Reading comprehension,MCQ (4 valkostir),Eitt rétt svar úr texta,Nei — fjöl-tungumála,Nei,3,Notað í stigatöflu Miðeindar. Faglega þýtt, ekki vélþýtt.,https://ai.meta.com/research/publications/the-belebele-benchmark-a-parallel-reading-comprehension-dataset-in-122-language-variants/
+
+2,Benchmark of stylistic variation in LLM-generated texts,Milička et al.,2025,Tékkneska og enska,Stílbreytileiki í LLM-texta - víddargreining,Factor analysis á stílmælingum (Biber MD),Staða á túlkanlegum víddum - ekkert eitt rétt svar,Já (tékkneska),Já - kjarninn,5,Byggir á Biber 1988. Kalla eftir endurtekningu á öðrum tungumálum. Nálægt proof of concept hugmyndinni.,https://arxiv.org/html/2509.10179v2
+
+3,Variation across Speech and Writing,Douglas Biber,1988,Enska (síðar 4 tungumál 1995),6 víddir textabreytileika - register variation,Factor analysis á 67 málfræðilegum eiginleikum,Staða á víddum - tölfræðilegt mynstur,Nei,Já - grunnverk,5,Fræðilegur grunnur Milička. Biber 1995 útvíkkaði í kóresku somölsku og túvalísku.,https://www.cambridge.org/core/books/variation-across-speech-and-writing/A546CF5ED8F8E62F1432CB2F369CF356
+
+4,MLT201F-stylometry,Hinrik Hafsteinsson,2019,Íslenska,Höfundargreining með kósínuslíkindum,Kósínuslíkindi á orðtíðnivigrum,Líkindi við þekkta höfunda,Já,Já - höfundarstíll,4,HÍ námskeiðsverkefni. Gögn úr Risamálheildinni. Niðurstöður ekki afgerandi.,https://github.com/hinrikur/MLT201F-stylometry
+
+5,Global MMLU,Singh et al. (Cohere Labs),2025,"42 tungumál, ekki íslenska",Menningarleg hlutdrægni í MMLU þýðingum,MCQ + CS/CA greining,Eitt rétt svar (MCQ),Já (margar),Nei - en varpar ljósi á þýðingarvandamál,4,28% MMLU spurninga krefjast vestrænnar þekkingar. Staðfestir vandamál vélþýddra mæliprófa.,https://aclanthology.org/2025.acl-long.919.pdf
+
+6,Evaluating Style-Personalized Text Generation,Jangra et al.,2025,Enska,Stílmat á LLM-texta,Ensemble: n-gram + style embeddings + LLM-as-judge,Tvíflokkunarverkefni - stílgreining,Nei,Já,4,Ensemble aðferð 12% betri en besta einstaka mæling. Lág-auðlinda í titli.,https://arxiv.org/html/2508.06374v1
+
+7,LCTG Bench,Diverse höfundar,2025,Japanska,Stýranleiki LLM textagerðar,Samræmt ramma - sjálfvirkt mat,Samsvörun við stýringarfyrirmæli,Já (japanska),Já - stýring stíls,3,Fyrsta japanska mæliprófið fyrir stýringu textagerðar. Svipuð rök og fyrir íslensku.,https://arxiv.org/abs/2501.15875
+
+8,WikiQA-IS,Þórunn Arnardóttir et al. (Miðeind),2025,Íslenska,Menningarleg og söguleg þekking,Opin textagerð + GPT-4o sem dómari,GPT-4o metur hvort svar sé efnislega rétt,Já,Nei - en GPT-4o dómari viðeigandi umræða,4,2000 spurningar úr íslensku Wikipedia. Ceiling problem: GPT-4o dæmir betri módel.,https://aclanthology.org/2025.resourceful-1.13.pdf
