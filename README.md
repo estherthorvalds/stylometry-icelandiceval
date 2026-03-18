@@ -1,6 +1,6 @@
 # stylometry-icelandiceval
 
-Stílmælingar á íslensku — mælipróf til að meta stílgetu risamállíkana í íslensku textaframleiðslu.
+Stílmælingar á íslensku — mælipróf til að meta getu risamállíkana til að meðhöndla stíl á íslensku.
 
 A research project developing a stylometric evaluation benchmark for the [Icelandic LLM Leaderboard](https://huggingface.co/spaces/mideind/icelandic-llm-leaderboard) maintained by Miðeind.
 
@@ -9,14 +9,14 @@ A research project developing a stylometric evaluation benchmark for the [Icelan
 ```
 stylometry-icelandiceval/
 ├── README.md
-├── research_log.md          # Rannsóknardagbók
-├── decisions_log.md          # Ákvarðanaskrá
+├── research_log.md           # Rannsóknardagbók
+├── decisions_log.md          # Skrá yfir ákvarðanir
 ├── reference_tracker.csv     # Heimildaskrá
 ├── data/                     # Gögn mæliprófs (seinna)
 └── scripts/                  # Keyrsluskriftur (seinna)
 ```
 
-## Verkefnisáfangar / Project phases
+## Áfangar verkefnis / Project phases
 
 1. **Rannsókn / Literature survey** — Map existing generation/style evaluation benchmarks across languages, with focus on low-resource languages
 2. **Hönnun mæliprófs / Benchmark design** — Design an Icelandic stylometry benchmark with well-defined correctness criteria
@@ -25,6 +25,7 @@ stylometry-icelandiceval/
 ## Ráðgjafar / Advisors
 
 - [Miðeind](https://mideind.is/)
+- [Háskóli Íslands](https://hi.is/)
 
 ## Context
 
