@@ -189,11 +189,10 @@ Sniðmát:
 **Opnar spurningar:**
 - Er til MDA pipeline fyrir íslensku?
 - Hvaða líkön ætti að prófa? Spyrja Miðeind.
-- Hvernig ætti að skrá bilun þegar líkan getur ekki framleitt íslensku? Fengi líkanið bara 0 eða yrði því sleppt?
+- Hvernig ætti að skrá bilun þegar líkan getur ekki búið til íslenskan texta (sbr. þegar tékkneskar setningar voru endurteknar þegar hiti var 0)? Fengi líkanið bara 0 eða yrði því sleppt?
 - Væri gott að nota valda kafla úr bæði RMH og MÍM? 
 
 **Næstu skref:**
 - Lesa næsta kafla Milička.
 - Undirbúa spurningalista fyrir fund með Miðeind.
 - Skoða hvort MDA-verkfæri eða eitthvað sambærilegt sé til fyrir íslensku.
-- Vista skjámyndirnar frá tókun hjá OpenAI, athuga hvernig best er að haga því skipulagi fyrir skýrsluna.
