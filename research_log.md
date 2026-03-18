@@ -169,9 +169,11 @@ Sniðmát:
 - Las kafla 2 í Milička og íhugaði sambærileg gögn og málheildir fyrir þessa rannsókn. 
 - Prófaði OpenAI tokenizer á íslensku vs. ensku vs. frönsku — sama fréttartexti, þýddur af Erlendi.
 - Rannsakaði RMH og MÍM til samanburðar við Koditex (málheild Milička).
+- Bjó til data/figures og færði inn myndir af mismunandi tókunum (enska, íslenska, pólska).
 
 **Uppgötvanir:**
 - BPE tokenization: Íslenski textinn: 531 tókar / 1.546 stafir (2,9 stafir/tóki). Enska: 349 tókar / 1.929 stafir (5,5 stafir/tóki). Franska: 459 tókar / 2.101 stafir (4,6 stafir/tóki). Líkanið þarf 52% fleiri tóka til að vinna íslenska textann. Mörk tókanna skera oft í gegnum beygingarendingar og samsett orð.
+- Gerði betri tilraun á tókun. Notaði texta frá RÚV á þremur mismunandi tungumálum en allt um sama efni. Ekki beinþýtt en þó nálægt. Icelandic: 266 tokens, 829 characters — 3.1 characters/token, English: 161 tokens, 823 characters — 5.1 characters/token, Polish: 276 tokens, 851 characters — 3.1 characters/token
 - RMH: 1,3 milljarðar orða, þáttað
 - MÍM: 25 milljón orð, inniheldur 24% bækur, 22% dagblöð (má nota í rannsóknarskyni en ekki í gróðastarfsemi)
 - Milička valdi tékknesku vegna (1) var þegar til fyrir MDA pipeline (Cvrček) og (2) Koditex málheildar. Ekki vegna þess að þeir tala tékknesku, heldur vegna málfanga.
