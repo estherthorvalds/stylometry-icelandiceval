@@ -196,3 +196,42 @@ Sniðmát:
 - Lesa næsta kafla Milička.
 - Undirbúa spurningalista fyrir fund með Miðeind.
 - Skoða hvort MDA-verkfæri eða eitthvað sambærilegt sé til fyrir íslensku.
+
+
+### 19. mars 2026 — Tokenization, málheildir, Milička aðferðafræði
+
+**Tími:** [fylltu inn]
+
+**Hvað gerði ég:**
+- Tokenization tilraun: sama RÚV frétt á íslensku, ensku og pólsku í OpenAI tokenizer
+- Rannsakaði RMH og MÍM — innihald, stærð, textategundir
+- Las áfram Milička, sérstaklega kafla 3.2 (tölfræðileg úrvinnsla) og AI-Brown/AI-Koditex corpus greinina
+- Fékk Python skriptu sem útfærir formúlur Milička (1-4)
+- Gerði repo opinbert og sendi á Miðeind fyrir fund á mánudag
+
+**Uppgötvanir:**
+- Milička notaði 500 orð sem prompt (orig1).
+— Líkönin beðin um að skrifa 5.000 orð (model).
+- AI-Koditex inniheldur bæði LLM-texta og mannlegan samanburðartexta (orig2) í pörum frá sama upphafi - þarf að athuga betur síðar. 
+- AI Koditex skoðað nánar: ENG 864k tokens per model (27 m. í heild) og CZE 768k tokens per model (21,5 m. í heild).
+- Formúlur: (1) Δv = munur LLM vs. mannlegur texti per vídd, (2) i = náttúrulegur breytileiki innan mannlegs texta, (3) b_d = staðlaður samanburður, (4) B = ein tala yfir allar víddir. Formúlur handskrifaðar í dagbók. 
+
+**Hugsanir / túlkun:**
+- 500 orð sem prompt er vel framkvæmanlegt, auðvelt að fá úr RMH/MÍM.
+- MÍM líkist Koditex í hlutverki (nokkrar mismunandi textategundir, hannað fyrir málrannsóknir) en er mun minna (25M vs. 9M orð).
+- RMH og MÍM eru þegar merkt — POS, lemma, fall, tala, kyn — sem þýðir að eiginleikar fyrir MDA eru nú þegar til staðar í gögnunum.
+- Þarf samt að búa til AI-hliðstæðu (LLM-texta).
+- Formúla 3 er kjarninn; staðlar sjálfkrafa fyrir víddir sem eru náttúrulega breytilegri.
+- Formúla 4 óþörf fyrir proof of concept með einni vídd (væri ekki að leita að meðaltali fyrir allar víddir).
+- Gæti Greynir leyst af hólmi regex-nálgun í skriftunni? Það gefur málfræðigreiningu (fall, tölu, kyn, tíð) í stað ágiskunar út frá endingum en hefur ekki reynst vel á óformlegum textum (41% þáttun í verkefni um Bland.is og Hugi.is). Líklegast betra að finna texta í RMH og MÍM.
+
+**Opnar spurningar:**
+- Hvernig er AI-Koditex skipulagt í raun? Skoða heima, niðurhal.
+- Hversu mörg textapör per textategund þarf til að fá tölfræðilega marktækar niðurstöður?
+- Er til MDA pipeline eða sambærilegt verkfæri fyrir íslensku?
+- Hvaða módel á að prófa? 
+
+**Næstu skref:**
+- Skoða AI-Koditex skráarstrúktúr.
+- Prófa Python skriptuna með mismunandi textategundum.
+- Halda áfram lestri á Milička.
