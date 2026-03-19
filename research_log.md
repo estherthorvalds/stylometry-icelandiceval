@@ -198,16 +198,15 @@ Sniðmát:
 - Skoða hvort MDA-verkfæri eða eitthvað sambærilegt sé til fyrir íslensku.
 
 
-### 19. mars 2026 — Tokenization, málheildir, Milička aðferðafræði
+### 19. mars 2026 — Málheildir, Milička aðferðafræði
 
 **Tími:** [fylltu inn]
 
 **Hvað gerði ég:**
-- Tokenization tilraun: sama RÚV frétt á íslensku, ensku og pólsku í OpenAI tokenizer
-- Rannsakaði RMH og MÍM — innihald, stærð, textategundir
-- Las áfram Milička, sérstaklega kafla 3.2 (tölfræðileg úrvinnsla) og AI-Brown/AI-Koditex corpus greinina
-- Fékk Python skriptu sem útfærir formúlur Milička (1-4)
-- Gerði repo opinbert og sendi á Miðeind fyrir fund á mánudag
+- Yfirferð á tókatilraun með Karolinu. Pólskumælandi vinnufélagi settist hjá mér og las hvernig tokenizer OpenAI splittaði orðum á pólsku. Henni þótti margt einkennilegt en stundum splittað á merkingarbærum einingum (hún lýsti því á sama hátt og morfem). Svipaðar niðurstöður á íslensku þar sem stundum er splittað morfem en stundum virðist það vera af handahófi. 
+- Skoðaði RMH og MÍM — innihald, stærð, textategundir.
+- Las áfram Milička, sérstaklega kafla 3.2 (tölfræðileg úrvinnsla) og AI-Brown/.AI-Koditex corpus greinina.
+- Fékk Claude Opus 4.5 til að gera Python skriftu sem útfærir formúlur Milička (1-4). Mun gera prófanir hér. 
 
 **Uppgötvanir:**
 - Milička notaði 500 orð sem prompt (orig1).
