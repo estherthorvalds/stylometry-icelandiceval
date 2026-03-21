@@ -17,3 +17,7 @@ venv/
 *.tmp
 *~
 .DS_Store
+
+# Raw corpus data (large, licensed separately)
+data/raw/
+.DS_Store
