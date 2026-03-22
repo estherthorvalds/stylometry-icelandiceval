@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "description": "Subject drop comparison: human vs LLM-generated headlines",
+    "project": "stylometry-icelandiceval",
+    "headline_tagging": "Sonnet 4.6 (IFD tagset)",
+    "feature": "Subject drop (absence of nominative-case nominals)"
+  },
+  "human": {
+    "total_headlines": 520,
+    "headlines_with_nominative": 462,
+    "headlines_without_nominative": 58,
+    "subject_drop_rate": 0.1115,
+    "avg_tokens_per_headline": 4.8,
+    "avg_nominative_per_headline": 1.33,
+    "nom_per_token": 0.2778
+  },
+  "llm": {
+    "520_Le_Chat_Fast": {
+      "total_headlines": 520,
+      "headlines_with_nominative": 520,
+      "headlines_without_nominative": 0,
+      "subject_drop_rate": 0.0,
+      "avg_tokens_per_headline": 5.4,
+      "avg_nominative_per_headline": 1.7,
+      "nom_per_token": 0.3166
+    },
+    "520_Gemini_3_Thinking": {
+      "total_headlines": 520,
+      "headlines_with_nominative": 508,
+      "headlines_without_nominative": 12,
+      "subject_drop_rate": 0.0231,
+      "avg_tokens_per_headline": 4.0,
+      "avg_nominative_per_headline": 1.23,
+      "nom_per_token": 0.306
+    }
+  }
+}
