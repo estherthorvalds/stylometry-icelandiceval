@@ -234,3 +234,85 @@ Sniðmát:
 - Skoða AI-Koditex skráarstrúktúr.
 - Prófa Python skriptuna með mismunandi textategundum.
 - Halda áfram lestri á Milička.
+
+
+### 21. mars 2026 — Proof of concept keyrt
+
+**Tími:** 8 klst.
+
+**Hvað gerði ég:**
+- Tók 600 fréttatitla frá Húna (huni.is) til að vinna með. 
+- Lét nokkur risamállíkön búa til texta sem líktist fréttatitlum Húna. 
+- Spurði Steinunni hvernig fólk er almennt á POS-merkja textana sína, Greynir nær ekki öllu.
+- Lét Sonnet 4.6 POS-merkja alla textana (bæði mannlegu og gervigreindar).
+- Keyrði samanburð á frumlagsleysi í fréttatitlum, fyrst á 2x40 fréttafyrirsögnum, mannlegum vs. fjórum mismunandi risamállíkönum (allt í spjalli, ekkert API).
+- Keyrði samanburð á frumlagsleysi í fréttatitlum, síðar á 520 fyrirsögnum: mannlegum vs. Gemini 3 Thinking og Le Chat Fast.
+- Uppgötvaði að Le Chat festist í endurtekningarlúppu.
+- Greindi vandamál með v2 skriftu sem ég fékk frá Claude Opus 4.6; það var röng staðsetning á falltagi. Hætti við að nota hana. 
+- Notaði v1 skriftuna til að bera saman og athuga hvort ég fengi niðurstöður til að prófa aðferðir Milička. 
+
+**Niðurstöður:**
+- Mannlegar fyrirsagnir: 11,2% subject drop (58 af 520).
+- Gemini 3 Thinking: 2,3% subject drop (12 af 520).
+- Le Chat Fast: 0,0% subject drop (0 af 520) - Ómarktækt!
+- Bæði LLM módelin sýna minni subject drop en mannlegir fréttamenn (Le Chat er þó ómarktækt).
+- Le Chat hafði hærra hlutfall nafnyrða í nefnifalli (0,3166) en mannlegur texti (0,2778) — útskýrir meira en náttúrulegar fyrirsagnir.
+- Le Chat niðurstöður eru ekki áreiðanlegar vegna endurtekningarlúppu — módel sem festist í lykkju framleiðir ekki fjölbreytt úrtak.
+
+**Hugsanir / túlkun:**
+- Nú skil ég af hverju Milička sleppti líkönum sem festust í endurtekningum. Þetta er ekki útilokun á gögnum — gögnin eru einfaldlega ónothæf til stílsamanburðar. Le Chat endurtók sama mynstur og framleiddi aldrei þær setningagerðir þar sem frumlagið er horfið. Kannski hefði það gert það á einhverjum tímapunkti, ef villan hefði ekki komið upp. Þetta gerir það að verkum að 0% er ekki áreiðanlegt hlutfall til að horfa til.
+- Málfræði og stíll eru samtvinnuð á íslensku. Le Chat Fast greip stíl en gerði málfræðivillur. Le Chat Thinking gerði færri málfræðivillur, þó einhverjar. Gemini 3 Thinking komst næst mannlegri hegðun og var því valið á móti Le Chat Fast. 
+- Sonnet-merking er ekki jafn áreiðanleg og RMH/MÍM merking. Sá eina lemmuvillu bara við það að opna skjalið, líklega fleiri sem ég sá ekki. Fyrir stærra verkefni eða áreiðanlegri tilraun þarf betri merkingu.
+- Greynir vandamál á óformlegum texta er enn óleyst, ég veit ekki hvort Greynir nær fréttatitlum þar sem þeir hafa oft óvanalega setningamyndan. 
+
+**Opnar spurningar:**
+- Ætti ég að sleppa Le Chat úr niðurstöðum eða skrá sem bilun? (Svar: skrá sem bilun með útskýringu, eins og ég ræddi áðan).
+- Hversu margar aðrar stílbreytur get ég bætt við án þess að þurfa djúpa þáttun?
+- Er 520 fyrirsagnir nóg til að sýna tölfræðilega marktækt? (chi-squared segir já en þarf að prófa Milicka leiðina líka).
+
+**Næstu skref:**
+- Taka til í repoinu, allt of mikið af prófunum sem gerðu ekkert merkilegt. 
+- Gera próf byggt á formúlu Milicka (spurning hvort það verði í Heimaverkefni 4 eða hvort þetta dugi). 
+- Undirbúa spurningalista fyrir Miðeind.
+- Skrifa upp niðurstöður fyrir Heimaverkefni 4. 
+
+
+### 22. mars 2026 — Proof of concept tilbúið
+
+**Tími:** 8 klst.
+
+**Hvað gerði ég:**
+- Gerði fjölda tilrauna með Claude Opus 4.6 til að fullkomna Milička-formúluna. Er nú ímilicka_headlines.py með íslenskum athugasemdum.
+- Keyrði formúlu 1, 2 og 3 á öllum fjórum risamállíkönum (Gemini 3 Thinking, Le Chat Fast, Le Chat Thinking, GPT 5).
+- Útfærði bootstrap SE (1000 endurúrtök, seed=42) þar sem ég hafði ekki pöruð gögn eins og Milička.
+- Fínpússaði flokkun: harðkóðaði útilokun á boðhætti (sb...), gervifrumlag ("það" + sögn), og nafnliðarfyrirsögnum (engin sögn).
+- Skrifaði fyrstu drög að svörum við Q3 í heimaverkefni 4.
+- Bjó til PowerPoint kynningu (10 glærur) með bakgrunnsskýringum um stigatöfluna, bilið, og formúlu Milička, svo tillagan sé skýr fyrir Miðeind.
+
+**Hvað fann ég:**
+- Ég keyrði margar mismunandi tegundir formúlu og allar virkuðu (kúnstin var að greiða úr málvísindalegum rökvillum, formúlan og kóðinn var flottur)
+- Mannleg grunnlína: 18,5% fyrirsagna án frumlagsnafnliðar (af 520 fyrirsögnum af huni.is / Húnahorninu)
+- Bootstrap SE: 6,82% (staðalskekkja)
+- Náttúrulegt frávik: 8,8% (mismunur á tveimur helmingum mannlegu gagnanna)
+- Le Chat Thinking (b_d = +0,27) — EINA módelið innan mennskra marka
+- Gemini 3 Thinking (b_d = +2,31) — verulegt frávik
+- GPT 5 (b_d = +2,71) og Le Chat Fast (b_d = +2,71) — gera engar fyrirsagnir án frumlagsnafnliðar
+- Le Chat Fast festist í endurtekningarlúppu — niðurstöður óáreiðanlegar og segja ekkert um getu módelsins í 520 dæmum
+- Fallið er ekki fullkomið. Gögnin ekki fullkomin heldur. T.d. rangflokkun vegna erlendra sérnafna (t.d. KPMG merkt 'e' án fallupplýsinga), en ég lét það ekki stoppa proof of concept!
+
+**Hugsanir / túlkun:**
+- Formúla Milička virkar á þessu íslenska örprófi. b_d gefur samanburðarhæfan kvarða.
+- Hugmyndin um "eitt rétt svar" leysist þannig: mannlega grunnlínan skilgreinir svæðið, SE skilgreinir mörkin, og b_d mælir hversu langt líkanið er frá þeim mörkum.
+- Frumlagsnafnliðarleysi er áhugavert stíleinkenni vegna þess að það er næstum einstakt fyrir fréttafyrirsagnir — gerir afmörkun auðveldari.
+- Þáttun er veikasti hlekkurinn — Sonnet sem POS-tagger er ekki jafn áreiðanlegur og RMH merking, en fyrir proof of concept dugir það.
+
+**Opnar spurningar:**
+- Hvernig bregðast Miðeind við þessari nálgun? Er b_d nógu gott fyrir stigatöfluna?
+- Hvaða módel á stigatöflunni á að prófa í lokaverkefninu? (65 módel!)
+- Er MDA pipeline til fyrir íslensku eða þarf að byggja það?
+- Hvaða málheild er best fyrir lokaverkefnið — RMH, MÍM, eða bæði?
+- Fæ ég API-aðgang frá Miðeind?
+
+**Næstu skref:**
+- Fundur með Miðeind — sýna niðurstöður og spyrja spurninganna hér að ofan
+- Bæta heimildum í reference_tracker.csv

@@ -1,0 +1,2782 @@
+[
+  {
+    "index": 0,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "barnamót",
+        "lemma": "barnamót",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "tokens": [
+      {
+        "text": "Listasýning",
+        "lemma": "listasýning",
+        "pos": "nven"
+      },
+      {
+        "text": "heiðursgests",
+        "lemma": "heiðursgestur",
+        "pos": "nkees"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "Safnahúsinu",
+        "lemma": "safnahús",
+        "pos": "nheþg"
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "tokens": [
+      {
+        "text": "Áhugamenn",
+        "lemma": "áhugi",
+        "pos": "nkfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "skipulagðar",
+        "lemma": "skipuleggja",
+        "pos": "sþgvfn"
+      },
+      {
+        "text": "göngutúr",
+        "lemma": "göngutúr",
+        "pos": "nkfo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnssýslu",
+        "lemma": "Húnavatnssýsla",
+        "pos": "nvees"
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "tokens": [
+      {
+        "text": "Samningur",
+        "lemma": "samningur",
+        "pos": "nken"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "nýja",
+        "lemma": "nýr",
+        "pos": "lveosf"
+      },
+      {
+        "text": "sundlaug",
+        "lemma": "sundlaug",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      },
+      {
+        "text": "samþykktur",
+        "lemma": "samþykkja",
+        "pos": "sþgken"
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóður",
+        "lemma": "sjóður",
+        "pos": "nkeþ"
+      },
+      {
+        "text": "Húnvetninga",
+        "lemma": "Húnvetningur",
+        "pos": "nkfes"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "íþrótta",
+        "lemma": "íþrótt",
+        "pos": "nvfes"
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "tokens": [
+      {
+        "text": "Félagsmiðstöð",
+        "lemma": "félagsmiðstöð",
+        "pos": "nven"
+      },
+      {
+        "text": "Blönduóss",
+        "lemma": "Blönduós",
+        "pos": "nkees"
+      },
+      {
+        "text": "opnar",
+        "lemma": "opna",
+        "pos": "sfg3en"
+      },
+      {
+        "text": "dyrnar",
+        "lemma": "dyr",
+        "pos": "nvfog"
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "tokens": [
+      {
+        "text": "Upphaf",
+        "lemma": "upphaf",
+        "pos": "nhen"
+      },
+      {
+        "text": "nýs",
+        "lemma": "nýr",
+        "pos": "lhеesf"
+      },
+      {
+        "text": "tímabils",
+        "lemma": "tímabil",
+        "pos": "nhees"
+      },
+      {
+        "text": "hjá",
+        "lemma": "hjá",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduskóla",
+        "lemma": "Blönduskóli",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "tokens": [
+      {
+        "text": "Markverðar",
+        "lemma": "markverður",
+        "pos": "lvfnosf"
+      },
+      {
+        "text": "niðurstöður",
+        "lemma": "niðurstaða",
+        "pos": "nvfn"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "skoðanakönnun",
+        "lemma": "skoðanakönnun",
+        "pos": "nveþ"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "umhverfismál",
+        "lemma": "umhverfismál",
+        "pos": "nhfo"
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "tokens": [
+      {
+        "text": "Skipulagðir",
+        "lemma": "skipuleggja",
+        "pos": "sþgkfn"
+      },
+      {
+        "text": "göngutúr",
+        "lemma": "göngutúr",
+        "pos": "nkfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "Blönduós",
+        "lemma": "Blönduós",
+        "pos": "nkeos"
+      },
+      {
+        "text": "og",
+        "lemma": "og",
+        "pos": "c"
+      },
+      {
+        "text": "nágrenni",
+        "lemma": "nágrenni",
+        "pos": "nheo"
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "tokens": [
+      {
+        "text": "Tónlistarfræðsla",
+        "lemma": "tónlistarfræðsla",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "unga",
+        "lemma": "ungur",
+        "pos": "lhfosf"
+      },
+      {
+        "text": "fólk",
+        "lemma": "fólk",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnssýslu",
+        "lemma": "Húnavatnssýsla",
+        "pos": "nvees"
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "tokens": [
+      {
+        "text": "Samningar",
+        "lemma": "samningur",
+        "pos": "nkfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "nýtt",
+        "lemma": "nýr",
+        "pos": "lhenosf"
+      },
+      {
+        "text": "sundhöll",
+        "lemma": "sundhöll",
+        "pos": "nven"
+      },
+      {
+        "text": "nálægt",
+        "lemma": "nálægt",
+        "pos": "ao"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnsbúnaðarsjóði",
+        "lemma": "Húnavatnsbúnaðarsjóður",
+        "pos": "nkeþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "ungmennaíþrótta",
+        "lemma": "ungmennaíþrótt",
+        "pos": "nvfes"
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Húnvetnaframtaks",
+        "lemma": "Húnvetnaframtak",
+        "pos": "nhees"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "tokens": [
+      {
+        "text": "Nýtt",
+        "lemma": "nýr",
+        "pos": "lhenosf"
+      },
+      {
+        "text": "stærsta",
+        "lemma": "stór",
+        "pos": "lheosm"
+      },
+      {
+        "text": "verkefni",
+        "lemma": "verkefni",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      },
+      {
+        "text": "samþykkt",
+        "lemma": "samþykkja",
+        "pos": "sþghen"
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "atvinnulífs",
+        "lemma": "atvinnulíf",
+        "pos": "nhees"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "skóla",
+        "lemma": "skóli",
+        "pos": "nkfo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnssýslu",
+        "lemma": "Húnavatnssýsla",
+        "pos": "nvees"
+      },
+      {
+        "text": "fer",
+        "lemma": "fara",
+        "pos": "sfg3en"
+      },
+      {
+        "text": "fram",
+        "lemma": "fram",
+        "pos": "aa"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "dag",
+        "lemma": "dagur",
+        "pos": "nkeþ"
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "tokens": [
+      {
+        "text": "Fundur",
+        "lemma": "fundur",
+        "pos": "nken"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "nýja",
+        "lemma": "nýr",
+        "pos": "lveosf"
+      },
+      {
+        "text": "samgönguáætlun",
+        "lemma": "samgönguáætlun",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "félagsstarfs",
+        "lemma": "félagsstarf",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Héraðsskólans",
+        "lemma": "héraðsskóli",
+        "pos": "nkeeg"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "tokens": [
+      {
+        "text": "Nýr",
+        "lemma": "nýr",
+        "pos": "lkenosf"
+      },
+      {
+        "text": "formaður",
+        "lemma": "formaður",
+        "pos": "nken"
+      },
+      {
+        "text": "kjörinn",
+        "lemma": "kjósa",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnvetnasambandi",
+        "lemma": "Húnvetnasamband",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "menningarstarfs",
+        "lemma": "menningastarf",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sumarhátíð",
+        "lemma": "sumarhátíð",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      },
+      {
+        "text": "fer",
+        "lemma": "fara",
+        "pos": "sfg3en"
+      },
+      {
+        "text": "fram",
+        "lemma": "fram",
+        "pos": "aa"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "íþrótta",
+        "lemma": "íþrótt",
+        "pos": "nvfes"
+      },
+      {
+        "text": "og",
+        "lemma": "og",
+        "pos": "c"
+      },
+      {
+        "text": "ungmennaverksmiðju",
+        "lemma": "ungmennaverksmiðja",
+        "pos": "nveес"
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Húnavatnsbúnaðarsambands",
+        "lemma": "Húnavatnsbúnaðarsamband",
+        "pos": "nheеs"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "tokens": [
+      {
+        "text": "Nýr",
+        "lemma": "nýr",
+        "pos": "lkenosf"
+      },
+      {
+        "text": "samningur",
+        "lemma": "samningur",
+        "pos": "nken"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "heilsuhæli",
+        "lemma": "heilsuhæli",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      },
+      {
+        "text": "samþykktur",
+        "lemma": "samþykkja",
+        "pos": "sþgken"
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "umhverfisverkefna",
+        "lemma": "umhverfisverkefni",
+        "pos": "nhfes"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "nýtt",
+        "lemma": "nýr",
+        "pos": "lheosf"
+      },
+      {
+        "text": "tímabil",
+        "lemma": "tímabil",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnsskóla",
+        "lemma": "Húnavatnsskóli",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "félagsmála",
+        "lemma": "félagsmál",
+        "pos": "nhfes"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Húnvetnafélags",
+        "lemma": "Húnvetnafélag",
+        "pos": "nhees"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 29,
+    "tokens": [
+      {
+        "text": "Nýr",
+        "lemma": "nýr",
+        "pos": "lkenosf"
+      },
+      {
+        "text": "samningur",
+        "lemma": "samningur",
+        "pos": "nken"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "íþróttahús",
+        "lemma": "íþróttahús",
+        "pos": "nheo"
+      },
+      {
+        "text": "samþykktur",
+        "lemma": "samþykkja",
+        "pos": "sþgken"
+      }
+    ]
+  },
+  {
+    "index": 30,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "menningarstarfs",
+        "lemma": "menningastarf",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sumardvöl",
+        "lemma": "sumardvöl",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnssýslu",
+        "lemma": "Húnavatnssýsla",
+        "pos": "nvees"
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "atvinnulífs",
+        "lemma": "atvinnulíf",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Héraðsskólans",
+        "lemma": "héraðsskóli",
+        "pos": "nkeeg"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 34,
+    "tokens": [
+      {
+        "text": "Nýr",
+        "lemma": "nýr",
+        "pos": "lkenosf"
+      },
+      {
+        "text": "formaður",
+        "lemma": "formaður",
+        "pos": "nken"
+      },
+      {
+        "text": "kjörinn",
+        "lemma": "kjósa",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnvetnafélagi",
+        "lemma": "Húnvetnafélag",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 35,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "félagsstarfs",
+        "lemma": "félagsstarf",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Blönduósi",
+        "lemma": "Blönduós",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 36,
+    "tokens": [
+      {
+        "text": "Upphitun",
+        "lemma": "upphitun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "nýtt",
+        "lemma": "nýr",
+        "pos": "lheosf"
+      },
+      {
+        "text": "tímabil",
+        "lemma": "tímabil",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnavatnsskóla",
+        "lemma": "Húnavatnsskóli",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 37,
+    "tokens": [
+      {
+        "text": "Framlag",
+        "lemma": "framlag",
+        "pos": "nhen"
+      },
+      {
+        "text": "úr",
+        "lemma": "úr",
+        "pos": "aþ"
+      },
+      {
+        "text": "sjóðum",
+        "lemma": "sjóður",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "til",
+        "lemma": "til",
+        "pos": "ae"
+      },
+      {
+        "text": "umhverfisverkefna",
+        "lemma": "umhverfisverkefni",
+        "pos": "nhfes"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Húnaþingi",
+        "lemma": "Húnaþing",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 38,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Húnavatnsbúnaðarsambands",
+        "lemma": "Húnavatnsbúnaðarsamband",
+        "pos": "nhees"
+      },
+      {
+        "text": "haldinn",
+        "lemma": "halda",
+        "pos": "sþgken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "kvöld",
+        "lemma": "kvöld",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 39,
+    "tokens": [
+      {
+        "text": "Nýr",
+        "lemma": "nýr",
+        "pos": "lkenosf"
+      },
+      {
+        "text": "samningur",
+        "lemma": "samningur",
+        "pos": "nken"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "heilsuhæli",
+        "lemma": "heilsuhæli",
+        "pos": "nheo"
+      },
+      {
+        "text": "samþykktur",
+        "lemma": "samþykkja",
+        "pos": "sþgken"
+      }
+    ]
+  },
+  {
+    "index": 40,
+    "tokens": [
+      {
+        "text": "Nýtt",
+        "lemma": "nýr",
+        "pos": "lhenosf"
+      },
+      {
+        "text": "samstarf",
+        "lemma": "samstarf",
+        "pos": "nhen"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "sviði",
+        "lemma": "svið",
+        "pos": "nheþ"
+      },
+      {
+        "text": "sjávarútvegs",
+        "lemma": "sjávarútvegur",
+        "pos": "nkees"
+      }
+    ]
+  },
+  {
+    "index": 41,
+    "tokens": [
+      {
+        "text": "Úrvalsleikarar",
+        "lemma": "úrvalsleikari",
+        "pos": "nkfn"
+      },
+      {
+        "text": "sigra",
+        "lemma": "sigra",
+        "pos": "sfg3fn"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "meistarakeppni",
+        "lemma": "meistarakeppni",
+        "pos": "nveþ"
+      },
+      {
+        "text": "handknattleiks",
+        "lemma": "handknattleikur",
+        "pos": "nkees"
+      }
+    ]
+  },
+  {
+    "index": 42,
+    "tokens": [
+      {
+        "text": "Skemmtanir",
+        "lemma": "skemmtun",
+        "pos": "nvfn"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "alla",
+        "lemma": "allur",
+        "pos": "lffo"
+      },
+      {
+        "text": "fjölskylduna",
+        "lemma": "fjölskylda",
+        "pos": "nveog"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "Ljósanótt",
+        "lemma": "Ljósanótt",
+        "pos": "nvens"
+      }
+    ]
+  },
+  {
+    "index": 43,
+    "tokens": [
+      {
+        "text": "Mót",
+        "lemma": "mót",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "skák",
+        "lemma": "skák",
+        "pos": "nveþ"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "byrjendur",
+        "lemma": "byrjandi",
+        "pos": "nkfo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Kópavogi",
+        "lemma": "Kópavogur",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 44,
+    "tokens": [
+      {
+        "text": "Tónleikar",
+        "lemma": "tónleikar",
+        "pos": "nkfn"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "kórnum",
+        "lemma": "kór",
+        "pos": "nkeþg"
+      },
+      {
+        "text": "Söngvarar",
+        "lemma": "Söngvarar",
+        "pos": "nkfns"
+      }
+    ]
+  },
+  {
+    "index": 45,
+    "tokens": [
+      {
+        "text": "Byrjun",
+        "lemma": "byrjun",
+        "pos": "nven"
+      },
+      {
+        "text": "skráningar",
+        "lemma": "skráning",
+        "pos": "nvees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "ao"
+      },
+      {
+        "text": "sumarfræðslu",
+        "lemma": "sumarfræðsla",
+        "pos": "nveo"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "unga",
+        "lemma": "ungur",
+        "pos": "lhfosf"
+      },
+      {
+        "text": "fólk",
+        "lemma": "fólk",
+        "pos": "nheo"
+      }
+    ]
+  },
+  {
+    "index": 46,
+    "tokens": [
+      {
+        "text": "Félagsfundur",
+        "lemma": "félagsfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Hekluskóla",
+        "lemma": "Hekluskóli",
+        "pos": "nkeþs"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "námsframboð",
+        "lemma": "námsframboð",
+        "pos": "nheo"
+      }
+    ]
+  },
+  {
+    "index": 47,
+    "tokens": [
+      {
+        "text": "Matseðill",
+        "lemma": "matseðill",
+        "pos": "nken"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "velgengni",
+        "lemma": "velgengni",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "matreiðslukeppni",
+        "lemma": "matreiðslukeppni",
+        "pos": "nveþ"
+      }
+    ]
+  },
+  {
+    "index": 48,
+    "tokens": [
+      {
+        "text": "Lokahátíð",
+        "lemma": "lokahátíð",
+        "pos": "nven"
+      },
+      {
+        "text": "verklegar",
+        "lemma": "verklegur",
+        "pos": "lvfesf"
+      },
+      {
+        "text": "verkefnaferðar",
+        "lemma": "verkefnaferð",
+        "pos": "nvees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "náttúrufræði",
+        "lemma": "náttúrufræði",
+        "pos": "nveþ"
+      }
+    ]
+  },
+  {
+    "index": 49,
+    "tokens": [
+      {
+        "text": "Sýning",
+        "lemma": "sýning",
+        "pos": "nven"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "handverkum",
+        "lemma": "handverk",
+        "pos": "nhfþ"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Listaháskóla",
+        "lemma": "listaháskóli",
+        "pos": "nkeþ"
+      },
+      {
+        "text": "Íslands",
+        "lemma": "Ísland",
+        "pos": "nhees"
+      }
+    ]
+  },
+  {
+    "index": 50,
+    "tokens": [
+      {
+        "text": "Ævintýri",
+        "lemma": "ævintýri",
+        "pos": "nhen"
+      },
+      {
+        "text": "unglingahópsins",
+        "lemma": "unglingahópur",
+        "pos": "nkeeg"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "gönguferð",
+        "lemma": "gönguferð",
+        "pos": "nveþ"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Laugardal",
+        "lemma": "Laugardalur",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 51,
+    "tokens": [
+      {
+        "text": "Næsta",
+        "lemma": "næstur",
+        "pos": "lkeosm"
+      },
+      {
+        "text": "mótherji",
+        "lemma": "mótherji",
+        "pos": "nken"
+      },
+      {
+        "text": "íslenska",
+        "lemma": "íslenskur",
+        "pos": "lkеesf"
+      },
+      {
+        "text": "landsliðsins",
+        "lemma": "landslið",
+        "pos": "nheeg"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "knattspyrnu",
+        "lemma": "knattspyrna",
+        "pos": "nveþ"
+      }
+    ]
+  },
+  {
+    "index": 52,
+    "tokens": [
+      {
+        "text": "Minningargjörð",
+        "lemma": "minningargjörð",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "þjóðskáld",
+        "lemma": "þjóðskáld",
+        "pos": "nheo"
+      },
+      {
+        "text": "árið",
+        "lemma": "ár",
+        "pos": "nheog"
+      },
+      {
+        "text": "2014",
+        "lemma": "2014",
+        "pos": "tfo"
+      }
+    ]
+  },
+  {
+    "index": 53,
+    "tokens": [
+      {
+        "text": "Útileikar",
+        "lemma": "útileikur",
+        "pos": "nkfn"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "danshópnum",
+        "lemma": "danshópur",
+        "pos": "nkeþg"
+      },
+      {
+        "text": "Neista",
+        "lemma": "Neisti",
+        "pos": "nkees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Laugardalinum",
+        "lemma": "Laugardalur",
+        "pos": "nkeþgs"
+      }
+    ]
+  },
+  {
+    "index": 54,
+    "tokens": [
+      {
+        "text": "Tónleikar",
+        "lemma": "tónleikar",
+        "pos": "nkfn"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "hljómsveitinni",
+        "lemma": "hljómsveit",
+        "pos": "nveþg"
+      },
+      {
+        "text": "Hjaltalín",
+        "lemma": "Hjaltalín",
+        "pos": "nhens"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Borgarfirði",
+        "lemma": "Borgarfjörður",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 55,
+    "tokens": [
+      {
+        "text": "Fréttir",
+        "lemma": "frétt",
+        "pos": "nvfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "árangur",
+        "lemma": "árangur",
+        "pos": "nkeo"
+      },
+      {
+        "text": "íslenska",
+        "lemma": "íslenskur",
+        "pos": "lkeesf"
+      },
+      {
+        "text": "landsliðsins",
+        "lemma": "landslið",
+        "pos": "nheeg"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "sundi",
+        "lemma": "sund",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 56,
+    "tokens": [
+      {
+        "text": "Heiðrun",
+        "lemma": "heiðrun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "árangur",
+        "lemma": "árangur",
+        "pos": "nkeo"
+      },
+      {
+        "text": "íþróttafélags",
+        "lemma": "íþróttafélag",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "skólastarfi",
+        "lemma": "skólastarf",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 57,
+    "tokens": [
+      {
+        "text": "Keppni",
+        "lemma": "keppni",
+        "pos": "nven"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "leikskólum",
+        "lemma": "leikskóli",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "bestu",
+        "lemma": "góður",
+        "pos": "lvfosm"
+      },
+      {
+        "text": "frumgerðir",
+        "lemma": "frumgerð",
+        "pos": "nvfo"
+      }
+    ]
+  },
+  {
+    "index": 58,
+    "tokens": [
+      {
+        "text": "Vel",
+        "lemma": "vel",
+        "pos": "aa"
+      },
+      {
+        "text": "heppnað",
+        "lemma": "heppna",
+        "pos": "sþghen"
+      },
+      {
+        "text": "mótshlaup",
+        "lemma": "mótshlaup",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Laugardal",
+        "lemma": "Laugardalur",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 59,
+    "tokens": [
+      {
+        "text": "Sumardvöl",
+        "lemma": "sumardvöl",
+        "pos": "nven"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "hálfgerðum",
+        "lemma": "hálfgerður",
+        "pos": "lkfþsf"
+      },
+      {
+        "text": "tónleikum",
+        "lemma": "tónleikar",
+        "pos": "nkfþ"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Hveragerði",
+        "lemma": "Hveragerði",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 60,
+    "tokens": [
+      {
+        "text": "Fundir",
+        "lemma": "fundur",
+        "pos": "nkfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "menningarstarf",
+        "lemma": "menningastarf",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Austur-Skaftafellssýslu",
+        "lemma": "Austur-Skaftafellssýsla",
+        "pos": "nvees"
+      }
+    ]
+  },
+  {
+    "index": 61,
+    "tokens": [
+      {
+        "text": "Áætlun",
+        "lemma": "áætlun",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sumarfræðslu",
+        "lemma": "sumarfræðsla",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "íþróttum",
+        "lemma": "íþrótt",
+        "pos": "nvfþ"
+      },
+      {
+        "text": "2014",
+        "lemma": "2014",
+        "pos": "tfo"
+      }
+    ]
+  },
+  {
+    "index": 62,
+    "tokens": [
+      {
+        "text": "Kynnir",
+        "lemma": "kynna",
+        "pos": "sfg3en"
+      },
+      {
+        "text": "nýja",
+        "lemma": "nýr",
+        "pos": "lveosf"
+      },
+      {
+        "text": "tónleikaferð",
+        "lemma": "tónleikaferð",
+        "pos": "nveo"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "hljómsveitinni",
+        "lemma": "hljómsveit",
+        "pos": "nveþg"
+      },
+      {
+        "text": "Bang",
+        "lemma": "Bang",
+        "pos": "e"
+      },
+      {
+        "text": "Gang",
+        "lemma": "Gang",
+        "pos": "e"
+      }
+    ]
+  },
+  {
+    "index": 63,
+    "tokens": [
+      {
+        "text": "Frestun",
+        "lemma": "frestun",
+        "pos": "nven"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "útboði",
+        "lemma": "útboð",
+        "pos": "nheþ"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "sérleyfum",
+        "lemma": "sérleyfi",
+        "pos": "nhfþ"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sjávarútveg",
+        "lemma": "sjávarútvegur",
+        "pos": "nkeo"
+      }
+    ]
+  },
+  {
+    "index": 64,
+    "tokens": [
+      {
+        "text": "Aðalfundur",
+        "lemma": "aðalfundur",
+        "pos": "nken"
+      },
+      {
+        "text": "Félags",
+        "lemma": "félag",
+        "pos": "nhees"
+      },
+      {
+        "text": "hestamanna",
+        "lemma": "hestamaður",
+        "pos": "nkfes"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Suðurlandssýslu",
+        "lemma": "Suðurlandssýsla",
+        "pos": "nvees"
+      }
+    ]
+  },
+  {
+    "index": 65,
+    "tokens": [
+      {
+        "text": "Ný",
+        "lemma": "nýr",
+        "pos": "lvenosf"
+      },
+      {
+        "text": "tækni",
+        "lemma": "tækni",
+        "pos": "nven"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sjálfbæra",
+        "lemma": "sjálfbær",
+        "pos": "lveosf"
+      },
+      {
+        "text": "orku",
+        "lemma": "orka",
+        "pos": "nveo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "sveitum",
+        "lemma": "sveit",
+        "pos": "nvfþ"
+      }
+    ]
+  },
+  {
+    "index": 66,
+    "tokens": [
+      {
+        "text": "Íþróttamót",
+        "lemma": "íþróttamót",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Reykjavík",
+        "lemma": "Reykjavík",
+        "pos": "nvens"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "alla",
+        "lemma": "allur",
+        "pos": "lffo"
+      },
+      {
+        "text": "aldurshópa",
+        "lemma": "aldurshópur",
+        "pos": "nkfo"
+      }
+    ]
+  },
+  {
+    "index": 67,
+    "tokens": [
+      {
+        "text": "Forkeppni",
+        "lemma": "forkeppni",
+        "pos": "nven"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "skák",
+        "lemma": "skák",
+        "pos": "nveþ"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "byrjendur",
+        "lemma": "byrjandi",
+        "pos": "nkfo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Vestmannaeyjum",
+        "lemma": "Vestmannaeyjar",
+        "pos": "nvfþs"
+      }
+    ]
+  },
+  {
+    "index": 68,
+    "tokens": [
+      {
+        "text": "Viðræður",
+        "lemma": "viðræða",
+        "pos": "nvfn"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "nýtt",
+        "lemma": "nýr",
+        "pos": "lhenosf"
+      },
+      {
+        "text": "menningarmiðstöð",
+        "lemma": "menningarmiðstöð",
+        "pos": "nven"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Akureyri",
+        "lemma": "Akureyri",
+        "pos": "nveþs"
+      }
+    ]
+  },
+  {
+    "index": 69,
+    "tokens": [
+      {
+        "text": "Vodafone",
+        "lemma": "Vodafone",
+        "pos": "nhen-s"
+      },
+      {
+        "text": "hefur",
+        "lemma": "hafa",
+        "pos": "sfg3en"
+      },
+      {
+        "text": "nýtt",
+        "lemma": "nýr",
+        "pos": "lheosf"
+      },
+      {
+        "text": "net",
+        "lemma": "net",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "einstökum",
+        "lemma": "einstakur",
+        "pos": "lhfþsf"
+      },
+      {
+        "text": "sveitum",
+        "lemma": "sveit",
+        "pos": "nvfþ"
+      }
+    ]
+  },
+  {
+    "index": 70,
+    "tokens": [
+      {
+        "text": "Hjálp",
+        "lemma": "hjálp",
+        "pos": "nven"
+      },
+      {
+        "text": "við",
+        "lemma": "við",
+        "pos": "ao"
+      },
+      {
+        "text": "námsframboð",
+        "lemma": "námsframboð",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "atvinnulífi",
+        "lemma": "atvinnulíf",
+        "pos": "nheþ"
+      }
+    ]
+  },
+  {
+    "index": 71,
+    "tokens": [
+      {
+        "text": "Listi",
+        "lemma": "listi",
+        "pos": "nken"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "sveitarstjórnarkosningar",
+        "lemma": "sveitarstjórnarkosning",
+        "pos": "nvfo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Norðvesturkjördæmi",
+        "lemma": "Norðvesturkjördæmi",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 72,
+    "tokens": [
+      {
+        "text": "Hjálp",
+        "lemma": "hjálp",
+        "pos": "nven"
+      },
+      {
+        "text": "við",
+        "lemma": "við",
+        "pos": "ao"
+      },
+      {
+        "text": "flóðaslys",
+        "lemma": "flóðaslys",
+        "pos": "nheo"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Vesturlandi",
+        "lemma": "Vesturland",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 73,
+    "tokens": [
+      {
+        "text": "Frestun",
+        "lemma": "frestun",
+        "pos": "nven"
+      },
+      {
+        "text": "á",
+        "lemma": "á",
+        "pos": "aþ"
+      },
+      {
+        "text": "fundi",
+        "lemma": "fundur",
+        "pos": "nkeþ"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "menningarstarf",
+        "lemma": "menningastarf",
+        "pos": "nhen"
+      },
+      {
+        "text": "vegna",
+        "lemma": "vegna",
+        "pos": "ae"
+      },
+      {
+        "text": "veðurs",
+        "lemma": "veður",
+        "pos": "nhees"
+      }
+    ]
+  },
+  {
+    "index": 74,
+    "tokens": [
+      {
+        "text": "Skemmtikvöldi",
+        "lemma": "skemmtikvöld",
+        "pos": "nheþ"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "hljómsveitinni",
+        "lemma": "hljómsveit",
+        "pos": "nveþg"
+      },
+      {
+        "text": "Of",
+        "lemma": "Of",
+        "pos": "e"
+      },
+      {
+        "text": "Monsters",
+        "lemma": "Monsters",
+        "pos": "e"
+      },
+      {
+        "text": "and",
+        "lemma": "and",
+        "pos": "e"
+      },
+      {
+        "text": "Men",
+        "lemma": "Men",
+        "pos": "e"
+      },
+      {
+        "text": "frestað",
+        "lemma": "fresta",
+        "pos": "sþghen"
+      }
+    ]
+  },
+  {
+    "index": 75,
+    "tokens": [
+      {
+        "text": "Fræðsla",
+        "lemma": "fræðsla",
+        "pos": "nven"
+      },
+      {
+        "text": "um",
+        "lemma": "um",
+        "pos": "ao"
+      },
+      {
+        "text": "sjálfstætt",
+        "lemma": "sjálfstæður",
+        "pos": "lheosf"
+      },
+      {
+        "text": "líf",
+        "lemma": "líf",
+        "pos": "nheo"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "fatlaða",
+        "lemma": "fatlaður",
+        "pos": "lkfosf"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Borgarfirði",
+        "lemma": "Borgarfjörður",
+        "pos": "nkeþs"
+      }
+    ]
+  },
+  {
+    "index": 76,
+    "tokens": [
+      {
+        "text": "Grunnskólamót",
+        "lemma": "grunnskólamót",
+        "pos": "nhen"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Flúðum",
+        "lemma": "Flúðir",
+        "pos": "nvfþs"
+      }
+    ]
+  },
+  {
+    "index": 77,
+    "tokens": [
+      {
+        "text": "Slys",
+        "lemma": "slys",
+        "pos": "nhen"
+      },
+      {
+        "text": "vegna",
+        "lemma": "vegna",
+        "pos": "ae"
+      },
+      {
+        "text": "óveðurs",
+        "lemma": "óveður",
+        "pos": "nhees"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Austurlandi",
+        "lemma": "Austurland",
+        "pos": "nheþs"
+      }
+    ]
+  },
+  {
+    "index": 78,
+    "tokens": [
+      {
+        "text": "Fyrstu",
+        "lemma": "fyrsti",
+        "pos": "lhfosm"
+      },
+      {
+        "text": "verðlaun",
+        "lemma": "verðlaun",
+        "pos": "nhfn"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "skáldskaparkeppni",
+        "lemma": "skáldskaparkeppni",
+        "pos": "nveþ"
+      },
+      {
+        "text": "fyrir",
+        "lemma": "fyrir",
+        "pos": "ao"
+      },
+      {
+        "text": "unga",
+        "lemma": "ungur",
+        "pos": "lkfosf"
+      },
+      {
+        "text": "höfunda",
+        "lemma": "höfundur",
+        "pos": "nkfes"
+      }
+    ]
+  },
+  {
+    "index": 79,
+    "tokens": [
+      {
+        "text": "Tónleikar",
+        "lemma": "tónleikar",
+        "pos": "nkfn"
+      },
+      {
+        "text": "með",
+        "lemma": "með",
+        "pos": "aþ"
+      },
+      {
+        "text": "kórnum",
+        "lemma": "kór",
+        "pos": "nkeþg"
+      },
+      {
+        "text": "Dimmu",
+        "lemma": "Dimma",
+        "pos": "nveес"
+      },
+      {
+        "text": "í",
+        "lemma": "í",
+        "pos": "aþ"
+      },
+      {
+        "text": "Vesturlandi",
+        "lemma": "Vesturland",
+        "pos": "nheþs"
+      }
+    ]
+  }
+]
