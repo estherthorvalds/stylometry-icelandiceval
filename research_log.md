@@ -316,3 +316,42 @@ Sniðmát:
 **Næstu skref:**
 - Fundur með Miðeind — sýna niðurstöður og spyrja spurninganna hér að ofan
 - Bæta heimildum í reference_tracker.csv
+
+
+### 23. mars 2026 — Fundur með Miðeind + tölvupóstur til kennara
+ 
+**Tími:** 2 klst (fundur + skrif)
+ 
+**Hvað gerði ég:**
+- Fundur með Miðeind (Huldu og Svanhvíti) — sýndi niðurstöður úr proof of concept
+- Sendi tölvupóst til kennara (Steinunnar Rutar) með spurningum um heimaverkefni og verkefnið
+ 
+**Hvað fann ég:**
+- Miðeind leist vel á verkefnið, sérstaklega að rannsóknin horfði ekki aðeins til ensku heldur líka tékknesku (Milička)
+- Þáttari: Miðeind hefur gervigreindaþáttara sem virðist virka vel, en hann er ekki aðgengilegur. Ekki hægt að fá aðgang.
+- Þær bentu á að val á þáttara gæti farið eftir víddinni (hvort þurfi setningatré eða ekki).
+- Ekkert API frá Miðeind — bentu á Haffa (Hafstein Einarsson) eða Gervigreindarsetrið. 
+- Áætlaður kostnaður ef ég borga sjálf: ~5.000 kr — ekki mikið en mögulega ekki þess virði að greiða ef þáttaravandamálið leysist ekki.
+- Prófanir Steinþórs Steingrímssonar voru ræddar á læsilegum og ólæsilegum texta. 
+- Ræddum fleiri víddir: boðháttur í uppskriftum (Íslensk tunga) kom upp. Nöfn sem bárust: Lilja Björk Stefánsdóttir og Haukur Þorgeirsson — athuga hvort þau hafi skrifað um mælanleg stíleinkenni.
+ 
+**Hugsanir / túlkun:**
+- Tvær leiðir: (A) Praktískt vel — API + góður þáttari + marktækar tilraunir, eða (B) Fræðileg aðlögun — aðlaga Milička formúlur að íslensku, skilgreina víddir, skrifa góða skýrslu með chat-viðmótum. Leið B er raunhæfari miðað við aðstæður og er samt gott framlag.
+- Þáttaravandamálið er lykillinn: ef þáttun er slæm eru allar mælingar óáreiðanlegar, óháð því hvort ég hafi API eða ekki.
+- Ætti að skoða ABLTagger (Háskólinn í Reykjavík) — þjálfaður á IFD tagsetinu sem flokkunarfallið mitt notar.
+- 5.000 kr er lítið en skynsamlegt að bíða þar til þáttaravandamálið er leyst.
+ 
+**Opnar spurningar:**
+- Fæ ég API í gegnum HÍ? (Spyrja Haffa og/eða Gervigreindarsetrið)
+- Er ABLTagger nógu góður sem aðalþáttari?
+- Hvað hafa Lilja Björk Stefánsdóttir og Haukur Þorgeirsson skrifað um stíleinkenni?
+- Gildir örprófið eins og það er fyrir heimaverkefni, eða þarf ég að bæta við HuggingFace líkani?
+- Hvaða víddir eru mælanlegar og henta vel fyrir íslensku?
+ 
+**Næstu skref:**
+- Klára heimaverkefni 4 (frestur 29. mars)
+- Hafa samband við Haffa / Gervigreindarsetrið um API
+- Skoða ABLTagger
+- Fletta upp Lilju Björk og Hauki Þorgeirssyni
+- Hreinsa repo: eyða óþörfum RMH gögnum, skipuleggja möppustrúktúr, setja eldri skriftur í archive/
+ 
