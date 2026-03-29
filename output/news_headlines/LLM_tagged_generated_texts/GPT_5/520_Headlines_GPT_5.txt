@@ -1,0 +1,520 @@
+	1.	Vetrarhátíð í Félagsheimilinu
+	2.	Nýtt leiksvæði vígt við leikskólann
+	3.	Fræðslufundur um loftslagsmál
+	4.	Tónleikar í Blönduóskirkju á sunnudag
+	5.	Opinn dagur hjá Björgunarsveitinni
+	6.	Skólahreysti íþróttakeppni haldin í dag
+	7.	Fyrirlestur um heimilisiðnað í Húnabúð
+	8.	Sumarstörf ungmenna auglýst
+	9.	Aðalfundur Hestamannafélagsins Neista
+	10.	Hreinsunarátak við strandlengjuna
+	11.	Ný göngubrú yfir Blöndu tekin í notkun
+	12.	Leikskólabörn heimsóttu slökkvistöðina
+	13.	Kvennakórinn heldur vortónleika
+	14.	Markaðsdagur í íþróttahúsinu
+	15.	Fundur um samgöngumál í héraði
+	16.	Skátar söfnuðu fyrir góðu málefni
+	17.	Ljósmyndasýning opnuð í Nesi listamiðstöð
+	18.	Fræðsla um netöryggi fyrir eldri borgara
+	19.	Skíðamót á Þverárfjalli
+	20.	Endurnýjun á leikvelli hafin
+	21.	Sjómannadagurinn undirbúinn af krafti
+	22.	Héraðsbókasafnið með upplestrarkvöld
+	23.	Námskeið í skapandi skrifum
+	24.	Úrslit í firmakeppni í sundi
+	25.	Aðalfundur Ferðafélagsins
+	26.	Nýtt kaffihús opnar á Blönduósi
+	27.	Heilsueflandi ganga um helgina
+	28.	Listamannaspjall í Textílsetrinu
+	29.	Skólahljómsveitin hélt tónleika
+	30.	Ungmennafélagið fagnaði 100 ára afmæli
+	31.	Fréttir af framkvæmdum við höfnina
+	32.	Áhugavert erindi um byggðasögu
+	33.	Kvikmyndakvöld í Félagsheimilinu
+	34.	Vinnustofa um sjálfbærni í landbúnaði
+	35.	Málþing um framtíð dreifnáms
+	36.	Tónlistarhátíð í undirbúningi
+	37.	Bæjarstjórn samþykkti nýja fjárhagsáætlun
+	38.	Fjölmenni á þorrablóti hreppsins
+	39.	Handverkssýning í Húnabúð
+	40.	Skákæfingar hefjast að nýju
+	41.	Fræðsla um forvarnir gegn einelti
+	42.	Nýtt deiliskipulag kynnt íbúum
+	43.	Hreppurinn styrkir íþróttastarf
+	44.	Ljósmyndakeppni fyrir ungmenni
+	45.	Sundlaugin lokuð vegna viðhalds
+	46.	Menningarhátíð sett með pompi og prakt
+	47.	Skotæfingar hjá Markviss um helgina
+	48.	Opinn fundur um heilbrigðisþjónustu
+	49.	Fjör á fjölskyldudegi í skólanum
+	50.	Endurbætur á göngustígum hafnar
+	51.	Söguganga um gamla bæinn
+	52.	Nýtt námskeið í leirlist
+	53.	Héraðsmót í blaki fór fram
+	54.	Góð þátttaka í bókaklúbbi
+	55.	Opið hús hjá Tónlistarskóla A-Hún.
+	56.	Bændur funda um fóðurskort
+	57.	Þakkir til sjálfboðaliða
+	58.	Hittingur í Perlunni
+	59.	Krakkarækt í reiðhöllinni
+	60.	Fræðsluerindi um lífræna ræktun
+	61.	Leikfélagið frumsýnir nýtt verk
+	62.	Gönguferð um Vatnahverfi
+	63.	Skógarplöntun við þjóðveginn
+	64.	Ársfundur Lionsklúbbs Blönduóss
+	65.	Söngskemmtun í Hólaneskirkju
+	66.	Opnun nýrrar sýningar í Heimilisiðnaðarsafninu
+	67.	Æfingabúðir knattspyrnudeildar Hvatar
+	68.	Kaffisala til styrktar ferðasjóði
+	69.	Umræða um framtíð sjávarútvegs
+	70.	Nýir bekkir settir upp í garðinum
+	71.	Fyrsta skóflustunga að nýju íbúðahverfi
+	72.	Vorhreinsun hafin í sveitarfélaginu
+	73.	Tónleikar með heimafólki í Félagsheimilinu
+	74.	Styrkir veittir úr menningarsjóði
+	75.	Húnavaka undirbúin af krafti
+	76.	Vinnufundur um nýsköpun í ferðaþjónustu
+	77.	Krakkarnir kepptu í stærðfræði
+	78.	Lokað vegna veðurs
+	79.	Hestamót á Vindheimamelum
+	80.	Fyrirlestur um sögu kvenna í héraði
+	81.	Opið hús í Skagabúð
+	82.	Heilsudagur í Íþróttamiðstöðinni
+	83.	Áhugavert málþing um orkumál
+	84.	Vetrarsýning í Nesi
+	85.	Nemendur heimsóttu Alþingi
+	86.	Fatasöfnun fyrir gott málefni
+	87.	Ný ljós sett upp á íþróttavelli
+	88.	Sundmót barna og unglinga
+	89.	Ársreikningur sveitarfélagsins kynntur
+	90.	Matarhátíð í héraði
+	91.	Kóræfingar hefjast á ný
+	92.	Héraðsskjalasafnið opnar nýja aðstöðu
+	93.	Viðgerð á Blöndubrú hafin
+	94.	Fréttir af skólastarfi vikunnar
+	95.	Gönguskíði vinsæl í vetur
+	96.	Bókaútgáfa kynnt í Húnabúð
+	97.	Jólaball fyrir yngstu kynslóðina
+	98.	Uppskeruhátíð garðyrkjubænda
+	99.	Nýtt samstarf um menningarviðburði
+	100.	Fræðsla um slysavarnir í landbúnaði
+	101.	Opið hús í Selasetri Íslands
+	102.	Þorrablót Ungmennafélagsins
+	103.	Leikskólinn fagnaði afmæli
+	104.	Sýning á gömlum ljósmyndum
+	105.	Kvenfélagið með kökubasar
+	106.	Héraðsmót í fimleikum
+	107.	Endurmenntunarnámskeið fyrir kennara
+	108.	Fjölmenni á páskaballi
+	109.	Nýir hjólastígar lagðir
+	110.	Tónleikar í Grafarvogskirkju
+	111.	Opið hús í Húnaveri
+	112.	Fræðsla um geðheilsu ungmenna
+	113.	Nýtt styrktarátak hafið
+	114.	Skátamót í sumar
+	115.	Kaffihlaðborð í Félagsheimilinu
+	116.	Vinnuskóli unglinga hefst
+	117.	Héraðssýning í hestamennsku
+	118.	Göngudagur fjölskyldunnar
+	119.	Uppfærsla á heimasíðu sveitarfélagsins
+	120.	Frumkvöðlakvöld í Húnabúð
+	121.	Skólahreysti grunnskólanna í héraði
+	122.	Vorhátíð leikskólans
+	123.	Nýtt námskeið í skyndihjálp
+	124.	Aðalfundur Kvenfélagsins
+	125.	Sögukvöld í bókasafninu
+	126.	Héraðsmót í körfubolta
+	127.	Opið hús hjá slökkviliðinu
+	128.	Fræðsla um fjármál heimilanna
+	129.	Markaðsdagar á Blönduósi
+	130.	Tónleikar í Fellsborg
+	131.	Endurbætur á hafnarsvæði hafnar
+	132.	Vetrarfrí í grunnskólanum
+	133.	Bókamessa í Húnabúð
+	134.	Kynning á nýju íbúðahverfi
+	135.	Héraðsmót í frjálsum íþróttum
+	136.	Sumarleikhús fyrir börn
+	137.	Fræðslufundur um jarðhitamál
+	138.	Sundnámskeið fyrir fullorðna
+	139.	Skákþing Norðurlands vestra
+	140.	Uppskeruhátíð í leikskólanum
+	141.	Aðalfundur Veiðifélagsins
+	142.	Opið hús í Íþróttamiðstöðinni
+	143.	Nýjar reglur um bílastæði
+	144.	Málþing um byggðaþróun
+	145.	Hreinsunardagur í sveitarfélaginu
+	146.	Listasmiðja fyrir ungmenni
+	147.	Fræðsla um netnotkun barna
+	148.	Vorferð eldri borgara
+	149.	Héraðsmót í borðtennis
+	150.	Nýir bekkir við strandstíginn
+	151.	Bæjarhátíð á næsta leiti
+	152.	Kórakeppni í Blönduóskirkju
+	153.	Opið hús hjá björgunarsveitinni
+	154.	Skólahlaupið fór fram í gær
+	155.	Nýtt styrktarfélag stofnað
+	156.	Sýning á handverki heimamanna
+	157.	Fræðsla um brunavarnir
+	158.	Vinnudagur í skógræktinni
+	159.	Héraðsmót í badminton
+	160.	Sumarnámskeið í myndlist
+	161.	Fundur um húsnæðismál
+	162.	Ljósmyndanámskeið í Nesi
+	163.	Vorhreinsun við árbakkann
+	164.	Tónleikakvöld í Húnaveri
+	165.	Aðalfundur Sundfélagsins
+	166.	Skákmót barna og unglinga
+	167.	Fræðsla um sjálfbæra ferðaþjónustu
+	168.	Opið hús í Húnavallaskóla
+	169.	Nýtt leikrit frumsýnt
+	170.	Göngudagur í Vatnahverfi
+	171.	Uppfærð sorpflokkunarkerfi tekin í notkun
+	172.	Kaffisala til styrktar íþróttastarfi
+	173.	Héraðsmót í skotfimi
+	174.	Sögusýning í gamla bænum
+	175.	Fræðsluerindi um heilsueflingu
+	176.	Nýtt samstarf við nágrannasveitarfélög
+	177.	Vetrarmót í hestaíþróttum
+	178.	Markaður með heimarækt
+	179.	Tónleikar með ungu tónlistarfólki
+	180.	Aðalfundur Foreldrafélagsins
+	181.	Ný gönguleið merkt í skóginum
+	182.	Fræðsla um lífræna garðyrkju
+	183.	Sundkeppni í Íþróttamiðstöðinni
+	184.	Opið hús í Textílsetrinu
+	185.	Héraðsþing ungmennafélaganna
+	186.	Vinnustofa um nýsköpun í landbúnaði
+	187.	Leikskólabörn settu upp sýningu
+	188.	Fundur um almenningssamgöngur
+	189.	Nýtt kaffihlaðborð í Húnabúð
+	190.	Skólahljómsveitin í tónleikaferð
+	191.	Fræðsla um fjallamennsku
+	192.	Héraðsmót í knattspyrnu
+	193.	Uppskeruhátíð í skólanum
+	194.	Opið hús í Selasetursbyggingu
+	195.	Nýir ljósastaurar við aðalgötu
+	196.	Kaffikvöld Kvenfélagsins
+	197.	Skátar héldu útilegu
+	198.	Fræðsla um umhverfisvernd
+	199.	Matar- og menningarhátíð
+	200.	Aðalfundur Húsfélagsins
+	201.	Sýning á verkum nemenda
+	202.	Vetrarganga í góðu veðri
+	203.	Nýjar bækur í bókasafninu
+	204.	Héraðsmót í blaki
+	205.	Opið hús hjá heilsugæslunni
+	206.	Fræðslufundur um fjármál sveitarfélagsins
+	207.	Vorhátíð eldri borgara
+	208.	Skákæfingar vinsælar meðal barna
+	209.	Ný brú yfir lækinn
+	210.	Tónlistarnámskeið fyrir byrjendur
+	211.	Aðalfundur Ferðamálafélagsins
+	212.	Gönguferð um söguslóðir
+	213.	Uppfærð heimasíða kynnt
+	214.	Kaffisala til styrktar björgunarsveit
+	215.	Héraðsmót í sundi
+	216.	Opið hús í leikskólanum
+	217.	Fræðsla um forvarnir í umferðinni
+	218.	Nýjar framkvæmdir við höfnina
+	219.	Vetrarhátíð í skólanum
+	220.	Leikfélagið með aukasýningu
+	221.	Fundur um framtíð hafnarsvæðis
+	222.	Nýtt námskeið í prjónaskap
+	223.	Skólabílar fá endurskinsmerkingar
+	224.	Héraðsmót í handbolta
+	225.	Opið hús í félagsmiðstöðinni
+	226.	Fræðsla um mataræði og heilsu
+	227.	Vinnudagur í kirkjugarðinum
+	228.	Nýtt samstarf við listamenn
+	229.	Tónleikar í Fellsborg
+	230.	Aðalfundur Skógræktarfélagsins
+	231.	Göngumót fjölskyldunnar
+	232.	Uppskeruhátíð í hestamennsku
+	233.	Nýir hjólastígar teknir í notkun
+	234.	Kaffikvöld í Húnaveri
+	235.	Héraðsmót í fimleikum
+	236.	Opið hús í bókasafninu
+	237.	Fræðsluerindi um loftslagsbreytingar
+	238.	Vorhreinsun í þorpinu
+	239.	Sýning á gömlum verkfærum
+	240.	Nýtt íþróttanámskeið hafið
+	241.	Aðalfundur Tónlistarfélagsins
+	242.	Gönguferð með leiðsögn
+	243.	Uppfærð aðalskipulag kynnt
+	244.	Kaffisala til styrktar ferðasjóði
+	245.	Héraðsmót í golfi
+	246.	Opið hús í kirkjunni
+	247.	Fræðsla um slysavarnir á heimilum
+	248.	Nýjar bekki við leikvöllinn
+	249.	Vetrarmót í skíðum
+	250.	Leikskólinn fékk ný leikföng
+	251.	Fundur um atvinnumál
+	252.	Nýtt námskeið í ljósmyndun
+	253.	Skólakeppni í lestri
+	254.	Héraðsmót í körfubolta
+	255.	Opið hús hjá slökkviliðinu
+	256.	Fræðsla um sjálfbærar byggingar
+	257.	Vorhátíð í félagsmiðstöðinni
+	258.	Sýning á handverki nemenda
+	259.	Nýir trjáplöntur settar niður
+	260.	Tónleikar með karlakórnum
+	261.	Aðalfundur Foreldrafélags leikskólans
+	262.	Gönguferð að Hvítserk
+	263.	Uppfærð sorphirða tekin upp
+	264.	Kaffisala til styrktar íþróttafélagi
+	265.	Héraðsmót í skák
+	266.	Opið hús í íþróttahúsinu
+	267.	Fræðsla um geðrækt
+	268.	Nýjar merkingar á gönguleiðum
+	269.	Vetrarhátíð í Húnaveri
+	270.	Leikfélagið sýnir barnaleikrit
+	271.	Fundur um skólamál
+	272.	Nýtt námskeið í hestamennsku
+	273.	Skólahlaupið fór fram í blíðskaparveðri
+	274.	Héraðsmót í frjálsum íþróttum
+	275.	Opið hús í Selasetri Íslands
+	276.	Fræðsla um umferðaröryggi
+	277.	Vorhreinsun við höfnina
+	278.	Sýning á listaverkum heimamanna
+	279.	Nýtt íþróttamót auglýst
+	280.	Aðalfundur Björgunarfélagsins
+	281.	Göngudagur eldri borgara
+	282.	Uppfærð heimasíða Tónlistarskólans
+	283.	Kaffikvöld í Félagsheimilinu
+	284.	Héraðsmót í sundi
+	285.	Opið hús hjá heilsugæslunni
+	286.	Fræðsla um sjálfboðastarf
+	287.	Nýjar framkvæmdir við skólalóð
+	288.	Vetrarmót í knattspyrnu
+	289.	Leikskólinn heimsótti bókasafnið
+	290.	Fundur um byggðamál
+	291.	Nýtt námskeið í handverki
+	292.	Skólakeppni í stærðfræði
+	293.	Héraðsmót í badminton
+	294.	Opið hús í Nesi listamiðstöð
+	295.	Fræðsla um fjármál heimilanna
+	296.	Vorhátíð í skólanum
+	297.	Sýning á ljósmyndum úr héraði
+	298.	Nýir bekkir við árbakkann
+	299.	Tónleikar í Blönduóskirkju
+	300.	Aðalfundur Hestamannafélagsins
+	301.	Gönguferð um gamla bæinn
+	302.	Uppfærð skipulagsáætlun kynnt
+	303.	Kaffisala til styrktar góðgerðarmálum
+	304.	Héraðsmót í handbolta
+	305.	Opið hús í félagsmiðstöð
+	306.	Fræðsla um heilsueflingu
+	307.	Nýjar gönguleiðir merktar
+	308.	Vetrarhátíð í Íþróttamiðstöðinni
+	309.	Leikfélagið með frumsýningu
+	310.	Fundur um samgöngur í héraði
+	311.	Nýtt námskeið í skyndihjálp
+	312.	Skólahljómsveitin í tónleikum
+	313.	Héraðsmót í blaki
+	314.	Opið hús hjá slökkviliðinu
+	315.	Fræðsla um umhverfismál
+	316.	Vorhreinsun í þorpinu
+	317.	Sýning á handverki í Húnabúð
+	318.	Nýtt íþróttanámskeið fyrir börn
+	319.	Aðalfundur Ferðafélagsins
+	320.	Gönguferð í Vatnahverfi
+	321.	Uppfærð sorpflokkun kynnt
+	322.	Kaffikvöld í Húnaveri
+	323.	Héraðsmót í skotfimi
+	324.	Opið hús í bókasafninu
+	325.	Fræðsluerindi um loftslagsmál
+	326.	Nýjar framkvæmdir við hafnargarð
+	327.	Vetrarmót í hestaíþróttum
+	328.	Leikskólinn með söngstund
+	329.	Fundur um atvinnuþróun
+	330.	Nýtt námskeið í ljósmyndun
+	331.	Skólakeppni í stafsetningu
+	332.	Héraðsmót í körfubolta
+	333.	Opið hús í Íþróttamiðstöðinni
+	334.	Fræðsla um netöryggi
+	335.	Vorhátíð í Félagsheimilinu
+	336.	Sýning á verkum listamanna
+	337.	Nýir stígar lagðir í skóginum
+	338.	Tónleikar í Fellsborg
+	339.	Aðalfundur Skógræktarfélagsins
+	340.	Göngudagur fjölskyldunnar
+	341.	Uppfærð heimasíða sveitarfélagsins
+	342.	Kaffisala til styrktar íþróttastarfi
+	343.	Héraðsmót í fimleikum
+	344.	Opið hús í Selasetri Íslands
+	345.	Fræðsla um slysavarnir
+	346.	Nýjar bekki við leikvöll
+	347.	Vetrarhátíð í skólanum
+	348.	Leikfélagið sýnir gamanleik
+	349.	Fundur um húsnæðismál
+	350.	Nýtt námskeið í prjónaskap
+	351.	Skólahlaupið í góðu veðri
+	352.	Héraðsmót í frjálsum íþróttum
+	353.	Opið hús hjá heilsugæslunni
+	354.	Fræðsla um geðheilsu
+	355.	Vorhreinsun við árbakkann
+	356.	Sýning á gömlum ljósmyndum
+	357.	Nýtt íþróttamót auglýst
+	358.	Aðalfundur Björgunarsveitarinnar
+	359.	Gönguferð um söguslóðir
+	360.	Uppfærð aðalskipulag kynnt
+	361.	Kaffikvöld í Húnabúð
+	362.	Héraðsmót í sundi
+	363.	Opið hús í kirkjunni
+	364.	Fræðsla um brunavarnir
+	365.	Nýjar framkvæmdir við leikskólann
+	366.	Vetrarmót í knattspyrnu
+	367.	Leikskólinn heimsótti slökkvistöð
+	368.	Fundur um byggðastefnu
+	369.	Nýtt námskeið í handverki
+	370.	Skólakeppni í lestri
+	371.	Héraðsmót í badminton
+	372.	Opið hús í Nesi
+	373.	Fræðsla um sjálfbærni
+	374.	Vorhátíð í félagsmiðstöð
+	375.	Sýning á handverki heimamanna
+	376.	Nýir trjáplöntur settar niður
+	377.	Tónleikar í Blönduóskirkju
+	378.	Aðalfundur Tónlistarfélagsins
+	379.	Gönguferð að Hvítserk
+	380.	Uppfærð sorphirða tekin upp
+	381.	Kaffisala til styrktar ferðasjóði
+	382.	Héraðsmót í skák
+	383.	Opið hús í íþróttahúsinu
+	384.	Fræðsla um heilsueflingu
+	385.	Nýjar merkingar á gönguleiðum
+	386.	Vetrarhátíð í Húnaveri
+	387.	Leikfélagið með aukasýningu
+	388.	Fundur um skólamál
+	389.	Nýtt námskeið í hestamennsku
+	390.	Skólahlaupið fór fram í dag
+	391.	Héraðsmót í handbolta
+	392.	Opið hús hjá slökkviliðinu
+	393.	Fræðsla um umhverfisvernd
+	394.	Vorhreinsun við höfnina
+	395.	Sýning á verkum nemenda
+	396.	Nýtt íþróttamót í undirbúningi
+	397.	Aðalfundur Foreldrafélagsins
+	398.	Göngudagur eldri borgara
+	399.	Uppfærð heimasíða Tónlistarskólans
+	400.	Kaffikvöld í Félagsheimilinu
+	401.	Héraðsmót í blaki
+	402.	Opið hús hjá heilsugæslunni
+	403.	Fræðsla um netnotkun
+	404.	Nýjar framkvæmdir við skólalóð
+	405.	Vetrarmót í skíðum
+	406.	Leikskólinn með leiksýningu
+	407.	Fundur um atvinnumál
+	408.	Nýtt námskeið í ljósmyndun
+	409.	Skólakeppni í stærðfræði
+	410.	Héraðsmót í körfubolta
+	411.	Opið hús í Nesi listamiðstöð
+	412.	Fræðsla um fjármál heimilanna
+	413.	Vorhátíð í skólanum
+	414.	Sýning á ljósmyndum úr héraði
+	415.	Nýir bekkir við árbakkann
+	416.	Tónleikar í Fellsborg
+	417.	Aðalfundur Hestamannafélagsins
+	418.	Gönguferð um gamla bæinn
+	419.	Uppfærð skipulagsáætlun kynnt
+	420.	Kaffisala til styrktar góðgerðarmálum
+	421.	Héraðsmót í frjálsum íþróttum
+	422.	Opið hús í félagsmiðstöð
+	423.	Fræðsla um heilsueflingu
+	424.	Nýjar gönguleiðir merktar
+	425.	Vetrarhátíð í Íþróttamiðstöðinni
+	426.	Leikfélagið með frumsýningu
+	427.	Fundur um samgöngur
+	428.	Nýtt námskeið í skyndihjálp
+	429.	Skólahljómsveitin í tónleikum
+	430.	Héraðsmót í sundi
+	431.	Opið hús hjá slökkviliðinu
+	432.	Fræðsla um loftslagsmál
+	433.	Vorhreinsun í sveitarfélaginu
+	434.	Sýning á handverki í Húnabúð
+	435.	Nýtt íþróttanámskeið fyrir ungmenni
+	436.	Aðalfundur Ferðafélagsins
+	437.	Gönguferð í Vatnahverfi
+	438.	Uppfærð sorpflokkun kynnt
+	439.	Kaffikvöld í Húnaveri
+	440.	Héraðsmót í skotfimi
+	441.	Opið hús í bókasafninu
+	442.	Fræðsluerindi um umhverfismál
+	443.	Nýjar framkvæmdir við hafnarsvæði
+	444.	Vetrarmót í hestaíþróttum
+	445.	Leikskólinn með söngstund
+	446.	Fundur um byggðamál
+	447.	Nýtt námskeið í handverki
+	448.	Skólakeppni í stafsetningu
+	449.	Héraðsmót í badminton
+	450.	Opið hús í Íþróttamiðstöðinni
+	451.	Fræðsla um netöryggi
+	452.	Vorhátíð í Félagsheimilinu
+	453.	Sýning á verkum listamanna
+	454.	Nýir stígar lagðir í skóginum
+	455.	Tónleikar í Blönduóskirkju
+	456.	Aðalfundur Skógræktarfélagsins
+	457.	Göngudagur fjölskyldunnar
+	458.	Uppfærð heimasíða sveitarfélagsins
+	459.	Kaffisala til styrktar íþróttafélagi
+	460.	Héraðsmót í fimleikum
+	461.	Opið hús í Selasetri Íslands
+	462.	Fræðsla um slysavarnir
+	463.	Nýjar bekki við leikvöllinn
+	464.	Vetrarhátíð í skólanum
+	465.	Leikfélagið sýnir nýtt verk
+	466.	Fundur um húsnæðismál
+	467.	Nýtt námskeið í prjónaskap
+	468.	Skólahlaupið í blíðskaparveðri
+	469.	Héraðsmót í handbolta
+	470.	Opið hús hjá heilsugæslunni
+	471.	Fræðsla um geðheilsu
+	472.	Vorhreinsun við árbakkann
+	473.	Sýning á gömlum ljósmyndum
+	474.	Nýtt íþróttamót auglýst
+	475.	Aðalfundur Björgunarsveitarinnar
+	476.	Gönguferð um söguslóðir
+	477.	Uppfærð aðalskipulag kynnt
+	478.	Kaffikvöld í Húnabúð
+	479.	Héraðsmót í skák
+	480.	Opið hús í kirkjunni
+	481.	Fræðsla um brunavarnir
+	482.	Nýjar framkvæmdir við leikskólann
+	483.	Vetrarmót í knattspyrnu
+	484.	Leikskólinn heimsótti bókasafnið
+	485.	Fundur um atvinnuþróun
+	486.	Nýtt námskeið í ljósmyndun
+	487.	Skólakeppni í lestri
+	488.	Héraðsmót í körfubolta
+	489.	Opið hús hjá slökkviliðinu
+	490.	Fræðsla um sjálfbærni
+	491.	Vorhátíð í félagsmiðstöðinni
+	492.	Sýning á handverki heimamanna
+	493.	Nýir trjáplöntur settar niður
+	494.	Tónleikar í Fellsborg
+	495.	Aðalfundur Tónlistarfélagsins
+	496.	Gönguferð að Hvítserk
+	497.	Uppfærð sorphirða tekin upp
+	498.	Kaffisala til styrktar ferðasjóði
+	499.	Héraðsmót í frjálsum íþróttum
+	500.	Opið hús í íþróttahúsinu
+	501.	Fræðsla um heilsueflingu
+	502.	Nýjar merkingar á gönguleiðum
+	503.	Vetrarhátíð í Húnaveri
+	504.	Leikfélagið með aukasýningu
+	505.	Fundur um skólamál
+	506.	Nýtt námskeið í hestamennsku
+	507.	Skólahlaupið fór fram í dag
+	508.	Héraðsmót í blaki
+	509.	Opið hús hjá heilsugæslunni
+	510.	Fræðsla um umhverfisvernd
+	511.	Vorhreinsun við höfnina
+	512.	Sýning á verkum nemenda
+	513.	Nýtt íþróttamót í undirbúningi
+	514.	Aðalfundur Foreldrafélagsins
+	515.	Göngudagur eldri borgara
+	516.	Uppfærð heimasíða Tónlistarskólans
+	517.	Kaffikvöld í Félagsheimilinu
+	518.	Héraðsmót í sundi
+	519.	Opið hús í Nesi listamiðstöð
+	520.	Fræðsla um netöryggi í héraði
