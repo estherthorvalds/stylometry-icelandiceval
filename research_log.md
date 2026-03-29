@@ -355,3 +355,42 @@ Sniðmát:
 - Fletta upp Lilju Björk og Hauki Þorgeirssyni
 - Hreinsa repo: eyða óþörfum RMH gögnum, skipuleggja möppustrúktúr, setja eldri skriftur í archive/
  
+
+### 29. mars 2026 — Heimaverkefni 4 skilað + IceConParse-þáttarinn
+
+**Tími:** ~10-15 klst (yfir nokkra daga)
+
+**Hvað gerði ég:**
+- Fann IceConParse eftir Ingunn Jóhönnu Kristjánsdóttur (Anton hafði minnst á þennan)
+- Setti upp Stanza + IceConParse og prufukeyrði á nokkrar fyrirsagnirnar
+- Endurskrifaði milicka_headlines_ingunnparser.py til að nota liðgerðartré í stað POS-merkja
+- Harðkóðaði nokkrar reglur þar sem frumlagsnafnliðsgreining (NP-SBJ) var ekki næg ein og sér: sagngreining (finite verbs only), boðháttur (IP-IMP), aukasetningar (þarf að athuga miðmynd)
+- Bjó til style_score fallið fyrir stigagjöf (0-100 kvarði)
+- Bjó til archive möppu og færði allar JSON skrár þangað
+
+**Hvað fann ég:**
+- IceConParse gefur 90,38% F-mælingu og skilar liðgerðartrjám — NP-SBJ greining í stað POS-giskunar
+- Mannleg grunnlína: 18,4% (næstum óbreytt frá 18,5% Sonnet) — staðfestir mælinguna
+- Niðurstöður líkana breyttust verulega milli þáttara:
+  - Le Chat Thinking: 99,6 stig (ennþá best)
+  - Gemini 3 Thinking: 86,3 stig (mikil breyting frá Sonnet)
+  - GPT 5: 79,0 stig (úr 0 stigum með Sonnet — mælingarvilla, ekki stílvilla)
+  - Le Chat Fast: 0,0 stig (endurtekningarlúppa, óbreytt)
+- Miðmynd (hefst, tókst) veldur vandræðum — þáttarinn merkir ekki sem NP-SBJ
+- Aðeins 49 af 520 fyrirsögnum hafa persónubeygða sögn samkvæmt þáttara, þetta virðist of lágt, þarf rannsókn
+
+**Hugsanir / túlkun:**
+- Mannlega grunnlínan breyttist nánast ekkert (18,5% varð 18,4%) — mælingin sjálf er harðgerð
+- En niðurstöður líkana sveiflast mikið eftir þáttara — þáttarinn er veikasti hlekkurinn
+- 49/520 fyrirsagnir með sögn er of lágt — eitthvað er enn að í sagngreiningunni
+- Stigaformúlan virkar vel og er auðskiljanleg fyrir stigatöflu
+
+**Opnar spurningar:**
+- Af hverju aðeins 49 fyrirsagnir með persónubeygða sögn? Er regexið of þröngt?
+- Hvernig á að meðhöndla miðmynd (hefst, tókst) — þáttaravilla eða setningafræðilegt álitamál?
+- Hvaða víddir næst? Ingunn mældi meðaldýpt þáttunartrjáa, meðallengd nafnliða, hlutfall aukasetninga — allt eru þetta mögulegar Milička-víddir
+
+**Næstu skref:**
+- Rannsaka af hverju sagngreining nær aðeins 49 fyrirsögnum
+- Skipuleggja repo (archive/ möppu, hreinsa)
+- Byrja að hugsa um næstu vídd

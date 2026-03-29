@@ -271,8 +271,8 @@ def run_milicka(human_headlines):
     print("SAMANBURÐUR VIÐ RISAMÁLLÍKÖN")
     print("-" * 70)
     print()
-    print(f"  {'Líkan':<25} {'Hlutfall':<10} {'Δv':<10} {'b_d':<10}")
-    print(f"  {'-'*25} {'-'*10} {'-'*10} {'-'*10}")
+    print(f"  {'Líkan':<25} {'Hlutfall':<10} {'Δv':<10} {'b_d':<10} {'Stig':<10}")
+    print(f"  {'-'*25} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
 
     for name, path in LLM_PATHS.items():
         # Lesa gögn líkansins
@@ -299,8 +299,13 @@ def run_milicka(human_headlines):
             b_d = delta_v / se_i
         else:
             b_d = float('inf') if abs(delta_v) > 0.0001 else 0.0
+        
+        # Stigatöflueinkunn reiknuð
+        score = style_score(v_full, v_llm)
 
-        print(f"  {name:<25} {v_llm:>9.1%} {delta_v:>+9.3f} {b_d:>+10.2f}")
+        # Prenta niðurstöður
+        print(f"  {name:<25} {v_llm:>9.1%} {delta_v:>+9.3f} {b_d:>+10.2f} {score:>8.1f}")
+        
 
     # --- LEIÐBEININGAR ---
     print()
@@ -317,6 +322,24 @@ def run_milicka(human_headlines):
 
     return v_full, dropped_full, kept_full
 
+# ============================================================
+# STIGATÖFLUEINKUNN REIKNUÐ
+# ============================================================
+
+def style_score(v_human, v_model):
+    """Reikna skor á kvarðanum 0-100 fyrir stílhermu.
+    
+    Skorið mælir hversu nálægt hlutfall módelsins er mannlegri grunnlínu.
+    100 = módel framleiðir nákvæmlega sama hlutfall og fréttafólk.
+    0 = módel framleiðir enga texta með stíleinkenninu eða tvöfaldar það.
+    
+    Formúla: score = 100 × (1 - |v_human - v_model| / v_human)
+    
+    """
+    if v_human == 0:        # Ef mennski textinn er 0% þá virkar þetta ekki
+        return 100.0 if v_model == 0 else 0.0
+    raw = 100.0 * (1.0 - abs(v_human - v_model) / v_human)
+    return max(0.0, raw)
 
 # ============================================================
 # MAIN — KEYRA FORRITIÐ
