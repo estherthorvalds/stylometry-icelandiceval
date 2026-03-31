@@ -333,7 +333,7 @@ Sniðmát:
 - Ekkert API frá Miðeind — bentu á Haffa (Hafstein Einarsson) eða Gervigreindarsetrið. 
 - Áætlaður kostnaður ef ég borga sjálf: ~5.000 kr — ekki mikið en mögulega ekki þess virði að greiða ef þáttaravandamálið leysist ekki.
 - Prófanir Steinþórs Steingrímssonar voru ræddar á læsilegum og ólæsilegum texta. 
-- Ræddum fleiri víddir: boðháttur í uppskriftum (Íslensk tunga) kom upp. Nöfn sem bárust: Lilja Björk Stefánsdóttir og Haukur Þorgeirsson — athuga hvort þau hafi skrifað um mælanleg stíleinkenni.
+- Ræddum fleiri víddir: boðháttur í uppskriftum (Íslenzk tunga) kom upp. Nöfn sem bárust: Lilja Björk Stefánsdóttir og Haukur Þorgeirsson — athuga hvort þau hafi skrifað um mælanleg stíleinkenni.
  
 **Hugsanir / túlkun:**
 - Tvær leiðir: (A) Praktískt vel — API + góður þáttari + marktækar tilraunir, eða (B) Fræðileg aðlögun — aðlaga Milička formúlur að íslensku, skilgreina víddir, skrifa góða skýrslu með chat-viðmótum. Leið B er raunhæfari miðað við aðstæður og er samt gott framlag.
@@ -394,3 +394,32 @@ Sniðmát:
 - Rannsaka af hverju sagngreining nær aðeins 49 fyrirsögnum
 - Skipuleggja repo (archive/ möppu, hreinsa)
 - Byrja að hugsa um næstu vídd
+
+
+### 31. mars 2026 — Arkítektúr og gallar
+
+**Tími:** 4 tímar
+
+**Hvað gerði ég:**
+- Las Who Benchmarks the Benchmarks? 
+- Tók ákvarðanir um arkítektúr og gerði MD fæl þess efnis. 
+
+**Uppgötvanir:**
+- Með Who Benchmarks greininni er verið að kalla eftir vönduðum vinnubrögðum svo hægt sé að taka mark á prófunum (vélþýðingar mikið gagnrýndar)
+
+**Hugsanir / túlkun:**
+- Þetta er tilraun, henni er ætlað að skoða hvort tilefni sé að endurtaka/gera prófið í heild sinni á íslensku. Greinin mun endurspegla það.
+- Hugmynd um sérstaka prófunarskriftu sem notar random sampling til að sannreyna að þáttarinn og skrifturnar vinni rétt — ekki til að skipta gögnum, heldur sem validation/sanity-check harness. T.d. taka slembiúrtak úr þáttuðum texta, athuga handvirkt hvort skrifturnar flokka rétt, og mæla samræmi. Þetta myndi styrkja aðferðafræðikaflann. 
+- Enn óviss um frumlagsnafnliðarfallið, fer fram og til baka með það. Sjá ákvörðun í decisions_log.
+
+**Opnar spurningar:**
+- Hvað notar Milička nákvæmlega til að meta frammistöðu? (svar: b_d, ekki Krippendorff's alpha)
+- Ætti ég að bæta Yang og Eriksson við heimildaskrána? Já, bæði tengjast data contamination sem er lykilfyrirvari.
+- Hvernig á prófunarskriftan að virka nákvæmlega? Handvirkt slembiúrtak vs. sjálfvirk krossstaðfesting?
+- Frumlagsnafnliðarfallið — nota eða ekki?
+
+**Næstu skref:**
+- Uppfæra reference_tracker.csv (bæta við #14 Who Benchmarks, #15 Yang, #16 Eriksson)
+- Ákveða endanlega um frumlagsnafnliðarfallið
+- Hanna prófunarskriftuna (validation harness)
+- Halda áfram með arkitektúr
