@@ -1,281 +1,240 @@
-# dim1_frumlagsnafnfall.py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+"""
+dim1_frumlagsnafnfall.py — VÍDD 1: Fyrirsagnir/setningar án frumlagsnafnliðar
+===============================================================================
 
-import random
-import sys
+TILGANGUR / PURPOSE:
+    Þetta skrifta mælir hlutfall setninga sem innihalda sögn en hafa ekkert
+    frumlag (NP-SBJ). Þetta er klassískt stíleinkenni fréttafyrirsagna á íslensku:
+    „Fengu verkfærakistur að gjöf" — sögnin „Fengu" er í persónu en ekkert nafnorð
+    er frumlag.
+
+    This script measures the proportion of sentences that contain a finite verb
+    but lack a subject noun phrase (NP-SBJ). This is a classic stylistic feature
+    of Icelandic news headlines.
+
+MÁLVÍSINDI / LINGUISTICS:
+    Í íslensku fréttamáli er algengt að sleppa frumlagi í fyrirsögnum, sem er
+    óvenjulegt í flestum öðrum germönskum tungumálum. Þetta er stíleinkenni sem
+    mannlegir fréttamenn hafa og LLM-líkön kunna ekki endilega.
+
+    Milička-formúlan mælir hvort líkön hermast eftir þessu áberandi stíleinkennni.
+
+INNTAK / INPUT:
+    Þáttuð tré úr data/parsed/human/*.txt og data/parsed/llm/*.txt
+    (ein lína = eitt þáttunartré í svigaformi)
+
+ÚTTAK / OUTPUT:
+    v-gildi (hlutfall) per textaskrá, til notkunar í run_milicka.py
+
+KEYRSLA / USAGE:
+    # Sem eininga:
+    from dim1_frumlagsnafnfall import measure_subject_drop
+    v_value = measure_subject_drop("data/parsed/human/news_ruv_parsed.txt")
+
+    # Frá skipanalínu:
+    python scripts/dim1_frumlagsnafnfall.py --parsed-file data/parsed/human/news_ruv_parsed.txt
+"""
+
+import argparse
 import re
+import sys
+from pathlib import Path
 
 
 # ============================================================
-# GREINING
-# CLAUDE CODE, THIS SCRIPT SHOULD OPEN THE ALREADY PARSED TEXTS, RUN THE FUNCTION AND FIND THEIR SCORE AND RETURN THE SCORE TO BE CALCULATED BY RUN_MILICKA.PY
-# CLAUDE CODE, WE'RE NO LONGER ONLY WORKING WITH HEADLINES, REPLACE VARIABLE NAME WITH SENTENCES
-# Athugar hvort NP-SBJ sé í trénu.
+# LESA ÞÁTTUÐ TRÉ / READ PARSED TREES
+# Þáttuð tré eru geymd ein per línu. Hvert tré er strengur í
+# svigaformi, t.d. "(ROOT (IP-MAT (NP-SBJ ...) (VBPI ...)))".
 # ============================================================
 
-def parse_headlines(nlp, headlines):
+def load_parsed_trees(path: Path) -> list[str]:
+    """Lesa þáttuð tré úr skrá. Eitt tré per línu.
+
+    Args:
+        path: Slóð á textaskrá með þáttuðum trjám.
+
+    Returns:
+        Listi af strengjum — hvert tré er einn strengur.
+
+    Raises:
+        FileNotFoundError: Ef skráin finnst ekki.
     """
-    REMOVE THE PARSINS, USE ALREADY PARSED TEXTS. 
-    Þáttar lista af fyrirsögnum og skilar lista af niðurstöðum.
+    if not path.exists():
+        raise FileNotFoundError(f"Þáttuð skrá fannst ekki: {path}")
 
-    Hvert stak í listanum er dict með:
-        - text: upprunalegi strengurinn
-        - tree: liðgerðartréð sem strengur
-        - has_subject: True ef NP-SBJ finnst í trénu
-        - has_verb: True ef sögn (VB/BE/DO/HV/MD/RD) finnst í trénu
-        - is_imperative: True ef sagnliður er boðháttur
+    with open(path, 'r', encoding='utf-8') as f:
+        # Sleppa tómum línum — þetta er öryggisráðstöfun ef einhverjar
+        # auðar línur slæddust inn í skrána.
+        trees = [line.strip() for line in f if line.strip()]
+
+    return trees
+
+
+# ============================================================
+# GREINA EITT TRÉ / ANALYZE ONE TREE
+# Athuga hvort setning hafi:
+#   1. Persónubeygða sögn (finite verb) — gefur til kynna fullsetningu
+#   2. Frumlagsnafnlið (NP-SBJ) — ef ekki, er frumlagslaust
+#   3. Boðháttur (IP-IMP) — útilokaður, þar sem boðháttur hefur
+#      aldrei frumlag í íslensku
+# ============================================================
+
+def analyze_tree(tree_str: str) -> dict:
+    """Greina eitt þáttunartré og skila niðurstöðum.
+
+    LYKLAR IcePaHC-SKEMANS SEM VIÐ NOTUM:
+        NP-SBJ  = Frumlagsnafnliður (subject noun phrase)
+        IP-IMP  = Boðháttur (imperative clause)
+        VBPI/VBDI = Sögn í framsöguhætti (indicative verb, present/past)
+        VBPS/VBDS = Sögn í viðtengingarhætti (subjunctive verb)
+        BEPI/BEDI = „vera" beygð (be-verb, present/past indicative)
+        DOPI/DODI = „gera" beygð (do-verb)
+        HVPI/HVDI = „hafa" beygð (have-verb)
+        MDPI/MDDI = Hjálparsögn (modal verb)
+        RDPI/RDDI = „verða" beygð (become-verb)
+
+    Args:
+        tree_str: Eitt þáttunartré sem strengur í svigaformi.
+
+    Returns:
+        dict með lyklum:
+            - has_subject: True ef NP-SBJ finnst í trénu
+            - has_verb: True ef persónubeygð sögn finnst
+            - is_imperative: True ef setningin er í boðhætti
     """
-    results = []
-    for idx, headline in enumerate(headlines):
-        doc = nlp(headline)
-        tree_str = str(doc.sentences[0].constituency).replace('*', '-')
+    # --- ATHUGA FRUMLAG ---
+    # Einfaldasta leitin: er strengurinn „NP-SBJ" í trénu?
+    # Þetta virkar vel vegna þess að IcePaHC-þáttarinn notar
+    # einungis NP-SBJ sem merki fyrir frumlag.
+    has_subject = 'NP-SBJ' in tree_str
 
-        # Athuga hvort NP-SBJ sé í trénu
-        has_subject = 'NP-SBJ' in tree_str
+    # --- ATHUGA BOÐHÁTT ---
+    # IP-IMP táknar boðháttarsetningu (imperative clause).
+    # Boðháttur hefur aldrei frumlag á íslensku, svo við viljum
+    # ekki telja boðháttur-setningar sem „frumlagslausar" —
+    # þær eru frumlagslausar af öðrum ástæðum.
+    is_imperative = 'IP-IMP' in tree_str
 
-        # Athuga hvort persónubeygð sögn sé í trénu
-        # IcePaHC merkir persónubeygðar sagnir með I (framsöguháttur) eða S (viðtengingarh.)
-        # t.d. VBPI, VBDI, VBPS, VBDS, BEPI, BEDI, DOPI, HVPI, MDPI, RDPI...
-        # VB eitt og sér er nafnháttur, VBN/VAN er lýsingarháttur — ekki telja
-        
-        # Athuga hvort sagnliður sé í boðhætti
-        is_imperative = 'IP-IMP' in tree_str
-        
-        # Athuga hvort persónubeygð sögn sé í aðalsetningu (ekki í aukasetningum)
-        # Fjarlægja aukasetningar úr trénu áður en leitað er að sögn
+    # --- ATHUGA PERSÓNUBEYGÐA SÖGN ---
+    # Regluleg segð (regular expression / regex) leitar að sagnmerkjum
+    # IcePaHC-skemans. Munstur:
+    #   (VB|BE|DO|HV|MD|RD) = sagnstofn (vera, gera, hafa, modal, verða)
+    #   [PD]                 = P (present/nútíð) eða D (past/þátíð)
+    #   [IS]                 = I (indicative/framsöguháttur) eða S (subjunctive/viðtengingarh.)
+    #
+    # Þetta nær yfir allar persónubeygar sagnir, t.d.:
+    #   VBPI = venjuleg sögn, nútíð, framsöguháttur
+    #   BEDI = „vera", þátíð, framsöguháttur
+    #   MDPS = hjálparsögn, nútíð, viðtengingarh.
+    #
+    # \b er „word boundary" — tryggir að við finnum ekki „VBPI" sem hluta
+    # af lengra orði (þó slíkt sé ólíklegt í þáttunartréum).
+    has_verb = bool(re.search(r'\b(VB|BE|DO|HV|MD|RD)[PD][IS]\b', tree_str))
 
-        #main_clause = re.sub(r'\(CP-[A-Z]+\s.*?\)\)', '', tree_str) # TODO: fínstilla til að útiloka sagnir í aukasetningum
-        has_verb = bool(re.search(r'\b(VB|BE|DO|HV|MD|RD)[PD][IS]\b', tree_str))
-
-        results.append({
-            'text': headline,
-            'tree': tree_str,
-            'has_subject': has_subject,
-            'has_verb': has_verb,
-            'is_imperative': is_imperative,
-            'index': idx,
-        })
-
-        # Sýna framvindu á hverri 50. fyrirsögn til að athuga hvort allt sé að virka sem skyldi
-        if (idx + 1) % 50 == 0:
-            print(f"  Þáttað {idx + 1}/{len(headlines)} fyrirsagnir...")
-
-    return results
+    return {
+        'has_subject': has_subject,
+        'has_verb': has_verb,
+        'is_imperative': is_imperative,
+    }
 
 
 # ============================================================
-# AÐALMÆLING
-# Reiknar hlutfall fyrirsagna án frumlagsnafnliðar.
-# Þáttarinn sér um greiningu (einfaldara en með JSON-fæla frá Sonnet 4.6)
+# MÆLA HLUTFALL — AÐALMÆLING / MAIN MEASUREMENT
+# Þetta er kjarnafallið: það tekur lista af þáttuðum trjám,
+# greinir hvert tré, og reiknar hlutfall setninga án
+# frumlagsnafnliðar.
 # ============================================================
 
-def subject_drop_rate(parsed_headlines):
-    """Mæla hlutfall fyrirsagna án frumlagsnafnliðar.
+def measure_subject_drop(parsed_file: Path) -> tuple[float, int, int]:
+    """Mæla hlutfall setninga án frumlagsnafnliðar (subject-drop rate).
 
-    Aðeins fyrirsagnir sem innihalda sögn eru skoðaðar.
-    Fyrirsagnir án sagnar (nafnliðarfyrirsagnir) eru undanskildar.
+    REIKNIAÐFERÐ:
+        1. Lesa öll þáttuð tré úr skrá
+        2. Greina hvert tré: hefur það sögn? frumlag? boðhátt?
+        3. Sía burtu setningar sem eru:
+           - Án sagnar (nafnliðar-fyrirsagnir, t.d. „Nýr forstjóri Landsbankans")
+           - Í boðhætti (t.d. „Sjáðu hér!")
+        4. Af þeim sem eftir standa: hve margar hafa ekkert NP-SBJ?
 
-    SKILAGILDI:
-    - rate: hlutfall fyrirsagna án frumlagsnafnliðar (0.0 til 1.0)
-    - dropped: listi af fyrirsögnum án frumlagsnafnliðar
-    - kept: listi af fyrirsögnum með frumlagi
+    Args:
+        parsed_file: Slóð á skrá með þáttuðum trjám (ein lína = eitt tré).
+
+    Returns:
+        Tuple af:
+            - v: hlutfall setninga án frumlagsnafnliðar (0.0 til 1.0)
+            - n_dropped: fjöldi setninga án frumlagsnafnliðar
+            - n_total: heildarfjöldi gildra setninga (með sögn, ekki boðháttur)
     """
-    if not parsed_headlines:
-        return 0.0, [], []
+    trees = load_parsed_trees(parsed_file)
 
-    dropped = []    # Fyrirsagnir ÁN frumlagsnafnliðar
-    kept = []       # Fyrirsagnir MEÐ frumlagsnafnlið
+    n_dropped = 0   # Setningar ÁN frumlagsnafnliðar
+    n_total = 0     # Heildarfjöldi gildra setninga (með sögn, ekki boðháttur)
 
-    for h in parsed_headlines:
-        if not h['has_verb']:
-            continue
-        if h.get('is_imperative', False):
-            continue
+    for tree_str in trees:
+        result = analyze_tree(tree_str)
 
-        if not h['has_subject']:
-            dropped.append(h)
-        else:
-            kept.append(h)
-
-    counted = len(dropped) + len(kept)
-    rate = len(dropped) / counted if counted > 0 else 0.0
-    return rate, dropped, kept
-
-
-# ============================================================
-# MILIČKA FORMÚLURNAR
-# ============================================================
-
-def run_milicka(parsed_human, nlp):
-    """Reikna Milička-formúlur og bera saman við risamállíkön.
-
-    SKREF:
-    1. Skipta mennskum gögnum í tvennt (upprunabunki og prófunarbunki)
-    2. Mæla fyrirsagnir án frumlagsnafnliðar í hvorum bunka
-    3. Finna náttúrulegt frávik (formúla 2)
-    4. Nota bootstrap til að meta SE (staðalskekkju)
-    5. Mæla frávik hvers líkans og staðla með SE (formúla 3)
-    """
-    n = len(parsed_human)
-    mid = n // 2
-
-    half1 = parsed_human[:mid]
-    half2 = parsed_human[mid:]
-
-    # --- MÆLA HLUTFALL Í HVORUM BUNKA ---
-    v_half1, _, _ = subject_drop_rate(half1)
-    v_half2, _, _ = subject_drop_rate(half2)
-    v_full, dropped_full, kept_full = subject_drop_rate(parsed_human)
-
-    # --- FORMÚLA 2: NÁTTÚRULEGT FRÁVIK ---
-    i = v_half2 - v_half1
-
-    # --- PRENTA GRUNNLÍNU ---
-    print("=" * 80)
-    print("FORMÚLUR MILIČKA — FYRIRSAGNIR ÁN FRUMLAGSNAFNLIÐAR")
-    print("Þáttari: Ingunn J. Kristjánsdóttir (2024), Stanza + IceBERT")
-    print("=" * 80)
-    print()
-    print("GRUNNLÍNA (MENNSKT FRÁVIK)")
-    print("-" * 80)
-    print(f"  Heildargögn ({n} fyrirsagnir):     án frumlagsnafnliðar = {v_full:.3f} ({v_full:.1%})")
-    print(f"  Upprunabunki ({len(half1)} fyrirsagnir):    án frumlagsnafnliðar = {v_half1:.3f} ({v_half1:.1%})")
-    print(f"  Prófunarbunki ({len(half2)} fyrirsagnir):   án frumlagsnafnliðar = {v_half2:.3f} ({v_half2:.1%})")
-    print(f"  Formúla 2: i = {v_half2:.3f} - {v_half1:.3f} = {i:+.3f}")
-    print(f"  |i| (náttúrulegt frávik):     {abs(i):.3f}")
-    print()
-
-    # --- BOOTSTRAP: GERVIFRÁVIK (SE) ---
-    random.seed(42)
-    num_resamples = 1000
-    i_values = []
-
-    indices = list(range(n))
-    for _ in range(num_resamples):
-        random.shuffle(indices)
-        resample_half1 = [parsed_human[j] for j in indices[:mid]]
-        resample_half2 = [parsed_human[j] for j in indices[mid:]]
-        r1, _, _ = subject_drop_rate(resample_half1)
-        r2, _, _ = subject_drop_rate(resample_half2)
-        i_values.append(r2 - r1)
-
-    mean_i = sum(i_values) / len(i_values)
-    se_i = (sum((x - mean_i)**2 for x in i_values) / (len(i_values) - 1)) ** 0.5
-
-    print("BOOTSTRAP SE (1000 endurúrtök)")
-    print("-" * 70)
-    print(f"  Meðaltal i gildis:      {mean_i:+.4f}")
-    print(f"  SE(I_d) frá bootstrap:  {se_i:.4f}")
-    print()
-
-    # --- SAMANBURÐUR VIÐ RISAMÁLLÍKÖN ---
-    print("SAMANBURÐUR VIÐ RISAMÁLLÍKÖN")
-    print("-" * 70)
-    print()
-    print(f"  {'Líkan':<25} {'Hlutfall':<10} {'Δv':<10} {'b_d':<10} {'Stig':<10}")
-    print(f"  {'-'*25} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
-
-    for name, path in LLM_PATHS.items():
-        # Lesa og þátta gögn líkansins
-        llm_headlines = load_headlines(path)
-        if not llm_headlines:
-            print(f"  {name:<25} VANTAR SKRÁ: {path}")
+        # Sleppa setningum án sagnar — t.d. nafnliðarfyrirsagnir eins og
+        # „Nýr forstjóri Landsbankans". Þessar setningar hafa ekki frumlag
+        # af öðrum ástæðum en stíleinkenni.
+        if not result['has_verb']:
             continue
 
-        print(f"\n  Þátta {name} ({len(llm_headlines)} fyrirsagnir)...")
-        parsed_llm = parse_headlines(nlp, llm_headlines)
+        # Sleppa boðhættisetningum — t.d. „Sjáðu þetta!"
+        # Boðháttur er aldrei með frumlagi á íslensku, svo þetta er
+        # málkerfisregla, ekki stílval.
+        if result['is_imperative']:
+            continue
 
-        # Mæla fyrirsagnir án frumlagsnafnliðar
-        v_llm, _, _ = subject_drop_rate(parsed_llm)
+        # Þetta er gild setning: hún hefur sögn og er ekki boðháttur.
+        n_total += 1
 
-        # FORMÚLA 1: Δv
-        delta_v = v_full - v_llm
+        # Ef engin NP-SBJ finnst → setningin er frumlagslaus
+        if not result['has_subject']:
+            n_dropped += 1
 
-        # FORMÚLA 3: b_d
-        if se_i > 0.0001:
-            b_d = delta_v / se_i
-        else:
-            b_d = float('inf') if abs(delta_v) > 0.0001 else 0.0
+    # Reikna hlutfall. Vernda gegn deilingu með núlli.
+    v = n_dropped / n_total if n_total > 0 else 0.0
 
-        # Stigatöflueinkunn
-        score = style_score(v_full, v_llm)
-
-        print(f"  {name:<25} {v_llm:>9.1%} {delta_v:>+9.3f} {b_d:>+10.2f} {score:>8.1f}")
-
-    # --- LEIÐBEININGAR ---
-    print()
-    print("-" * 70)
-    print()
-    print("HVERNIG Á AÐ TÚLKA NIÐURSTÖÐURNAR:")
-    print("  Δv  = mennskt hlutfall mínus hlutfall líkans")
-    print("        Jákvætt = líkanið sleppir frumlagsnafnlið sjaldnar en fréttafólk")
-    print("        Neikvætt = líkanið sleppir frumlagsnafnlið oftar en fréttafólk")
-    print("  b_d = Δv staðlað með SE (náttúrulegri sveiflu í mennskum gögnum)")
-    print("        b_d nálægt 0 = líkanið hegðar sér eins og mennskir fréttamenn")
-    print("        |b_d| > 2 = verulegt frávik frá mennsku stíleinkenni")
-    print("  Stig = 0-100 stigatöflueinkunn (100 = fullkomið, 0 = ekkert af stíleinkenninu)")
-    print("=" * 70)
-
-    return v_full, dropped_full, kept_full
+    return v, n_dropped, n_total
 
 
 # ============================================================
-# STIGATÖFLUEINKUNN
+# SKIPANALÍNUVIÐMÓT / COMMAND LINE INTERFACE
+# Gerir kleift að keyra skriftið sjálfstætt til prófunar.
 # ============================================================
 
-def style_score(v_human, v_model):
-    """Reikna skor á kvarðanum 0-100 fyrir stílhermu.
+def main() -> None:
+    """Keyra mælingu á einni þáttaðri skrá og prenta niðurstöðu."""
+    parser = argparse.ArgumentParser(
+        description="Vídd 1: Mæla hlutfall setninga án frumlagsnafnliðar.",
+        epilog="""
+Dæmi:
+  python scripts/dim1_frumlagsnafnfall.py --parsed-file data/parsed/human/news_ruv_parsed.txt
+        """
+    )
+    parser.add_argument(
+        '--parsed-file',
+        type=Path,
+        required=True,
+        help="Slóð á skrá með þáttuðum trjám"
+    )
 
-    100 = líkan framleiðir nákvæmlega sama hlutfall og fréttafólk.
-    0 = líkan framleiðir ekkert af stíleinkenninu (eða meira en tvöfalt).
+    args = parser.parse_args()
 
-    Formúla: score = 100 × (1 - |v_human - v_model| / v_human)
-    """
-    if v_human == 0:
-        return 100.0 if v_model == 0 else 0.0
-    raw = 100.0 * (1.0 - abs(v_human - v_model) / v_human)
-    return max(0.0, raw)
+    # Keyra mælinguna
+    v, n_dropped, n_total = measure_subject_drop(args.parsed_file)
 
-
-# ============================================================
-# MAIN
-# ============================================================
-
-def main():
-    # --- HLAÐA ÞÁTTARA ---
-    nlp = load_parser(MODEL_PATH)
-
-    # --- LESA OG ÞÁTTA MENNSKU GÖGNIN ---
-    human_headlines = load_headlines(HUMAN_PATH)
-    if not human_headlines:
-        print(f"VILLA: Mennsku gögnin fundust ekki: {HUMAN_PATH}")
-        sys.exit(1)
-
-    print(f"Fann {len(human_headlines)} fyrirsagnir í mennskum gögnum.")
-    print(f"Þátta mennsku fyrirsagnirnar...")
-    parsed_human = parse_headlines(nlp, human_headlines)
-
-    # --- KEYRA MILIČKA FORMÚLUR ---
-    v_full, dropped_full, kept_full = run_milicka(parsed_human, nlp)
-
-    # --- SÝNA DÆMI ÚR ÞÁTTUN ---
-    print("\n" + "=" * 70)
-    print(f"DÆMI UM FYRIRSAGNIR ÁN FRUMLAGSNAFNLIÐAR ({len(dropped_full)}):")
-    print("=" * 70)
-    for h in dropped_full[:10]:
-        print(f"\n  [{h['index']:>3}] {h['text']}")
-        print(f"        {h['tree']}")
-    if len(dropped_full) > 10:
-        print(f"\n  ... og {len(dropped_full) - 10} í viðbót")
-
-    print("\n" + "=" * 70)
-    print(f"DÆMI UM FYRIRSAGNIR MEÐ FRUMLAGI ({len(kept_full)}):")
-    print("=" * 70)
-    for h in kept_full[:10]:
-        print(f"\n  [{h['index']:>3}] {h['text']}")
-        print(f"        {h['tree']}")
-    if len(kept_full) > 10:
-        print(f"\n  ... og {len(kept_full) - 10} í viðbót")
+    # Prenta niðurstöðu á skipanalínu
+    print(f"\nVÍDD 1: Frumlagsnafnliðarleysi (subject drop)")
+    print(f"{'=' * 50}")
+    print(f"  Skrá: {args.parsed_file.name}")
+    print(f"  Gildar setningar (með sögn, ekki boðháttur): {n_total}")
+    print(f"  Án frumlagsnafnliðar: {n_dropped}")
+    print(f"  Hlutfall (v): {v:.4f} ({v:.1%})")
+    print(f"{'=' * 50}")
 
 
 if __name__ == "__main__":
