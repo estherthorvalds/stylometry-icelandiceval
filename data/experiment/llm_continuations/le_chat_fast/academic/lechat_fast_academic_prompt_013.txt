@@ -1,0 +1,53 @@
+Niðurstöður hjartaómskoðunar og langtímafylgikvillar eftir TAVI-aðgerðir
+1. Hjarta- og ósæðarlokunarmælingar
+Hjartaómskoðun fyrir TAVI-aðgerð var gerð með því að mæla hámarks- og meðalþrýstingsfallandi (gradient) yfir ósæðarlokuna. Þessi mælingar eru lykilþáttur í mat á þrengslum og starfsemi lokunnar. Að meðaltali var hámarksþrýstingsfallandi 78 mmHg fyrir aðgerð, en eftir TAVI-aðgerð lækkaði það niður í 14 mmHg, sem sýnir markvæga bætingu í ósæðarlokunargöngum. Lokuflatarmál var að meðaltali 0,67 cm² fyrir aðgerð, en eftir aðgerð var það að meðaltali 1,8 cm², sem sýnir að gervilokan hefur opnast vel og tryggir betri blóðflæði.
+Þessi niðurstöða er í samræmi við fleiri erlendar rannsóknir, þar sem TAVI-aðgerð hefur sýnt sig hafa jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi. Í rannsóknum sem birtar hafa verið í New England Journal of Medicine og Journal of the American College of Cardiology hefur verið bent á að TAVI-aðgerð getur bætt líffæri sjúklinga með alvarlegum ósæðarlokunum, jafnvel hjá þeim sem eru í hári áhættuhópi.
+2. Fylgikvillar og afdrif sjúklinga
+Afdrif sjúklinga og fylgikvillar voru skráðir í töflu IV. Í rannsókninni létust þrír sjúklingar innan 30 daga frá aðgerð, sem samsvara 1,6% dánartíðni. Þetta er lágt tal samanborið við erlendar rannsóknir, þar sem dánartíðni innan 30 daga hefur verið á bilinu 2-5%. Einn sjúklingur lést vegna heilablóðfalls, annar í kjölfar rifu á slegli og sá þriðji vegna hjartabilunar. Enginn sjúklingur lést í aðgerðinni sjálfri, sem sýnir að aðgerðin er örugg og vel þjálfuð.
+Langtímafylgikvillar voru einnig metnir, þar á meðal hjartadrep, heilablóðföll, æðatengdir fylgikvillar og fylgikvillar tengdir TAVI-loku. Hjartaþelsbólga (endocarditis) var einn af þeim fylgikvillum sem var skráður, en hún er sjaldgæf en getur verið alvarleg. Blóðsegarek og vanstarfsemi gerviloku voru einnig skráðir, en þessir fylgikvillar eru venjulega takmarkaðir og geta verið meðhöndlaðir með réttri meðferð.
+3. Hjarta- og lungnastarfsemi
+Hlutfall sjúklinga sem höfðu langvinna lungnateppu samkvæmt öndunarmælingum (FEV1/FVC <70%) var 24,3%. Af þeim var aðeins helmingur með greindan langvinnan lungnasjúkdóm í sjúkraskrá. Þetta bendir til þess að lungnateppa getur verið undirstöðulaus og ekki alltaf tengd greindum lungnasjúkdómum. Einnig var skráð útfallsbrot (ejection fraction) vinstri slegils, sem var flokkað sem eðlilegt (>50%), lækkað (40-49%), skert (30-39%) eða alvarlega skert (<30%). Meðalaldur sjúklinga var 83 ± 6 ár, sem sýnir að flestir sjúklingar voru eldri og með margvíslegar heilsufarsvandræði.
+4. Hjartaómskoðun og tölfræðileg úrvinnsla
+Hjartaómskoðun var alltaf gerð fyrir aðgerð og mánuði eftir aðgerð. Þar sem skráður var hámarks- og meðalþrýstingsfallandi yfir ósæðarlokuna. Tölfræðiúrvinnsla var gerð í tölfræðiforritinu R, útgáfu 3.6.2. Staðlað EuroSCORE-II var reiknað fyrir alla sjúklinga, en auk þess voru skráðar upplýsingar um áhættuþætti hjartasjúkdóma og fyrra heilsufar, eins og háþrýsting, sykursýki, kransæðasjúkdóm, gáttatif og nýrnabilun.
+Heildarlifun var reiknuð með aðferð Kaplan-Meier og lifun íslensks viðmiðunarhóps af sama kyni og sama aldri metin með upplýsingum frá The Human Mortality Database. Ekki reyndist marktækur munur á heildarlifun TAVI-sjúklinga samanborið við viðmiðunarþýði (p=0,23, log-rank próf). Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga.
+5. Hjartaþröng og fylgikvillar
+Alls fengu 7 sjúklingar (3,7%) lífshættulega blæðingu, en í þeim hópi voru 6 sjúklingar (3,2%) sem fengu hjartaþröng (cardiac tamponade) í kjölfarið. Hjartaþröng er alvarlegur fylgikvilli sem getur krafist skjótlegrar aðgerða. Það er þó mikilvægt að hafa í huga að þessi fylgikvilli er sjaldgæfur og getur verið meðhöndlaður með réttri aðgerð.
+6. Hjarta- og ósæðarlokunargreining
+Hjarta- og ósæðarlokunargreining var gerð með því að mæla hámarks- og meðalþrýstingsfallandi yfir ósæðarlokuna. Þessi mælingar eru lykilþáttur í mat á þrengslum og starfsemi lokunnar. Að meðaltali var hámarksþrýstingsfallandi 78 mmHg fyrir aðgerð, en eftir TAVI-aðgerð lækkaði það niður í 14 mmHg. Þetta sýnir markvæga bætingu í ósæðarlokunargöngum og bendir til þess að gervilokan hefur opnast vel og tryggir betri blóðflæði.
+7. Hjarta- og ósæðarlokunargreining eftir TAVI-aðgerð
+Eftir TAVI-aðgerð mátti sjá bæði bætta starfsemi ósæðarlokunnar og hjartans. Hámarksþrýstingsfallandi lækkaði úr 78 mmHg niður í 14 mmHg, sem ekki er teljandi ósæðarlokuþrengsl. Þetta bendir til þess að TAVI-aðgerð hefur jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi. Einnig var skráð útfallsbrot vinstri slegils, sem var flokkað sem eðlilegt (>50%), lækkað (40-49%), skert (30-39%) eða alvarlega skert (<30%).
+8. Hjarta- og ósæðarlokunargreining og fylgikvillar
+Hjarta- og ósæðarlokunargreining var gerð með því að mæla hámarks- og meðalþrýstingsfallandi yfir ósæðarlokuna. Þessi mælingar eru lykilþáttur í mat á þrengslum og starfsemi lokunnar. Að meðaltali var hámarksþrýstingsfallandi 78 mmHg fyrir aðgerð, en eftir TAVI-aðgerð lækkaði það niður í 14 mmHg. Þetta sýnir markvæga bætingu í ósæðarlokunargöngum og bendir til þess að gervilokan hefur opnast vel og tryggir betri blóðflæði.
+9. Hjarta- og ósæðarlokunargreining og langtímafylgikvillar
+Langtímafylgikvillar voru einnig metnir, þar á meðal hjartadrep, heilablóðföll, æðatengdir fylgikvillar og fylgikvillar tengdir TAVI-loku. Hjartaþelsbólga (endocarditis) var einn af þeim fylgikvillum sem var skráður, en hún er sjaldgæf en getur verið alvarleg. Blóðsegarek og vanstarfsemi gerviloku voru einnig skráðir, en þessir fylgikvillar eru venjulega takmarkaðir og geta verið meðhöndlaðir með réttri meðferð.
+10. Hjarta- og ósæðarlokunargreining og heildarlifun
+Heildarlifun var reiknuð með aðferð Kaplan-Meier og lifun íslensks viðmiðunarhóps af sama kyni og sama aldri metin með upplýsingum frá The Human Mortality Database. Ekki reyndist marktækur munur á heildarlifun TAVI-sjúklinga samanborið við viðmiðunarþýði (p=0,23, log-rank próf). Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga.
+
+Umræða um niðurstöður og framtíðarsýn
+1. Árangur TAVI-aðgerða á Íslandi
+Árangur TAVI-aðgerða hér á landi er mjög góður, ekki síst þegar litið er til lágrar 30 daga dánartíðni og heildarlifunar sem var sambærileg og hjá viðmiðunarþýði. Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga. Ljóst er að TAVI-aðgerðum mun fjölga hér á landi og allt útlit fyrir að sú þróun muni halda áfram vegna hækkandi meðalaldurs þjóðarinnar, ekki síst ef ábendingar víkka og fjármagn fæst til fleiri aðgerða.
+2. Framtíðarsýn og rannsóknir
+Framtíðarsýnin fyrir TAVI-aðgerðum er ljós, en það er mikilvægt að halda áfram að rannsaka endingartíma gervilokanna sem notaðar eru í TAVI-aðgerðum. Fjöldi slíkra rannsókna er í gangi, og þær munu hjálpa til við að ákvarða hvort TAVI-aðgerð sé hentug fyrir þorra sjúklinga undir 75 ára aldri og í lítilli áhættu. Gervilokan situr heldur ofar en upprunaleg loka sjúklingsins (supravalvular-lega), en fram til þessa virðist þó ekkert benda til annars en að ending TAVI-loka sé jafngóð og fyrir hefðbundnar lífrænar gervilokur.
+3. Samantekt og niðurstöður
+Samantektin bendir til þess að TAVI-aðgerð er örugg og hefur jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi. Heildarlifun var sambærileg lifun viðmiðunarþýðis af sama kyni og sama aldri, og ekki reyndist marktækur munur á heildarlifun TAVI-sjúklinga samanborið við viðmiðunarþýði. Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga.
+
+Aðgerðir og rannsóknir sem á eftir að standa
+1. Nýjar rannsóknir og þróun
+Nýjar rannsóknir á sviði TAVI-aðgerða eru í gangi, og þær munu hjálpa til við að ákvarða hvort TAVI-aðgerð sé hentug fyrir þorra sjúklinga undir 75 ára aldri og í lítilli áhættu. Það er mikilvægt að halda áfram að rannsaka endingartíma gervilokanna sem notaðar eru í TAVI-aðgerðum, og fjöldi slíkra rannsókna er í gangi.
+2. Þjálfun og menntun
+Þjálfun og menntun hjartalækna og annarra starfsmanna á sviði TAVI-aðgerða er mikilvægt til að tryggja að aðgerðirnar séu öruggar og vel þjálfaðar. Það er einnig mikilvægt að halda áfram að rannsaka endingartíma gervilokanna sem notaðar eru í TAVI-aðgerðum, og fjöldi slíkra rannsókna er í gangi.
+3. Samvinna og samstarf
+Samvinna og samstarf milli hjartalækna, rannsakenda og annarra starfsmanna á sviði TAVI-aðgerða er mikilvægt til að tryggja að aðgerðirnar séu öruggar og vel þjálfaðar. Það er einnig mikilvægt að halda áfram að rannsaka endingartíma gervilokanna sem notaðar eru í TAVI-aðgerðum, og fjöldi slíkra rannsókna er í gangi.
+
+Niðurstöður og umræða
+1. Samantekt niðurstöðna
+Samantektin bendir til þess að TAVI-aðgerð er örugg og hefur jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi. Heildarlifun var sambærileg lifun viðmiðunarþýðis af sama kyni og sama aldri, og ekki reyndist marktækur munur á heildarlifun TAVI-sjúklinga samanborið við viðmiðunarþýði. Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga.
+2. Umræða um niðurstöður
+Umræðan bendir til þess að TAVI-aðgerð er örugg og hefur jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi. Heildarlifun var sambærileg lifun viðmiðunarþýðis af sama kyni og sama aldri, og ekki reyndist marktækur munur á heildarlifun TAVI-sjúklinga samanborið við viðmiðunarþýði. Þetta bendir til þess að TAVI-aðgerð er örugg og hefur ekki neikvæð áhrif á langtíma lifun sjúklinga.
+3. Framtíðarsýn
+Framtíðarsýnin fyrir TAVI-aðgerðum er ljós, en það er mikilvægt að halda áfram að rannsaka endingartíma gervilokanna sem notaðar eru í TAVI-aðgerðum. Fjöldi slíkra rannsókna er í gangi, og þær munu hjálpa til við að ákvarða hvort TAVI-aðgerð sé hentug fyrir þorra sjúklinga undir 75 ára aldri og í lítilli áhættu.
+
+Lokorð
+TAVI-aðgerð hefur sýnt sig vera örugg og áhrifarík aðferð við meðferð alvarlegra ósæðarlokunþrengsla. Niðurstöður rannsókna benda til þess að aðgerðin hefur jákvæð áhrif á ósæðarlokunargöng og hjartastarfsemi, og heildarlifun sjúklinga er sambærileg við viðmiðunarþýði. Það er þó mikilvægt að halda áfram að rannsaka endingartíma gervilokanna og fylgikvilla aðgerðarinnar til að tryggja öryggi og áhrifaríkt niðurstöðu.
+
+

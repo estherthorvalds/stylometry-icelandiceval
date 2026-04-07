@@ -1,0 +1,164 @@
+2.3 Sagnliðurinn og setningagerð: Fræðileg athugun
+Ef litið er til baka á þá röksemdafærslu sem sett var fram í kafla 2.1, má sjá að spurningin um tilvist sagnliðar (VP) í íslensku er ekki einungis spurning um snyrtimennsku í liðgerðarlýsingum, heldur snertir hún sjálfan kjarna þess hvernig við skiljum vensl milli sagnorða og andlaga þeirra. Í enskri málfræði hefur sagnliðurinn verið hornsteinn greiningarinnar, enda sýna ýmsar færslureglur þar í landi, svo sem sagnliðareyðing (VP-deletion) og sagnliðarfærsla (VP-fronting), að sögnin og fylliliðir hennar mynda eina órjúfanlega heild. Í íslensku horfir málið hins vegar flóknar við, sér í lagi vegna hinnar svokölluðu V2-reglu (sögn í öðru sæti), sem veldur því að persónubeygða sögnin færist jafnan úr sagnliðnum og upp í æðri stöðu í setningatréinu (yfirleitt talin vera C-staðan eða I-staðan, eftir því hvaða kenningarrammi er lagður til grundvallar).
+
+Þegar við skoðum dæmi (16)b hér að framan, Lesið bókina mun Jón hafa, sjáum við að liðurinn lesið bókina hegðar sér eins og eining. Ef við gerum ráð fyrir að lesið bókina sé sagnliður sem inniheldur aðalsögn og andlag, þá virðist þessi færsla styðja tilvist sagnliðar í djúpgerð. Hins vegar vaknar sú spurning hvers vegna sams konar færsla er ómöguleg þegar sögnin stendur í persónuhætti:
+
+(18) a. Jón las bókina.
+b. *Las bókina Jón.
+c. *Las bókina hefur Jón.
+
+Þessi munur á persónuháttarsögnum og fallháttarsögnum bendir til þess að sagnliðurinn sé ef til vill ekki eins traustur í sessi og áður var talið, eða að minnsta kosti að tengsl sagnar og andlags rofni um leið og sögnin tekur á sig persónubeygingu.
+
+3. Eðli hjálparsagna og fylliliða þeirra
+Við verðum nú að snúa okkur að því sem nefnt var í lið 4.1, nefnilega eðli þeirra setninga sem standa sem fylliliðir með hjálparsögnum. Ef við höfnum hjálparliðnum (Aux) sem sérstökum flokki í djúpgerð, eins og hér hefur verið stungið upp á, neyðumst við til að skýra hvernig sagnir á borð við hafa, vera, munu og skulu velja fylliliði sína. Ein leið er að líta á þær sem venjulegar sagnir sem taka aðra setningu (CP eða IP) sem fyllilið. En hér vandast málið, því eins og vikið var að í umfjölluninni um „root modals“ (a-sagnir) og „equi-sagnir“ (b-sagnir), þá er hegðun þeirra talsvert frábrugðin.
+
+Lítum á frekari dæmi um innskot kvantara, sem Höskuldur (1983) notaði sem rök með mismunandi gerð fylliliða:
+
+(19) a. Strákarnir hafa allir lesið bókina.
+b. Strákarnir reyndu allir að lesa bókina.
+c. *Strákarnir lofuðu allir að lesa bókina.
+
+Í (19)a sjáum við að kvantarinn allir getur staðið milli hjálparsagnarinnar og aðalsagnarinnar. Ef við gerum ráð fyrir að hafa lesið bókina sé ekki einn sagnliður, heldur sé hafa sögn sem tekur aðra setningu sem fyllilið, þá mætti útskýra stöðu allir sem leifar af frumlagi þeirrar neðri setningar. Hins vegar, ef við lítum á (19)c, þar sem so. lofa á í hlut, virðist kvantarinn eiga erfiðara uppdráttar í sömu stöðu ef hann á að vísa til frumlags aðalsetningarinnar en vera jafnframt hluti af aukasetningunni. Þetta styður þá tilgátu að hjálparsagnir séu „gegnsærri“ en aðrar sagnir.
+
+3.1 Samband sagnar og andlags í fallháttum
+Ein af meginröksemdunum fyrir því að sagnir í fallháttum myndi setningarlið með fylgiorðum sínum er sú staðreynd að þær lúta sömu takmörkunum um röð og val á andlögum og sagnir í persónuhætti, en eru jafnframt hreyfanlegri sem heild. Ef við skoðum röð óbeins og beins andlags:
+
+(20) a. Jón gaf Maríu bókina.
+b. Jón hefur gefið Maríu bókina.
+c. Gefið Maríu bókina hefur Jón.
+d. *Gefið bókina Maríu hefur Jón.
+
+Dæmi (20)d sýnir að jafnvel þótt við færum allan „sagnliðinn“ fremst í setninguna, þá verður innbyrðis röð andlaganna að vera í samræmi við það sem gildir í venjulegum setningum. Þetta bendir til þess að í djúpgerð séu þessi tengsl fastmælt. Spurningin sem við stöndum frammi fyrir er þessi: Ef sagnliðurinn er til í djúpgerð fyrir allar sagnir, hvers vegna er hann þá svona „lekur“ þegar persónuháttarsögn á í hlut?
+
+Hér má draga inn kenningar Schwartz (1972a, 1972b) um að sagnliðurinn sé ekki algildur. Ef við gerum ráð fyrir að íslenska hafi í raun „flata“ setningagerð í persónuhætti, þar sem frumlag, sögn og andlög standa á sama stigi í hríslunni (e. tree structure), en hafi hins vegar stigskipta gerð þegar hjálparsagnir koma við sögu, þá getum við útskýrt hvers vegna hægt er að stinga liðum á milli sagnar og andlags í (13) og (14), en ekki í (16)b.
+
+4. Staða neitunar og atviksorða
+Annað vandamál sem við þurfum að leysa varðar stöðu neitunarinnar ekki og annarra setningaatviksorða. Í hefðbundinni sagnliðsgreiningu er gert ráð fyrir að neitun standi utan sagnliðarins. En í íslensku sjáum við oft að neitunin virðist „lokast inni“ í sagnasamböndum í ákveðnum tilvikum, eða að hún hagar sér á svipaðan hátt og andlagið engan í dæmi (24).
+
+(21) a. Hann hefur ekki lesið bókina.
+b. *Hann hefur lesið ekki bókina.
+c. ?Ekki lesið bókina hefur hann.
+
+Dæmi (21)c er talsvert vafasamt, en margir málnotendur telja það þó skárra en (21)b. Ef (21)c er mögulegt, þá þýðir það að neitunin getur verið hluti af þeim lið sem færist. Þetta stangast á við þá hugmynd að sagnliðurinn innihaldi aðeins sögn og andlög. Ef neitunin getur verið hluti af sagnliðnum, þá þurfum við að endurskoða skilgreininguna á honum.
+
+En lítum nánar á (24)a-c aftur. Þar var sýnt fram á að engan getur ekki staðið á eftir aðalsögninni í hjálparsagnasambandi ef það á að hafa neitandi merkingu yfir alla setninguna (nema í sérstökum áherslutilfellum). Þetta sýnir að ákveðnar gerðir andlaga hafa sterka tilhneigingu til að færast vinstri yfir aðalsögnina. Þessi færsla (oft kölluð Object Shift eða Scrambling) er einmitt eitt af því sem ruglar myndina af sagnliðnum sem fastri einingu.
+
+4.2 Setningar án hjálparliðar: Djúpgerðarvandi
+Ef við samþykkjum þá tillögu sem sett var fram í lok inngangsins, um að liðgerðarregla setningar sé (til bráðabirgða):
+
+(12) S -> NP (Aux) V (NP) (NP) (PP)*
+
+þá sjáum við að við erum í raun að gera ráð fyrir tveimur ólíkum gerðum af setningum í sömu reglunni. Annars vegar setningum þar sem sögnin (V) er aðalsögn og enginn hjálparliður er til staðar, og hins vegar setningum þar sem hjálparliðurinn er fylltur og aðalsögnin fylgir á eftir. En eins og áður hefur verið sýnt fram á, þá er hegðun sagnarinnar í þessum tveimur tilvikum gjörólík.
+
+Í setningu án hjálparliðar færist sögnin alltaf í annað sætið (V2). Ef við teiknum þetta upp samkvæmt X-bar kenningunni, þá færist V úr höfði sagnliðarins (V) upp í höfuð beygingarliðarins (I) og þaðan hugsanlega í höfuð tengiliðarins (C). En ef hjálparsögn er til staðar, þá er það hún sem framkvæmir þetta ferðalag, á meðan aðalsögnin situr eftir í fallhætti.
+
+Hér kemur röksemdin um „c-command“ við sögu. Ef hreyfður liður verður að hafa vald yfir (c-command) spori sínu (trace), þá verður upprunalega staða sagnarinnar að vera neðar í trénu en lendingarstaðurinn. Ef við höfnum sagnliðnum í persónuháttarsetningum, hvar er þá sporið? Ef setningin er „flöt“ frá upphafi, þá er engin færsla, og þar með ekkert spor. Þetta myndi einfalda setningafræðilega lýsingu á íslensku að sumu leyti, en það myndi skapa vandræði annars staðar, sér í lagi varðandi úthlutun falls (case marking) og merkingarhlutverka (theta-roles), sem jafnan er talið gerast innan sagnliðar.
+
+5. Samanburður við ensku: Eru málin eins í grunninn?
+Það er oft litið svo á í samanburðarmálfræði að öll mál heimsins deili ákveðinni grunnbyggingu (Universal Grammar). Chomsky (1957, 1981) og fylgjendur hans hafa lengi haldið því fram að munur á málum felist fremur í breytum (parameters) en í ólíkum grunnreglum. Ef enska hefur sagnlið, þá ætti íslenska einnig að hafa hann.
+
+En eins og vikið var að í dæmum (14)-(15), þá er munurinn á ensku og íslensku sláandi þegar kemur að því hvað má standa á milli sagnar og andlags. Í ensku er sagnliðurinn mjög „þéttur“:
+
+(22) a. John often eats apples.
+b. *John eats often apples. (Ísl: Jón borðar oft epli.)
+
+Í íslensku er (22)b hins vegar eðlilegasta röðin. Sú staðreynd að atviksorð geta staðið á milli sagnar og andlags í íslensku en ekki ensku hefur verið notuð sem rök fyrir því að sögnin í íslensku hafi færst út úr sagnliðnum (V-to-I movement), á meðan enska aðalsögnin sitji kyrr (nema hjálparsagnirnar be og have).
+
+En hvað ef við snúum dæminu við? Hvað ef íslenska sögnin færist alls ekkert, heldur sé hún bara „fædd“ í hærri stöðu? Ef svo er, þá þurfum við enga tilgátu um sagnlið til að skýra stöðu hennar. Þetta myndi hins vegar þýða að íslenska og enska væru í grundvallaratriðum ólíkar að gerð, sem er niðurstaða sem margir generatífir málfræðingar vilja forðast.
+
+5.1 Sagnir í fallháttum sem setningafylliliðir
+Snúum okkur aftur að þeirri hugmynd að sagnir í fallháttum (hafa lesið, vera barinn) séu í raun höfuð í eigin setningum (fylliliðasetningum). Við höfum áður séð að Höskuldur Þráinsson (1983) gerir greinarmun á tegundum sagnfylliliða. Hann telur að sumar sagnir taki „sagnlið“ en aðrar „setningu“.
+
+Lítum á muninn á reyna og lofa:
+
+(23) a. Jón reyndi [að lesa bókina].
+b. Jón lofaði [að lesa bókina].
+
+Við fyrstu sýn virðast þessar setningar eins. En ef við beitum prófum á borð við afturbeygingu eða eyðingu frumlags, kemur í ljós munur. Í (23)a er gert ráð fyrir að ekkert frumlag sé í neðri setningunni í djúpgerð (eða að það sé háð því efra á mjög beinan hátt), á meðan (23)b gæti innihaldið ósýnilegt frumlag (PRO) sem vísar til Jóns.
+
+Ef við yfirfærum þetta á hjálparsagnirnar hafa og vera, þá sjáum við að þær eru enn skildari reyna en lofa. Í setningunni Jón hefur lesið bókina er enginn merkingarlegur munur á frumlagi hafa og frumlagi lesið. Í raun virðist hafa ekki úthluta neinu merkingarhlutverki til frumlagsins; það hlutverk kemur eingöngu frá lesið. Þetta er sterkt einkenni „raising“-sagna.
+
+6. Niðurfærsla í hríslu og aðrar hömlur
+Í dæmi (3)c var nefnt að ummyndanir mættu ekki „lækka“ liði í hríslu. Þetta er mikilvægt atriði. Ef við gerum ráð fyrir að setningin hafi stigskipta byggingu, þá má gera ráð fyrir að reglur virki „upp á við“. Liður sem er neðarlega í trénu getur færst ofar (t.d. í spurnarsetningum eða við áherslufærslu), en liður sem er ofarlega á ekki að geta færst niður í sagnliðinn.
+
+Hins vegar sjáum við í dæmum um hjálparsagnir að þær virðast hafa áhrif á „neðri“ hluta setningarinnar á hátt sem venjulegar sagnir hafa ekki. Þetta hefur leitt sumra til þess að telja að hjálparsagnir og aðalsagnir séu í raun hluti af sama „stóra“ sagnliðnum í djúpgerð, sem síðan klofnar upp í yfirborðsgerð.
+
+Schwartz (1972a) bendir á að ef við bindum bann við færslu við „höfuð“ liðarins, þá megi skýra hvers vegna sumir hlutir eru kyrrir á meðan aðrir hreyfast. Í íslensku er sögnin höfuð setningarinnar (eða sagnliðarins). Ef hún er kyrr í öðru sæti (V2), þá virkar hún eins og akkeri fyrir andlögin. En ef hún færist sjálf, eins og gerist í spurnarsetningum:
+
+(24) a. Hefur Jón lesið bókina?
+b. *Hefur lesið Jón bókina?
+
+Hér sjáum við að aðalsögnin lesið getur ekki fylgt hjálparsögninni eftir í spurnarfærslunni. Þetta sýnir að tengslin milli hafa og lesið eru ekki svo sterk að þau myndi eina órjúfanlega einingu í öllum tilvikum. Þetta eru rök gegn því að þær myndi einn samsettan sagnlið í öllum stigum greiningarinnar.
+
+7. Samantekt á rökum með og á móti sagnlið
+Áður en við höldum lengra er rétt að draga saman þau rök sem fram hafa komið varðandi tilvist sagnliðar í íslensku, sér í lagi í ljósi hjálparsagna:
+
+Rök með sagnlið (VP):
+
+Sagnliðsfærsla: Hægt er að færa fallháttarsögn og andlag hennar sem eina heild fremst í setningu (Lesið bókina hefur hann).
+
+Merkingarhlutverk: Sögnin og andlögin mynda merkingarlega heild sem ákvarðar röksetningu (argument structure) setningarinnar.
+
+Samanburður við önnur mál: Samræmi við greiningu á ensku og öðrum skyldum málum styður tilvist sambærilegra liða.
+
+Hjálparsagnir: Hegðun sagnfylliliða með hjálparsögnum bendir til þess að þeir séu einingar (liðir eða setningar).
+
+Rök á móti sagnlið (eða fyrir „flata“ gerð):
+
+Vinstri-færsla andlaga: Íslensk andlög geta auðveldlega færst út úr sagnliðnum og yfir atviksorð eða aðrar sagnir.
+
+Innskot liða: Hægt er að stinga frumlagi, atviksorðum og neitun inn á milli sagnar og andlags í mörgum tilvikum.
+
+V2-reglan: Sögnin í persónuhætti virðist aldrei standa í sagnliðnum í yfirborðsgerð, sem gerir tilvist hans „ósýnilega“ í flestum venjulegum setningum.
+
+Algildi: Ef sum mál (eins og Schwartz heldur fram) hafa ekki sagnlið, þá er engin fræðileg nauðsyn á að þröngva honum upp á íslensku.
+
+8. Ný tillaga að setningagerð: Hinn deili-sagnliður
+Ef við föllumst á að hefðbundni sagnliðurinn (eins og hann er skilgreindur í ensku) passi illa við íslenskan raunveruleika, þurfum við að huga að öðrum kostum. Ein tillaga, sem hér verður kölluð tilgátan um deili-sagnlið, gerir ráð fyrir að sagnliðurinn sé ekki einn fastur liður, heldur röð af minni sagnliðum (vP-shells), þar sem hver sögn (hjálparsögn eða aðalsögn) og hvert andlag á sinn stað.
+
+Í þessu líkani væri gerð setningarinnar Jón mun hafa lesið bókina eitthvað á þessa leið:
+
+[CP [C mun] [IP Jón [I t_mun] [vP t_Jón [v hafa] [vP lesið bókina]]]]
+
+Hér sjáum við að hver hjálparsögn tekur annan sagnlið (vP) sem fyllilið. Þetta útskýrir hvers vegna við getum fært lesið bókina sem eina heild – það er einfaldlega neðsti vP-liðurinn í píramídanum. Það útskýrir líka hvers vegna við getum stungið kvönturum eða atviksorðum á milli – þeir geta staðið í jöðrum þessara mörgu liða.
+
+En hvað með persónuháttarsagnir í einföldum setningum?
+
+(25) Jón las bókina.
+
+Í þessu nýja líkani væri gerðin:
+
+[CP [C las] [IP Jón [I t_las] [vP t_Jón [v t_las] bókina]]]
+
+Hér er sagnliðurinn til staðar, en hann er „tómur“ að öðru leyti en því að innihalda andlagið og sporið eftir sögnina. Þetta útskýrir hvers vegna sagnliðurinn virðist ekki vera til staðar: þegar sögnin er farin og frumlagið er farið, þá er andlagið það eina sem eftir er.
+
+9. Niðurstöður og frekari spurningar
+Við höfum nú farið yfir helstu röksemdir varðandi sagnliðinn og hjálparsagnir í íslensku. Ljóst er að sú einfalda mynd sem Syntactic Structures (1957) dró upp af setningagerð á tæpast við um íslensku án verulegra breytinga. Munurinn á íslensku og ensku, sér í lagi hvað varðar hreyfanleika sagnarinnar og andlaga hennar, krefst þess að við gerum ráð fyrir sveigjanlegri liðgerð.
+
+Þær spurningar sem enn standa ósvaraðar eru meðal annars:
+
+Hvernig ákvarðast nákvæmlega lendingarstaður atviksorða í þessum mörgu sagnliðum?
+
+Er munur á „equi“-sögnum og hjálparsögnum fólgin í því að þær fyrrnefndu taki CP en hinar vP?
+
+Má útskýra fallmörkun í íslensku án þess að gera ráð fyrir sagnlið sem „local“ umhverfi?
+
+Eins og staðan er núna virðist vænlegast að halda í hugmyndina um sagnlið sem djúpgerðareiningu, en viðurkenna að í íslensku sé hann mun opnari og gegnsærri en í mörgum öðrum málum. Það er einmitt þessi gegnsæi sem gerir það að verkum að við getum leikið okkur með orðaröðina á þann hátt sem raun ber vitni í (16)-(17) og (24).
+
+Við höfum einnig séð að rök Höskuldar Þráinssonar (1983) um fjóra flokka sagnfylliliða eiga enn við, þótt við kunnum að vilja endurskilgreina þá innan nýrri kenninga. Munurinn á milli þeirra sem taka setningarliði og þeirra sem falla beint inn í sagnliðsbygginguna er lykillinn að því að skilja hvernig íslenska setningin er sett saman.
+
+Að lokum má segja að höfnun á hinum hefðbundna, stífa sagnlið sé ekki endilega höfnun á sagnliðnum sem slíkum, heldur viðurkenning á því að íslenska hefur ríkulegri og flóknari setningagerð en dæmin frá ensku gáfu tilefni til að ætla í upphafi generatífrar málfræði.
+
+Tilvísanir (Valdar):
+
+Chomsky, Noam. 1957. Syntactic Structures. Mouton, The Hague.
+
+Chomsky, Noam. 1981. Lectures on Government and Binding. Foris, Dordrecht.
+
+Höskuldur Þráinsson. 1979. On Complementation in Icelandic. Garland, New York.
+
+Höskuldur Þráinsson. 1983. „Sagnliður í íslensku“. Íslenskt mál og almenn málfræði 5:7-54.
+
+Schwartz, Arthur. 1972a. „Constraints on Movement Transformations“. Journal of Linguistics 8:35-85.
+
+Schwartz, Arthur. 1972b. „The VP-Constituent of SVO Languages“. Syntax and Semantics 1:213-235. Academic Press, New York.

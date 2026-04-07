@@ -1,0 +1,48 @@
+Málfræðilegar rannsóknir á sagnlið í íslensku: Rök, gagnrýni og framtíðarsjónarmið
+
+Inngangur
+Málfræðin, sem fræðigrein, hefur alltaf leitað að grundvallaratriðum sem skilgreina málfræðilega uppbyggingu málsins sjálfs. Einn af þessum grundvallaratriðum er skipting setninga í setningarliði, þar sem sérstakur sagnliður hefur oft verið viðurkenndur sem einn af lykilþáttum málfræðinnar. Í íslensku, sem einu germenska máli sem hefur varðveitt mörg af þeim málfræðilegum sérbrykkjum sem finnast í forn germönskum málum, hefur skipting sagnliðarins verið sérstaklega umfjölluð og rannsökuð.
+Þessi grein hefur það markmið að rannsaka mismunandi viðhorf til sagnliðarins, með áherslu á þá rök sem hafa verið sett fram til stuðnings við tilvist hans, ásamt gagnrýni og framtíðarsjónarmiðum. Við munum líta á kenningar Schwartz, Chomsky, og Höskuldar Þráinssonar, ásamt dæmum úr íslensku og öðrum málum, til að skilja betur þá flóknu samspil sem skilgreina sagnliðinn sem setningarlið.
+
+Sagnliðurinn sem sérstakur setningarliður
+Skilgreining og grundvallaratriði
+Sagnliðurinn hefur verið skilgreindur sem sú hluti setningar sem inniheldur sögnina ásamt öllum fylgiorðum hennar, svo sem andlög, forsetningarliði, og atviksorð. Í mörgum málfræðikerfum hefur þessi skipting verið talin grundvallaratriði til að skilja setningarbyggingu.
+Í íslensku, til dæmis, eru sagnir í fallháttum oft notast við til að bæta við sig fylliliðum, og þetta hefur leitt til þess að málfræðingar hafa viðurkennt sérstakan sagnlið. Þetta er í mótsögn við það sem oft er talið um nafnliði, þar sem nafnliður inniheldur a.m.k. einn nafnorð og mögulega lýsingarorð eða forsetningarliði.
+Dæmi úr íslensku
+Tökum eftirfarandi dæmi til að lýsa þessu:
+
+(1)a Jón las bókina.
+(1)b Bókina las Jón.
+Í (1)a er frumlagið (Jón) fyrir framan sögnina (las), en í (1)b hefur frumlagið verið fært aftan við sögnina. Þetta er mögulegt vegna þess að sögnin er í fallhætti, og það leyfir okkur að breyta röð frumlagsins án þess að breyta grundvallar merkingu setningarinnar. Þetta bendir til þess að sagnliðurinn getur verið sjálfstæður setningarliður, og að hann geti verið færður á milli setningarliða án þess að breyta grundvallar merkingu setningarinnar.
+Rök fyrir tilvist sagnliðs
+Eitt af þeim sterkustu rökum fyrir tilvist sérstaks sagnliðs er það að sagnir í fallháttum og persónuháttum hegða sér á ólíkan hátt í setningum. Þetta skilur sig frá öðrum setningarliðum og bendir til þess að sagnliðurinn sé sérstakur setningarliður.
+Að viðurkenna sérstakan sagnlið getur einnig einfaldar málfræðina á fjölmarga vegu. Til dæmis getur það leitt til þess að setningarliðar verða skilgreindir á nákvæmari hátt, og að málfræðireglur verði einfaldari.
+
+Kenningar og viðhorf til sagnliðarins
+Kenningar Schwartz
+Schwartz (1972a, 1972b) hefur lagt fram fjölmörg rök fyrir því að sagnliður sé sérstakur setningarliður. Eitt af þeim sterkustu rökum sem Schwartz leggur fram er það að sagnir í fallháttum og persónuháttum hegða sér á ólíkan hátt í setningum, og að þetta skilur sig frá öðrum setningarliðum.
+Samkvæmt Schwartz er sagnliðurinn sá setningarliður sem inniheldur sögnina og öll fylgiorð hennar, þar með talið andlög, forsetningarliði, og atviksorð. Þetta er í mótsögn við það sem oft er talið um nafnliði, þar sem nafnliður inniheldur a.m.k. einn nafnorð og mögulega lýsingarorð eða forsetningarliði.
+Kenningar Chomskys
+Noam Chomsky, sem er einn af þekktustu málfræðingum 20. aldar, hefur gagnrýnt hugmyndir Schwartz um sérstakan sagnlið. Chomsky heldur því fram að sagnliðurinn sé ekki sérstakur setningarliður, heldur sé hann afleiðing af öðrum málfræðilegum fyrirbærum.
+Chomsky bendir einnig á að skipting sagnliðarins sé ekki algilt fyrirbæri, heldur sé hann háður málinu sjálfu. Þetta bendir til þess að skipting sagnliðarins sé ekki augljós eða algild, heldur sé hún háð málinu sjálfu.
+Kenningar Höskuldar Þráinssonar
+Höskuldur Þráinsson (1983) hefur einnig lagt fram rök fyrir mismunandi hegðun sagnliðarins. Hann hefur bent á að í sumum málum, eins og í íslensku, sé sagnliðurinn sérstakur setningarliður, en í öðrum málum, eins og í ensku, sé hann ekki jafn augljóst.
+Höskuldur Þráinsson bendir einnig á að í sumum tilfellum geti sagnir í persónuháttum myndað sérstakan sagnlið með fylgiorðum sínum, sérstaklega þegar þær eru notast við til að bæta við sig fylliliðum. Þetta bendir til þess að skipting sagnliðarins sé ekki algilt fyrirbæri, heldur sé hann háður málinu sjálfu.
+
+Gagnrýni á hugmyndir um sagnlið
+Gagnrýni á kenningar Schwartz
+Þrátt fyrir það að Schwartz hafi lagt fram fjölmörg rök fyrir því að sagnliður sé sérstakur setningarliður, hefur hugmyndin um sagnlið sem algilt fyrirbæri verið gagnrýnd af mörgum málfræðingum. Einn af þeim sem hefur gagnrýnt hugmyndir Schwartz er Höskuldur Þráinsson (1983), sem heldur því fram að sagnliðurinn sé ekki algilt fyrirbæri, heldur sé hann háður málinu sjálfu.
+Gagnrýni á kenningar Chomskys
+Aðrir málfræðingar hafa einnig gagnrýnt hugmyndir Chomskys um sagnlið. Til dæmis hefur Schwartz (1972a, 1972b) gagnrýnt hugmyndir Chomskys um að sagnliðurinn sé ekki sérstakur setningarliður. Schwartz bendir á að skipting sagnliðarins sé ekki augljós eða algild, heldur sé hún háð málinu sjálfu.
+Samantekt á gagnrýni
+Samantakið má segja að gagnrýni á hugmyndir um sagnlið sé fjölbreytt og vel studd. Með því að taka tillit til gagnrýni málfræðinga eins og Höskuldar Þráinssonar og Noam Chomskys, verður augljóst að skipting sagnliðarins er ekki algilt fyrirbæri, heldur sé hann háður málinu sjálfu.
+
+Mismunur á milli málanna: Íslenska vs. Enska
+Sérstök einkenni íslensku
+Í íslensku eru sagnir í fallháttum oft notast við til að bæta við sig fylliliðum, og þetta hefur leitt til þess að málfræðingar hafa viðurkennt sérstakan sagnlið. Þetta er í mótsögn við það sem oft er talið um nafnliði, þar sem nafnliður inniheldur a.m.k. einn nafnorð og mögulega lýsingarorð eða forsetningarliði.
+Sérstök einkenni ensku
+Í ensku eru sagnir í fallháttum oft notast við til að mynda samsettar tíðir, en þær mynda ekki sjálfar sérstakan sagnlið. Þetta bendir til þess að skipting sagnliðarins sé ekki algilt fyrirbæri, heldur sé hann háður málinu sjálfu.
+
+Framtíðarsjónarmið um sagnlið
+Nýjar kenningar
+Nýjar kenningar um sagnlið hafa verið lagðar fram af mörgum málfræðingum, og þær hafa leitt til þess að skipting sagnliðarins hefur veri

@@ -6,10 +6,9 @@ dim1_frumlagsnafnfall.py — VÍDD 1: Fyrirsagnir/setningar án frumlagsnafnlið
 ===============================================================================
 
 TILGANGUR / PURPOSE:
-    Þetta skrifta mælir hlutfall setninga sem innihalda sögn en hafa ekkert
+    Þessi skrifta mælir hlutfall setninga sem innihalda sögn en hafa ekkert
     frumlag (NP-SBJ). Þetta er klassískt stíleinkenni fréttafyrirsagna á íslensku:
-    „Fengu verkfærakistur að gjöf" — sögnin „Fengu" er í persónu en ekkert nafnorð
-    er frumlag.
+    „Fengu verkfærakistur að gjöf“ — hér er enginn frumlagsnafnliður.
 
     This script measures the proportion of sentences that contain a finite verb
     but lack a subject noun phrase (NP-SBJ). This is a classic stylistic feature
@@ -17,10 +16,11 @@ TILGANGUR / PURPOSE:
 
 MÁLVÍSINDI / LINGUISTICS:
     Í íslensku fréttamáli er algengt að sleppa frumlagi í fyrirsögnum, sem er
-    óvenjulegt í flestum öðrum germönskum tungumálum. Þetta er stíleinkenni sem
-    mannlegir fréttamenn hafa og LLM-líkön kunna ekki endilega.
+    óvenjulegt í flestum öðrum germönskum tungumálum. Þetta kemur einnig fyrir 
+    í öðrum textum, sérstaklega óformlegum, og því er hægt að mæla hlutfall
+    setninga án og með frumlagsnafnliðar.
 
-    Milička-formúlan mælir hvort líkön hermast eftir þessu áberandi stíleinkennni.
+    Milička-formúlan mælir hvort líkön herma eftir þessu eða ekki.
 
 INNTAK / INPUT:
     Þáttuð tré úr data/parsed/human/*.txt og data/parsed/llm/*.txt
@@ -30,17 +30,16 @@ INNTAK / INPUT:
     v-gildi (hlutfall) per textaskrá, til notkunar í run_milicka.py
 
 KEYRSLA / USAGE:
-    # Sem eininga:
+    # Sem einingar:
     from dim1_frumlagsnafnfall import measure_subject_drop
     v_value = measure_subject_drop("data/parsed/human/news_ruv_parsed.txt")
 
     # Frá skipanalínu:
-    python scripts/dim1_frumlagsnafnfall.py --parsed-file data/parsed/human/news_ruv_parsed.txt
+    python3 scripts/dim1_frumlagsnafnfall.py --parsed-file data/parsed/human/news_ruv_parsed.txt
 """
 
 import argparse
 import re
-import sys
 from pathlib import Path
 
 
@@ -67,7 +66,7 @@ def load_parsed_trees(path: Path) -> list[str]:
 
     with open(path, 'r', encoding='utf-8') as f:
         # Sleppa tómum línum — þetta er öryggisráðstöfun ef einhverjar
-        # auðar línur slæddust inn í skrána.
+        # auðar línur læddust inn í skrána.
         trees = [line.strip() for line in f if line.strip()]
 
     return trees
@@ -79,7 +78,7 @@ def load_parsed_trees(path: Path) -> list[str]:
 #   1. Persónubeygða sögn (finite verb) — gefur til kynna fullsetningu
 #   2. Frumlagsnafnlið (NP-SBJ) — ef ekki, er frumlagslaust
 #   3. Boðháttur (IP-IMP) — útilokaður, þar sem boðháttur hefur
-#      aldrei frumlag í íslensku
+#      ekki frumlag í nútímaíslensku (aðeins til í fornu máli)
 # ============================================================
 
 def analyze_tree(tree_str: str) -> dict:
@@ -127,11 +126,11 @@ def analyze_tree(tree_str: str) -> dict:
     #
     # Þetta nær yfir allar persónubeygar sagnir, t.d.:
     #   VBPI = venjuleg sögn, nútíð, framsöguháttur
-    #   BEDI = „vera", þátíð, framsöguháttur
+    #   BEDI = „vera“, þátíð, framsöguháttur
     #   MDPS = hjálparsögn, nútíð, viðtengingarh.
     #
     # \b er „word boundary" — tryggir að við finnum ekki „VBPI" sem hluta
-    # af lengra orði (þó slíkt sé ólíklegt í þáttunartréum).
+    # af lengra orði (þó slíkt sé ólíklegt í þáttunartrjám).
     has_verb = bool(re.search(r'\b(VB|BE|DO|HV|MD|RD)[PD][IS]\b', tree_str))
 
     return {
@@ -144,7 +143,7 @@ def analyze_tree(tree_str: str) -> dict:
 # ============================================================
 # MÆLA HLUTFALL — AÐALMÆLING / MAIN MEASUREMENT
 # Þetta er kjarnafallið: það tekur lista af þáttuðum trjám,
-# greinir hvert tré, og reiknar hlutfall setninga án
+# greinir hvert tré og reiknar hlutfall setninga án
 # frumlagsnafnliðar.
 # ============================================================
 
@@ -155,15 +154,15 @@ def measure_subject_drop(parsed_file: Path) -> tuple[float, int, int]:
         1. Lesa öll þáttuð tré úr skrá
         2. Greina hvert tré: hefur það sögn? frumlag? boðhátt?
         3. Sía burtu setningar sem eru:
-           - Án sagnar (nafnliðar-fyrirsagnir, t.d. „Nýr forstjóri Landsbankans")
-           - Í boðhætti (t.d. „Sjáðu hér!")
+           - Án sagnar (nafnliðar-fyrirsagnir, t.d. „Nýr forstjóri Landsbankans“)
+           - Í boðhætti (t.d. „Sjáðu hér!“)
         4. Af þeim sem eftir standa: hve margar hafa ekkert NP-SBJ?
 
     Args:
         parsed_file: Slóð á skrá með þáttuðum trjám (ein lína = eitt tré).
 
     Returns:
-        Tuple af:
+        Samstæða af:
             - v: hlutfall setninga án frumlagsnafnliðar (0.0 til 1.0)
             - n_dropped: fjöldi setninga án frumlagsnafnliðar
             - n_total: heildarfjöldi gildra setninga (með sögn, ekki boðháttur)
@@ -177,25 +176,25 @@ def measure_subject_drop(parsed_file: Path) -> tuple[float, int, int]:
         result = analyze_tree(tree_str)
 
         # Sleppa setningum án sagnar — t.d. nafnliðarfyrirsagnir eins og
-        # „Nýr forstjóri Landsbankans". Þessar setningar hafa ekki frumlag
-        # af öðrum ástæðum en stíleinkenni.
+        # „Nýr forstjóri Landsbankans“. Þessar setningar hafa ekki frumlag
+        # en ástæða þess er þó ekki eitthvað sem flokkast undir þetta stíleinkenni.
         if not result['has_verb']:
             continue
 
-        # Sleppa boðhættisetningum — t.d. „Sjáðu þetta!"
-        # Boðháttur er aldrei með frumlagi á íslensku, svo þetta er
-        # málkerfisregla, ekki stílval.
+        # Sleppa setningum í boðhætti — t.d. „Sjáðu þetta!“
+        # Boðháttur er ekki með frumlagi í nútímaíslensku, svo þetta er
+        # málkerfisregla, ekki stíleinkenni.
         if result['is_imperative']:
             continue
 
         # Þetta er gild setning: hún hefur sögn og er ekki boðháttur.
         n_total += 1
 
-        # Ef engin NP-SBJ finnst → setningin er frumlagslaus
+        # Ef engin NP-SBJ finnst → setningin er frumlagsnafnliðarlaus
         if not result['has_subject']:
             n_dropped += 1
 
-    # Reikna hlutfall. Vernda gegn deilingu með núlli.
+    # Reikna hlutfall. Bannað að deila með núlli.
     v = n_dropped / n_total if n_total > 0 else 0.0
 
     return v, n_dropped, n_total
@@ -203,7 +202,7 @@ def measure_subject_drop(parsed_file: Path) -> tuple[float, int, int]:
 
 # ============================================================
 # SKIPANALÍNUVIÐMÓT / COMMAND LINE INTERFACE
-# Gerir kleift að keyra skriftið sjálfstætt til prófunar.
+# Til að keyra skriftuna.
 # ============================================================
 
 def main() -> None:
@@ -224,14 +223,14 @@ Dæmi:
 
     args = parser.parse_args()
 
-    # Keyra mælinguna
+    # Keyra mælingu
     v, n_dropped, n_total = measure_subject_drop(args.parsed_file)
 
     # Prenta niðurstöðu á skipanalínu
     print(f"\nVÍDD 1: Frumlagsnafnliðarleysi (subject drop)")
     print(f"{'=' * 50}")
     print(f"  Skrá: {args.parsed_file.name}")
-    print(f"  Gildar setningar (með sögn, ekki boðháttur): {n_total}")
+    print(f"  Gildar setningar (með sögn sem er ekki í boðhætti): {n_total}")
     print(f"  Án frumlagsnafnliðar: {n_dropped}")
     print(f"  Hlutfall (v): {v:.4f} ({v:.1%})")
     print(f"{'=' * 50}")

@@ -1,0 +1,200 @@
+Útvíkkaður texti um TUR syndrome og skyld viðfangsefni í skurðlækningum
+
+Eftir uppskrift með tilliti til upphaflega textans
+
+
+
+1. Inngangur: TUR syndrome og þau vísindalegu viðfangsefni sem fylgja
+
+TUR syndrome (Transurethral Resection Syndrome) er alvarlegur og stundum lífshættulegur fylgikvilli sem getur komið upp við skurðaðgerðir á þvagblöðru og blöðruhálskirtli, sér í lagi við TURP (Transurethral Resection of the Prostate) og TURB (Transurethral Resection of Bladder). Þetta syndrome felur í sér röskun á jafnvægi í líkamsvökvum, sérstaklega vegna þess að þvagleysa (hypo-osmolar vökvi) sem notuð er við speglun og skurð í þvagrás getur flætt út í blóðrásina. Þetta veldur hyponatremiu (lágum natríumgildi), sem aftur getur leitt til alvarlegra heilaskemmda, hjartsláttaróreglu og jafnvel dauða.
+
+Rannsóknir hafa sýnt að TUR syndrome er ekki eingöngu afleiðing áþreifanlegra vökvaskorts, heldur einnig af súrefnisþurrð í sléttum vöðvafrumum í æðaveggjum, blóðflögum og innþekju æðanna. Þetta veldur kröftugum samdrætti í bláæðum, sem getur leitt til blóðþrýstingsfalls, bráðrar nýrnabilunar og heilabjúgs. Einnig hefur verið sýnt fram á að P2Y6-viðtakar í æðaveggjum geti haft áhrif á vöxt sléttra vöðvafruma, sem getur stuðlað að stíflun í bláæðagræðlingum og þar með aukinni hættu á TUR syndrome.
+
+Þessi texti hefur það markmið að fjalla um TUR syndrome og skyld viðfangsefni í skurðlækningum, með áherslu á mekanismana, meðferðir, rannsóknarniðurstöður og klínískar upplifanir. Við skoðum einnig tilfelli úr starfi skurðlækna og nýtísku tækni sem hafa verið prófaðar til að draga úr hættu á þessum alvarlega fylgikvillum.
+
+
+
+2. Tækni og aðferðir við TUR syndrome: Frá speglun til aðgerða
+
+2.1. Speglun og skurðtækni í mænuvökvadeyfingu
+
+Við reglubundið eftirlit hjá þvagfæraskurðlækni á Landspítala Hringbraut í nóvember 2002 kom í ljós 2x2 cm stór fyrirferð í bakvegg endaþarms. Þessi fyrirferð var bráðvarkár, og var tilkynnt um það strax. Mikilvægt er að vera vel á verði gagnvart fyrstu einkennum þess, sérstaklega ef sjúklingur sýnir tíðar þvaglátum, bráðamigu (bráð þvagmiga), blóðmigu eða verkjum. Þetta getur verið fyrsta vísbending um yfirvofandi hættu á TUR syndrome eða öðrum alvarlegum fylgikvillum.
+
+Speglun og aðgerðir voru framkvæmdar í mænuvökvadeyfingu, sem er staðdeyfing sem hefur þann kost að sjúklingur getur gefinn fyrstu vísbendingar um yfirvofandi hættu, sérstaklega ef blóðþrýstingur fellur skyndilega eða ef súrefnisskortur verður áberandi. Nútímaskurðtækni hefur einnig leitt til val á heppilegum skolvökvum og styttri aðgerðartíma, sem minnkar mjög hættuna á þessum lífshættulega fylgikvillum.
+
+2.2. Tækni fyrir TUR syndrome: Notkun á P2X1 og P2Y6 viðtökum
+
+Rannsóknir hafa sýnt að gerandefni fyrir P2X1-viðtaka, sér í lagi ab-MeATP, hefur mest áhrif á samdrætti í bláæðum (K25 = 5,19, Cmax = 76 ± 10) samanborið við slagæðar (K25 = 4,15, Cmax = 24 ± 13, p<0,05). Þetta bendir til þess að P2X1-viðtakar geti verið lykilþáttur í þróun TUR syndrome, sérstaklega ef vökvaskortur verður vegna þvagleysuflæðis í blóðrásina.
+
+Að öðru leyti hefur gerandefni fyrir P2Y6-viðtaka, eins og UDPbS, einnig kröftug áhrif á samdrætti í bláæðum (K25 = 4,99, Cmax = 80 ± 30). Þetta styður tilgátu um að P2Y6-viðtakar geti örvað vöxt sléttra vöðvafruma í æðaveggjum, sem getur leitt til stíflunar í bláæðagræðlingum og aukinna líkur á TUR syndrome.
+
+
+
+3. Klínískar upplifanir: Tilfelli og meðferðir
+
+3.1. Tilfelli af TUR syndrome á Landspítala Hringbraut
+
+Á Landspítala Hringbraut var tilfelli af svæsnu TUR syndrome skráð þegar speglun og aðgerð voru framkvæmdir á þvagfæradeild. Sjúklingurinn var 46 ára gamall karlmaður sem fór í TURP-aðgerð vegna stækkaðs blöðruhálskirtils. Aðgerðin tók 230 mínútur og gekk vel á fyrstu viku, en bráðamiga og blóðmiga komu fram fimm dögum eftir aðgerð.
+
+Greiningin varð til þess að nýtt barkarræna var sett niður í skyndi, og slagæðaleggur var settur til að halda blóðþrýstingi uppi. Eftir aðgerðina var sjúklingurinn vakinn og andlega og líkamlega í lagi, en þvaglát var tíð og blóðmiga hélt áfram. Meðferðin fólst í hreinsun blöðruvefs, sterameðferð og sýklalyfjagjöf, og sjúklingurinn var útskrifaður á deild þann sama dag.
+
+3.2. Meðferð við eðlilegu ástandi: Húðágræðsla og stoðleggir
+
+Stoðleggir (stents) úr málmblöndum hafa verið reyndir með misjöfnum árangri til að auðvelda meðferðina og minnka hættuna á fylgikvillum. Einnig hefur húðágræðsla verið notuð til að græða sár sem koma upp við áverka eða skurðaðgerðir.
+
+Eitt tilfelli sem var skráð var 76 ára karlmaður með endurteknar blóðmigu í fimm ár, sem fór í TURB-aðgerð vegna grunnsæins krabbameins í blöðruhálskirtli. Aðgerðin tók 150 mínútur og gekk vel, en bráðamiga og blóðmiga héldu áfram í nokkra daga eftir aðgerðina. Meðferðin fólst í hreinsun blöðruvefs, sterameðferð og eftirliti með nýrnastarfsemi.
+
+
+
+4. Rannsóknir og niðurstöður: Frá Fenyö-Lindberg stigakerfi til nýrra tækni
+
+4.1. Fenyö-Lindberg stigakerfi: Betri greining á bráðum botnlangabólgum
+
+Fenyö-Lindberg stigakerfi hefur verið notað til að betrumbæta greiningu á bráðum botnlangabólgum, sérstaklega hjá konum. Rannsóknir sýndu að stigakerfið jók greiningarhæfni hjá konum (0,83 á móti 0,70 (p<0,01)), sérstaklega á aldrinum 15-30 ára (JFG jókst úr 0,69 í 0,82) og 31-50 ára (0,68 í 0,86) (p<0,01).
+
+Þetta stigakerfi hefur einnig verið notað til að meta áhættu á TUR syndrome og öðrum fylgikvillum, sérstaklega ef sjúklingur er með fyrirferðir í þvagrás eða blöðruhálskirtli.
+
+4.2. Ný tækni: Val á skolvökvum og styttri aðgerðartími
+
+Nútímaskurðtækni hefur leitt til val á heppilegum skolvökvum og styttri aðgerðartíma, sem hefur minnkað hættuna á TUR syndrome. Einnig hefur notkun á títaníum-málmblöndu í Memokath® þvagrásarleggjum auðveldað ísetningu og fjarlægingu, sérstaklega ef vefjatap er ekki til staðar.
+
+Memokath® leggir eru gormlaga og geta þanist út við sprautun á 50 °C heitu vatni og mýkist við 10 °C köldu vatni, sem gerir þá auðvelda ísetningu og fjarlægingu.
+
+
+
+5. Framtíðarsýn: Rannsóknir og ný tækni
+
+5.1. Rannsóknir á P2X1 og P2Y6 viðtökum
+
+Rannsóknir á P2X1 og P2Y6 viðtökum eru í gangi til að betur skilja mekanismana bak við TUR syndrome. Fjölforma PCR tækni hefur verið notuð til að mæla mRNA P2 viðtaka, og niðurstöður benda til þess að P2X1 og P2Y6 viðtakar geti verið lykilþættir í þróun sjúkdómsins.
+
+5.2. Ný tækni: TURB með sterameðferð
+
+TURB með sterameðferð hefur verið prófuð til að minnka hættuna á endurteknum krabbameinum og fylgikvillum. Niðurstöður sýna að sterameðferð getur minnkað vöxt krabbameinsfruma og aukið árangur aðgerðanna.
+
+
+
+6. Samantekt: TUR syndrome og klínísk áhrif
+
+TUR syndrome er alvarlegur og stundum lífshættulegur fylgikvilli við skurðaðgerðir á þvagblöðru og blöðruhálskirtli. Með nýrri tækni, betri val á skolvökvum og styttri aðgerðartíma hefur hættan minnkað, en meðferðin er tímafrekar og krefst skilnings á mekanismunum bak við sjúkdóminn.
+
+Rannsóknir á P2X1 og P2Y6 viðtökum, Fenyö-Lindberg stigakerfi og ný tækni eins og Memokath® leggir og sterameðferð benda til þess að betri meðferð og greining sé möguleg í framtíðinni.
+
+
+
+7. Viðauki: Tilvísanir og framtíðarsýn
+
+
+
+
+
+
+
+Heiti
+
+
+
+Höfundar
+
+
+
+Ár
+
+
+
+Þáttur
+
+
+
+
+
+TUR syndrome: Greining og meðferð
+
+
+
+Antonios Koumouridis, Jónas Magnússon
+
+
+
+2002
+
+
+
+Rannsóknir á TUR syndrome og meðferð við því.
+
+
+
+
+
+Fenyö-Lindberg stigakerfi
+
+
+
+Tómas Guðbjartsson, Lars Enochsson
+
+
+
+2000
+
+
+
+Betri greining á bráðum botnlangabólgum.
+
+
+
+
+
+Memokath® leggir
+
+
+
+Daði Þór Vilhjálmsson, Shree Datye
+
+
+
+2002
+
+
+
+Ný tækni fyrir þvagrásarleggi.
+
+
+
+
+
+P2X1 og P2Y6 viðtakar
+
+
+
+Rafn Hilmarsson, Eiríkur Jónsson
+
+
+
+2002
+
+
+
+Rannsóknir á viðtökum og áhrif þeirra á TUR syndrome.
+
+
+
+8. Lokaniðurstaða: Hvað eiga skurðlæknar að hafa í huga?
+
+
+
+
+
+Verið varkár gagnvart fyrstu einkennum TUR syndrome, sérstaklega ef sjúklingur sýnir tíð þvaglátum, bráðamigu eða blóðmigu.
+
+
+
+Notið mænuvökvadeyfingu til að auðvelda sjúklingi að gefa fyrstu vísbendingar um yfirvofandi hættu.
+
+
+
+Notið ný tækni eins og Memokath® leggir og sterameðferð til að minnka hættuna á fylgikvillum.
+
+
+
+Fylgið klínískum leiðbeiningum og nýjustu rannsóknarniðurstöðum til að tryggja bestu meðferðina fyrir sjúklinga.
+
