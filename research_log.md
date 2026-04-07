@@ -522,8 +522,15 @@ Sniðmát:
 | Blog     | ⏳             | ⏳       | ✅ 6/15       | ⏳ |
 | News     | ⏳             | ⏳       | ⏳            | ⏳ |
 
+**Tilraun á gölluðum eða ekki gölluðum gögnum**
+gemini_3_thinking:    4 files,  9 passages,    169 words
+gpt_5:                1 file,   1 passage,      19 words
+le_chat_fast:        11 files, 192 passages,  5,471 words
+le_chat_thinking:    15 files,  66 passages,  3,879 words
+
 **Næstu skref:**
 - Klára blogg-texta fyrir Gemini 3 Thinking, GPT-5, Le Chat Thinking
 - Byrja á frétta-textum (news) fyrir öll líkön
 - Keyra `preprocess_llm_output.py` á kláruðum fræðitextum til að prófa forvinnslu
 - Athuga hvort 6 sýni dugi fyrir bootstrap
+- Skoða lechat_thinking_academic_prompt_009.txt: 93% repetition (1033 of 1112 words)
