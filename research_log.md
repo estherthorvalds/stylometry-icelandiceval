@@ -534,3 +534,62 @@ le_chat_thinking:    15 files,  66 passages,  3,879 words
 - Keyra `preprocess_llm_output.py` á kláruðum fræðitextum til að prófa forvinnslu
 - Athuga hvort 6 sýni dugi fyrir bootstrap
 - Skoða lechat_thinking_academic_prompt_009.txt: 93% repetition (1033 of 1112 words)
+
+
+### 8. apríl 2026 — LLM-textagerð lokið, forvinnsla og skráning (6.–8. apríl)
+
+**Tími:** 3 tímar
+
+**Hvað gerði ég:**
+- Kláraði alla LLM-textagerð: öll 4 módel × 3 flokkar. 
+- Handvirkt í gegnum spjallviðmót (engin API). Samtals ~180 prompt-tilraunir.
+- Handvirk forvinnsla á LLM-úttaki eftir þörfum:
+  - Le Chat Thinking blog_011: stytting á enda vegna token-lykkju ("alveg alveg alveg...")
+  - Le Chat Thinking blog_012: tvær degenerate línur fjarlægðar úr miðjum texta (token-lykkja), umliggjandi samhangandi texti fékk að haldast eins og hann var
+  - Gemini: greiningarhlutar (analysis) fjarlægðir handvirkt þar sem líkanið greindi textann í stað þess að halda áfram. Þarf samt að skoða textana betur, gæti verið eitthvað um greiningar eða umorðanir í stað áframhaldandi texta.
+  - Le Chat Thinking: umorðun á prompttexta í stað nýrrar textagerðar — skráð en ekki leiðrétt sjálfkrafa
+- Le Chat Fast í excluded/: blog_002 (ljóðræn lykkja), blog_003 (efnislykkja), blog_015 (fyrirsagnalykkja með sömu málsgreinum) o.fl. Samtals 6/15 nothæf blogg-sýni.
+- Uppfærði `preprocess_llm_output.py` með endurtekningargreiningu og útvíkkaðri meta-commentary greiningu (Claude Code).
+
+**Hvað fann ég:**
+
+*Le Chat Fast:*
+- 15/15 fræðitextar nothæfir. 6/15 bloggtextar nothæfir. 15/15 fréttatextar nothæfir.
+- Lykkjumynstur bundið við óformlegan/ljóðrænan stíl. Fræðitextar án vandræða.
+- blog_015: áhugavert mynstur — módellið bjó til nýjar fyrirsagnir en lykkjaði sömu málsgreinar þar á milli. Afbakað orð afbakaðist meira innan lykkjunnar: „áhugasemdum“ → „áhagasemdum“.
+
+*Le Chat Thinking:*
+- Token-lykkjur í lok eða miðjum texta (blog_011, blog_012). Ólíkt Le Chat Fast sem lykkjar heilar málsgreinar — Le Chat Thinking heldur samhangandi texta lengur en hrynur á token-stigi.
+- Athuga umorðun á prompttexta í stað nýrrar textagerðar. Þetta er EKKI stílniðurstaða — þetta er lesskilningsvandamál. Líkanið skilur ekki fyrirmælin „haltu áfram með textann“ og endurskrifar í staðinn. Þetta gæti gefið falskt skor á stíl vegna þess að umorðaður texti mun væntanlega líkjast mannlegri grunnlínu sjálfkrafa.
+
+*Gemini 3 Thinking:*
+- Greindi textann að hluta í stað þess að halda áfram — líkanið fór í greiningarham frekar en framhaldsham. Greiningarhlutarnir fjarlægðir handvirkt.
+- Mikil markdown-snyrting (fyrirsagnir, feitletur) sem þarf að fjarlægja í forvinnslu.
+
+*Chat GPT 5:*
+- Virtist skilja promptið best, var ekki mikið að bæta við aukatexta fyrir og eftir eins og hin líkönin að spyrja hvort þetta þóknaðist notandanum og hvernig hann vildi halda áfram.
+
+*Almennt:*
+- Þrjú af fjórum módelum (Le Chat Fast, Le Chat Thinking, Gemini) sýndu einhvers konar vandræði með að skilja fyrirmæli á íslensku. Þetta er lesskilningsvandamál, ekki stílvandamál og skiptir máli fyrir stigatöfluna í víðara samhengi.
+- Handvirk forvinnsla á LLM-úttaki: fjarlægja bilaða tóka og greiningartexta er sambærilegt við að fjarlægja hlutsetningar í enda — við erum að fjarlægja gallaðan úttaksefni, ekki breyta stíl. Við getum ekki mælt getu til að búa til stíl ef líkanið einfaldlega bilar. Þetta verður skjalfest og rökstutt í aðferðafræðikafla.
+
+**Hugsanir / túlkun:**
+- Mikilvæg aðgreining: Gallað úttak (tóka-lykkjur, greining í stað framhalds) er fjarlægt vegna þess að þetta eru galla í módeli, ekki stíleinkenni. Sniðmátsendurtekning (t.d. Le Chat Fast blog_001) er HALDIÐ vegna þess að þetta er stílbrestur sem á heima í mælingunni. Þessi aðgreining er lykilatriði í aðferðafræðikaflanum.
+- Lesskilningsvandamálið (Le Chat Thinking umorðar, Gemini greinir - stundum) gæti skapað skekkju: módel sem skilur ekki fyrirmælin gæti skorað vel á stíl vegna þess að það er í raun að endurgera prompttextann. Þetta er fyrirvari sem þarf í umfjöllun.
+- GPT-5: Virtist ganga vel við fyrstu sýn.
+
+**Staða verkefnis:**
+
+| Flokkur | Gemini 3 Thinking | GPT-5 | Le Chat Fast | Le Chat Thinking |
+|---------|-------------------|-------|--------------|------------------|
+| Academic | ✅ 15/15 | ✅ 15/15 | ✅ 15/15 | ✅ 15/15 |
+| Blog | ✅ 15/15 | ✅ 15/15 | ✅ 6/15 | ✅ 15/15 |
+| News | ✅ 15/15 | ✅ 15/15 | ✅ 15/15 | ✅ 15/15 |
+
+**Næstu skref:**
+- Keyra `preprocess_llm_output.py` á öllum LLM-textum (markdown-hreinsun, endurtekningargreining)
+- Yfirfara forvinnsluniðurstöður handvirkt
+- Keyra `parse_texts.py` á bæði mannleg og LLM-gögn
+- Keyra dimension-skrifturnar (dim1, dim2, dim3)
+- Keyra `run_milicka.py`
+- Push allt á GitHub
