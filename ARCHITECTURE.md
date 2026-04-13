@@ -5,6 +5,7 @@
 stylometry-icelandiceval/
 │
 ├── README.md
+├── ARCHITECTURE.md
 ├── research_log.md
 ├── decisions_log.md
 ├── reference_tracker.csv
@@ -15,64 +16,92 @@ stylometry-icelandiceval/
 │                                                           # Ekki á GitHub (of stórt), hlaða niður sérstaklega
 │
 ├── data/
-│   ├── human_texts/                    # Mannlegir textar — hreinn texti, ein setning/fyrirsögn per línu
-│   │   ├── news_ruv.txt                # RÚV fréttir (úr RMH)
-│   │   ├── news_huni.txt               # Húnahornið fréttafyrirsagnir (úr RMH)
-│   │   ├── journals_islmal.txt         # Íslenskt mál og almenn málfræði (úr RMH)
-│   │   ├── journals_laeknabladid.txt   # Læknablaðið (úr RMH)
-│   │   ├── blogs_jonas.txt             # Jonas.is (úr RMH)
-│   │   └── blogs_silfur.txt            # Silfur Egils (úr RMH)
+│   ├── human_texts/                    # Hrá RMH-gögn, skipulögð eftir textategund
+│   │   ├── academic/                   # Fræðitextar (Læknablaðið, úr RMH)
+│   │   ├── blog/                       # Blogg (Jonas.is, úr RMH)
+│   │   └── news/                       # Fréttir (RÚV, úr RMH)
 │   │
-│   ├── llm_texts/                      # Textar búnir til af risamállíkönum — sama snið
-│   │   ├── news_ruv_gemini.txt
-│   │   ├── news_ruv_gpt5.txt
-│   │   ├── news_ruv_lechat.txt
-│   │   ├── journals_islmal_gemini.txt
-│   │   ├── blogs_jonas_gemini.txt
-│   │   └── ...                         # Eitt per líkan × textategund
+│   ├── experiment/                     # Tilraunagögn — pöruð hönnun eftir Milička o.fl. (2025)
+│   │   ├── selected_samples.csv        # Skrá yfir valin úrtök og klippistöðu
+│   │   ├── prompts/                    # Fyrri helmingur mannlegra texta (prompt til LLM)
+│   │   │   ├── academic_prompt_001.txt
+│   │   │   ├── blog_prompt_001.txt
+│   │   │   ├── news_prompt_001.txt
+│   │   │   └── ...                     # 15 per textategund = 45 prompt-skrár
+│   │   │
+│   │   ├── human_reference/            # Seinni helmingur mannlegra texta (viðmið)
+│   │   │   ├── academic_ref_001.txt
+│   │   │   ├── blog_ref_001.txt
+│   │   │   ├── news_ref_001.txt
+│   │   │   └── ...                     # 15 per textategund = 45 viðmiðsskrár
+│   │   │
+│   │   └── llm_continuations/          # Framhald LLM-líkana — hvert líkan í sinni möppu
+│   │       ├── gemini_3_thinking/      # Google Gemini 2.5 Pro (Thinking)
+│   │       │   ├── academic/
+│   │       │   ├── blog/
+│   │       │   └── news/
+│   │       ├── gpt_5/                  # OpenAI GPT-5
+│   │       ├── le_chat_fast/           # Mistral Le Chat (fast)
+│   │       └── le_chat_thinking/       # Mistral Le Chat (thinking)
 │   │
-│   └── parsed/                         # Þáttuð tré — úttak úr parse_texts.py
-│       ├── human/                      # Eitt tré per línu, sama röð og hreini textinn
-│       │   ├── news_ruv_parsed.txt
-│       │   ├── news_huni_parsed.txt
-│       │   ├── journals_islmal_parsed.txt
-│       │   ├── journals_laeknabladid_parsed.txt
-│       │   ├── blogs_jonas_parsed.txt
-│       │   └── blogs_silfur_parsed.txt
-│       │
-│       └── llm/
-│           ├── news_ruv_gemini_parsed.txt
-│           ├── news_ruv_gpt5_parsed.txt
-│           └── ...
+│   ├── raw/                            # Hrá XML-gögn úr RMH (ekki á GitHub)
+│   └── figures/                        # Myndir til skýrslunnar
 │
 ├── scripts/
 │   │
-│   ├── parse_texts.py                  # SKREF 1: Þáttar alla texta með IceConParse
-│   │                                   # Inntak: data/human_texts/*.txt og data/llm_texts/*.txt
-│   │                                   # Úttak: data/parsed/human/*.txt og data/parsed/llm/*.txt
-│   │                                   # Hvert tré er ein lína, stjörnur (*) skipt út fyrir bandstrik (-)
-│   │                                   # Keyra EINU SINNI — þáttun er dýr (~20 sek uppsetning + mínútur per skrá)
+│   │   # --- GAGNAUNDIRBÚNINGUR / DATA PREPARATION ---
 │   │
-│   ├── dim1_frumlagsnafnfall.py        # VÍDD 1: Fyrirsagnir án frumlagsnafnliðar
-│   │                                   # Les þáttuð tré, athugar NP-SBJ í trénu
-│   │                                   # Telur hlutfall fyrirsagna/setninga sem hafa sögn en ekkert NP-SBJ
-│   │                                   # Reiknar b_d og stig per líkan
+│   ├── extract_samples.py              # Draga ~2.000 orða úrtök úr RMH TEI XML skrám
+│   │                                   # Les .ana.xml og .xml snið, hreinsar, staðlar
+│   │                                   # Inntak: data/raw/   Úttak: data/human_texts/
+│   │
+│   ├── prepare_paired_experiment.py    # Búa til pöruð gögn: klippa texta í tvennt
+│   │                                   # Fyrri helmingur → prompts/, seinni → human_reference/
+│   │                                   # Fylgir Milička o.fl. (2025) aðferð
+│   │
+│   ├── preprocess_llm_output.py        # Hreinsa LLM-framhöld: fjarlægja markdown, meta-athugasemdir
+│   │                                   # Sama forvinnsla og extract_samples.py
+│   │                                   # Endurtekningargreining gegn prompt-texta (--prompt-dir)
+│   │                                   # Inntak: llm_continuations/  Úttak: llm_continuations_clean/
+│   │
+│   ├── parse_texts.py                  # Þáttar alla texta með IceConParse
+│   │                                   # Hvert tré er ein lína, stjörnur (*) skipt út fyrir bandstrik (-)
+│   │                                   # Keyra EINU SINNI — þáttun er dýr
+│   │
+│   │   # --- MÆLIVÍDDIR / MEASUREMENT DIMENSIONS ---
+│   │   # Allar lesa þáttuð tré nema dim6 (les hrátexta)
+│   │
+│   ├── dim1_frumlagsnafnfall.py        # VÍDD 1: Frumlagsnafnliðarleysi (subject drop rate)
+│   │                                   # Telur hlutfall setninga með sögn en án NP-SBJ
 │   │
 │   ├── dim2_aukasetningar.py           # VÍDD 2: Hlutfall aukasetninga (subordination ratio)
-│   │                                   # Les þáttuð tré, telur IP-SUB vs IP-MAT
-│   │                                   # Hátt hlutfall = flóknari setningagerð (fræðitextar)
-│   │                                   # Lágt hlutfall = einfaldari setningagerð (blogg, fréttir)
+│   │                                   # Telur IP-SUB vs IP-MAT
 │   │
 │   ├── dim3_nafnlidalengd.py           # VÍDD 3: Meðallengd nafnliða (mean NP length)
-│   │                                   # Les þáttuð tré, telur tóka innan hvers NP-liðar
-│   │                                   # Lengri nafnliðir = þéttari, upplýsingameiri texti
+│   │                                   # Telur tóka innan NP-liða
+│   │
+│   ├── dim4_past_tense.py              # VÍDD 4: Hlutfall þátíðarsagna (past tense ratio)
+│   │                                   # Telur D-tíðarmerki í sagnhnútum (VB|BE|MD|DO|HV|RD)D(I|S)
+│   │
+│   ├── dim5_thirdperson_pronouns.py    # VÍDD 5: Þriðjupersónufornöfn (third person pronouns)
+│   │                                   # Ber saman PRO-* orðform við lokaða mengi 18 forma
+│   │
+│   ├── dim6_word_length.py             # VÍDD 6: Meðalorðalengd (mean word length)
+│   │                                   # Les HRÁTEXTA (ekki þáttuð tré)
+│   │                                   # Mælir meðal/miðgildi/staðalfrávik/hlutfall 8+ stafa orða
+│   │
+│   ├── dim7_complementizers.py         # VÍDD 7: Tíðni tengiorða (complementizer frequency)
+│   │                                   # Telur (C sem) og (C að) í þáttuðum trjám
+│   │                                   # Mælir sem/að hlutfall og tíðni per 1.000 orð
+│   │
+│   │   # --- SAMEINING OG MAT / AGGREGATION AND SCORING ---
 │   │
 │   ├── run_milicka.py                  # AÐALSKRIFTA: Keyrir allar víddir, safnar b_d gildum
 │   │                                   # Reiknar heildarfrávik B = ‖b‖ (formúla 4 Milička)
-│   │                                   # Prentar stigatöflu og niðurstöður
 │   │
-│   └── style_score.py                  # Hjálparfall: Reiknar 0-100 stig úr v_human og v_model
-│                                       # Formúla: stig = 100 × (1 - |v_human - v_model| / v_human)
+│   ├── style_score.py                  # Hjálparfall: Reiknar 0-100 stig úr v_human og v_model
+│   │
+│   └── validation_harness.py           # Sannprófunartól: Slembiúrtak þáttunar til handvirkrar yfirferðar
 │
 ├── output/                             # Niðurstöður og myndir
 │   └── ...
@@ -86,11 +115,25 @@ stylometry-icelandiceval/
 ## Flæði gagna / Data Flow
 
 ```
-Hreinn texti (.txt)          Þáttuð tré (.txt)           Mælingar per vídd
-─────────────────── → parse_texts.py → ──────────────────── → dim1/dim2/dim3 → run_milicka.py
-data/human_texts/                       data/parsed/human/                      ↓
-data/llm_texts/                         data/parsed/llm/                   Stigatafla + b_d
+RMH XML-gögn           Hrein úrtök            Pöruð gögn              Þáttuð tré           Mælingar per vídd
+──────────────── → extract_samples.py → prepare_paired_experiment.py → parse_texts.py → dim1–dim7 → run_milicka.py
+data/raw/              data/human_texts/       data/experiment/         data/parsed/              ↓
+                                               ├── prompts/                                  Stigatafla + B-gildi
+                                               ├── human_reference/
+                                               └── llm_continuations/
+                                                     ↓
+                                               preprocess_llm_output.py → llm_continuations_clean/
+                                                                          ↓
+                                                                    parse_texts.py → dim1–dim7
 ```
+
+### Pöruð tilraunahönnun / Paired Experiment Design
+
+Eftir Milička o.fl. (2025):
+1. Velja ~2.000 orða mannlegan texta
+2. Klippa í tvennt: fyrri helmingur = prompt, seinni helmingur = viðmið
+3. LLM-líkan fær prompt + leiðbeiningar, skrifar framhald
+4. Bera saman stíleinkenni framhalds (dim1–dim7) við viðmið mannsins
 
 ## Snið þáttaðra trjáa / Parsed Tree Format
 
@@ -107,13 +150,18 @@ Dæmi:
 | Merki | Merking | Notað í |
 |-------|---------|---------|
 | NP-SBJ | Frumlagsnafnliður (subject) | dim1 |
-| IP-MAT | Aðalsetning (matrix clause) | dim2 |
-| IP-SUB | Aukasetning (subordinate clause) | dim2 |
+| IP-MAT | Aðalsetning (matrix clause) | dim2, dim7 |
+| IP-SUB | Aukasetning (subordinate clause) | dim2, dim7 |
 | IP-IMP | Boðháttur (imperative) | dim1 (útilokun) |
 | NP | Nafnliður (noun phrase) | dim3 |
-| VBPI/VBDI | Sögn í persónuhætti (finite verb, present/past indicative) | dim1 |
-| VBPS/VBDS | Sögn í viðtengingarhætti (subjunctive) | dim1 |
-| CP-REL | Tilvísunaraukasetning (relative clause) | dim2 |
+| VB/BE/MD/DO/HV/RD + P/D + I/S | Persónubeygt sagnform (finite verb) | dim1, dim4 |
+| PRO-N/A/D/G | Fornafn í falli (pronoun in case) | dim5 |
+| ES | Gervifrumlag (expletive subject) | dim5 (útilokun — annað merki en PRO) |
+| C | Tengiorð (complementizer: sem, að) | dim7 |
+| P | Forsetning (preposition: að o.fl.) | dim7 (útilokun — ekki C) |
+| TO | Nafnháttarmerki (infinitive marker: að) | dim7 (útilokun — ekki C) |
+| CP-REL | Tilvísunaraukasetning (relative clause) | dim2, dim7 |
+| CP-THT | Fullyrðingaraukasetning (that-clause) | dim7 |
 | CP-ADV | Atviksorðsaukasetning (adverbial clause) | dim2 |
 
 ## Formúlur Milička / Milička's Formulas

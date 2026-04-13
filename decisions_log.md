@@ -280,3 +280,18 @@ Nýjar færslur fyrir decisions_log.md:
 - Sniðmátsendurtekning (gerð b, t.d. blog_001) er NOTUÐ í greiningu — það er ekki tæknileg lykkja heldur „stílbrestur“ sem á heima í greiningunni.
 
 **Afleiðingar:** Le Chat Fast mun hafa færri blogg-sýni en önnur líkön. Milička-formúlurnar ráða við ójafna fjölda sýna, það mun ekki virka eins vel en þetta er heiðarlega skjalfest. Ef rannsóknin yrði endurtekin í stærra samhengi er hægt að gera ráð fyrir þessum lykkjum og taka ákvarðanir í samræmi við það.
+
+
+### 019 — 13. apríl 2026 — Fjarlægja endurtekningar úr prompti í forvinnslu gervigreindartexta
+
+**Samhengi:** Við gagnasöfnun komu fram tvær gerðir af endurtekningum: (1) líkönin virtust misskilja verkefnið og endurtóku hluta af promptinum í stað þess að halda áfram textanum, og (2) líkönin fóru í einskonar glitch-ham og endurtóku búta á óstjórnlegan hátt. Í báðum tilvikum er um að ræða villu í keyrslu, ekki stíleinkenni, og með því að halda þessum textabútum yrðu stylometric mælingar skakkar — þá yrði hluti af prompti mældur sem LLM-framleiðsla. Á að halda því inni eða fjarlægja til að mæla getu líkansins til að skrifa stíl?
+
+**Valkostir sem voru skoðaðir:**
+1. Halda endurtekningum inni — Vera trú gögnunum, nota alfarið það sem líkönin gerðu. En um er að ræða endurtekningu á mennskum texta sem er ranglega mældur sem gervigreindartexti.
+2. Fjarlægja endurtekninar — Er að eiga mikið við upprunalegu gögnin. En mælingin snýst þá fyrst og fremst um getu líkana til að búa til stíl.
+
+**Ákvörðun:** Fjarlægja endurtækningar.
+
+**Rökstuðningur:** Mikilvægast að kanna getu líkana til að búa til stíl en ekki kópípeista það sem sent var á þau. Vandamálið var tæknilegs eðlis, sem mikilvægt er að greina frá en það er ekki tengt þessari mælingu.
+
+**Útkoma:** Svo virðist sem sum líkönin lendi í tæknilegum örðugleikum þegar kemur að íslensku. Það þarf að gera grein fyrir því í greininni. Tekin var ákvörðun um að fjarlægja endurtekningar og mæla það sem hægt var að mæla. 

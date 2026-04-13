@@ -593,3 +593,50 @@ le_chat_thinking:    15 files,  66 passages,  3,879 words
 - Keyra dimension-skrifturnar (dim1, dim2, dim3)
 - Keyra `run_milicka.py`
 - Push allt á GitHub
+
+
+### 13. apríl 2026 — Bæta við víddum, forvinna gögn og keyra í gegn
+
+**Tími:** 8 klst. yfir nokkra daga
+
+**Hvað gerði ég:**
+- Fyrsta keyrsla á run_milicka.py. Allar skriftur virka. Niðurstöður fengnar fyrir öll fjögur líkön og þrjár textaflokka.
+
+  Líkan                          academic       blog       news   Meðaltal
+  ──────────────────────────── ────────── ────────── ────────── ──────────
+  gemini_3_thinking                  5.87      10.67       5.90       7.48
+  gpt_5                             10.96      12.92       9.24      11.04
+  le_chat_fast                       9.52      22.76      11.07      14.45
+  le_chat_thinking                   5.98      13.06       7.17       8.74
+
+- Forvinnsla — endurtekningar: Mikill texti fjarlægður vegna endurtekninga úr prompt (sjá ákvarðanaskrá). Alls 29,723 orð fjarlægð úr 110,303 (27%). 
+
+  ENDURTEKNINGAR ÚR PROMPT — FJARLÆGÐAR / REMOVED
+  ──────────────────────────────────────────────────
+    gemini_3_thinking: 6 skrár, 13 bútar (1290 orð) [fjarlægð]
+    gpt_5: 4 skrár, 15 bútar (844 orð) [fjarlægð]
+    le_chat_fast: 28 skrár, 308 bútar (12312 orð) [fjarlægð]
+    le_chat_thinking: 38 skrár, 348 bútar (15277 orð) [fjarlægð]
+  ──────────────────────────────────────────────────
+  Orðafjöldi skráa með endurtekningum:
+    Fyrir fjarlægingu:  110,303
+    Eftir fjarlægingu:  80,580
+    Orð fjarlægð:       29,723
+
+**Uppgötvanir:**
+- Le Chat Fast gengur verst í blog (22.76)
+- Le Chat Think og Gemini 3 Thinking gengur að meðallagi best 
+- GPT-5 er í miðjunni
+
+**Hugsanir / túlkun:**
+- Í forvinnslu var mest fjarlægt af textum Le Chat Think og Le Chat Fast — 38 og 28 skrár í sömu röð. Þetta er merkilegt í ljósi þess að þau líkön standa einnig lægst á kvarðanum - þarf að greina betur til að skilja samspilið.
+- Erfitt var að losna við helpful assistant fínþjálfunina. Ég fjarlægði mikið handvirkt og svo var meira fjarlægt í forvinnslu. Bæði textar sem og md formatting.
+
+**Opnar spurningar:**
+- Engu líkani gekk sérstaklega vel. Væri gaman að prófa API-útgáfur við mismunandi hitastig (temperature), bæta við Claude-líkönum og DeepSeek. 
+- Myndi decoder líkani ganga betur sem ekki hefur verið fínþjálfað í helpful assistant?
+
+**Næstu skref:**
+- Yfirfara kóðann.
+- Endurskoða niðurstöður og senda til Miðeindar. 
+- Skoða scatter matplotlib á borð við það sem sést í grein Milicka.
