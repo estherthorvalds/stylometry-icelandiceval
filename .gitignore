@@ -20,5 +20,34 @@ venv/
 
 # Raw corpus data (large, licensed separately)
 data/raw/
-.DS_Store
+
+# =============================================================
+# RMH-DERIVED TEXT SAMPLES
+# =============================================================
+# All plaintext files below are extracted from RMH by
+# extract_samples.py and prepare_paired_experiment.py.
+# They contain verbatim Icelandic text from the corpus and
+# are excluded to respect the RMH license terms.
+#
+# To regenerate locally:
+#   1. Obtain RMH 22.10 and place under data/raw/
+#   2. python scripts/extract_samples.py  (→ data/human_texts/)
+#   3. python scripts/prepare_paired_experiment.py
+#      (→ data/experiment/prompts/, human_reference/)
+
+# 36,310 extracted ~2,000-word samples
+data/human_texts/
+
+# 45 prompt files (first halves of selected human texts)
+data/experiment/prompts/
+
+# 45 reference files (second halves of selected human texts)
+data/experiment/human_reference/
+
+# News headlines from earlier pilot experiment
+output/news_headlines/human_texts/
+
+# =============================================================
+# MODEL WEIGHTS (large binary files)
+# =============================================================
 models/

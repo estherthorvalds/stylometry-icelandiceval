@@ -43,8 +43,8 @@ stylometry-icelandiceval/
 ├── reference_tracker.csv     # Heimildaskrá
 │
 ├── data/
-│   ├── human_texts/          # Hrá úrtök úr RMH (academic/, blog/, news/)
-│   ├── experiment/           # Tilraunagögn (prompts, human_reference, llm_continuations)
+│   ├── human_texts/          # Úrtök úr RMH (ekki á GitHub — sjá Data & Licensing)
+│   ├── experiment/           # Tilraunagögn (prompts og human_reference ekki á GitHub)
 │   └── raw/                  # Hrá RMH XML-gögn (ekki á GitHub)
 │
 ├── scripts/
@@ -89,12 +89,21 @@ This project addresses a known gap on the Icelandic LLM Leaderboard: the absence
 
 IceConParse by Ingunn Jóhanna Kristjánsdóttir (2024) — a Stanza-based constituency parser trained on the IcePaHC treebank with IceBERT embeddings (F-score: 90.38%).
 
-## Data
+## Data & Licensing
 
-Raw corpus files are not included in this repo.
+Human baseline texts in this benchmark are extracted from **RMH (Risamálheild / Icelandic Gigaword Corpus)** and are **not included in this repository** due to the RMH license terms. This applies to:
 
-To reproduce:
-1. Download RMH data from https://repository.clarin.is/repository/xmlui/handle/20.500.12537/89
+- `data/human_texts/` — 36,310 extracted ~2,000-word samples
+- `data/experiment/prompts/` — 45 prompt files (first halves of selected texts)
+- `data/experiment/human_reference/` — 45 reference files (second halves)
+- `data/experiment/selected_samples.csv` — metadata mapping source files to pairs
+
+> **Git history rewrite (2026-04-13):** These files were purged from all git history using `git filter-repo`. If you cloned this repository before this date, you should **delete your local clone and re-clone** to avoid retaining the removed data in your local packfile.
+
+To reproduce the full dataset locally:
+1. Obtain RMH 22.10 from https://repository.clarin.is/repository/xmlui/handle/20.500.12537/89
 2. Place XML files into `data/raw/`
-3. Run: `python scripts/extract_samples.py` to extract ~2,000-word samples
-4. Run: `python scripts/prepare_paired_experiment.py` to create paired prompts/references
+3. Run `python scripts/extract_samples.py` to extract ~2,000-word samples into `data/human_texts/`
+4. Run `python scripts/prepare_paired_experiment.py` to create the 45 paired prompts and references
+
+RMH access requires accepting the CLARIN license terms. The LLM-generated continuations (`data/experiment/llm_continuations/`) and all derived outputs (parse trees, dimension scores) **are** included in the repository.
