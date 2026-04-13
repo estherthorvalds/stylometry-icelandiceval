@@ -6,7 +6,7 @@ style_score.py — Hjálparfall: Reikna 0-100 stigatöflueinkunn
 ==============================================================
 
 TILGANGUR / PURPOSE:
-    Þetta skrifta inniheldur hjálparföll til að reikna stigatöflueinkunn (score)
+    Þessi skrifta inniheldur hjálparföll til að reikna stigatöflueinkunn (score)
     sem segir hversu vel LLM-líkan hermist eftir stíleinkenni mannlegra texta.
 
     This module provides utility functions to calculate a 0-100 style score

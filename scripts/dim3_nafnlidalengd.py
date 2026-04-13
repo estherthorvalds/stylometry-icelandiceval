@@ -6,29 +6,25 @@ dim3_nafnlidalengd.py — VÍDD 3: Meðallengd nafnliða (mean NP length)
 ======================================================================
 
 TILGANGUR / PURPOSE:
-    Þetta skrifta mælir meðallengd nafnliða (noun phrases / NP) í texta.
-    Nafnliður er hópur orða sem mynda eina merkingarlega heild umhverfis
-    nafnorð, t.d. „gamalli konu" eða „stóra rauða bílinn hennar".
+    Þessi skrifta mælir meðallengd nafnliða (noun phrases / NP) í texta.
 
     This script measures the mean length (in tokens) of noun phrases (NPs)
     in constituency-parsed text.
 
 MÁLVÍSINDI / LINGUISTICS:
     Lengd nafnliða er mælikvarði á upplýsingaþéttleika (information density).
-    Lengri nafnliðir fela í sér fleiri ákvæði (adjectives), eignarfallsliði
+    Lengri nafnliðir fela í sér fleiri lýsingarorð (adjectives), eignarfallsliði
     (genitive phrases), forsetningarliði (prepositional phrases) o.fl.
 
-    - Stutt NP (1-2 orð): „bíllinn", „hún" — algengt í talmáli og bloggum
-    - Meðallöng NP (3-4 orð): „stóri rauði bíllinn" — algeng í fréttum
-    - Löng NP (5+ orð): „nýja aðgerðaráætlun ríkisstjórnarinnar um loftslagsmál"
+    - Stutt NP (1-2 orð): „bíllinn“, „hún“ — algengt í talmáli og bloggum
+    - Meðallöng NP (3-4 orð): „stóri rauði bíllinn“ — algeng í fréttum
+    - Löng NP (5+ orð): „nýja aðgerðaráætlun ríkisstjórnarinnar um loftslagsmál“
       — algeng í fræðitextum og stjórnsýslutextum
 
-    Þetta er þriðja víddin í Milička-formúlunni okkar.
-
 AÐFERÐ / METHOD:
-    Til að telja orð í NP notar skriftið einfalda svigrúmameðferð:
-    Finna NP-hnút í trénu, lesa allt textainnihald (laufblöð/leaves)
-    undir honum, og telja orðin. Innfelddir NP eru taldir sérstaklega.
+    Til að telja orð í NP notar skriftan einfalda talningu í svigum:
+    Finna NP í trénu, lesa allt textainnihald (laufblöð/leaves)
+    undir honum, og telja orðin. Innfeldir NP eru taldir sérstaklega.
 
 INNTAK / INPUT:
     Þáttuð tré úr data/parsed/human/*.txt og data/parsed/llm/*.txt
@@ -74,25 +70,25 @@ def load_parsed_trees(path: Path) -> list[str]:
 
 
 # ============================================================
-# FINNA NAFNLIÐI Í TRÉI / FIND NOUN PHRASES IN TREE
-# Þessi aðferð notar svigrúmatalning (bracket counting) til
-# að finna alla NP-hnúta og draga út innihald þeirra.
+# FINNA NAFNLIÐI Í TRÉ / FIND NOUN PHRASES IN TREE
+# Þessi aðferð notar svigatalningu (bracket counting) til
+# að finna alla nafnliði (NP) og draga út innihald þeirra.
 # ============================================================
 
 def extract_np_spans(tree_str: str) -> list[str]:
-    """Finna alla nafnliði (NP) í þáttunartréi og skila innihaldi þeirra.
+    """Finna alla nafnliði (NP) í þáttunartré og skila innihaldi þeirra.
 
     AÐFERÐ:
-        Leita að „(NP" í strengnum og nota svigrúmatalning til að finna
-        hvar NP-liðurinn endar (þegar svigrúm eru jöfn). Þetta er nauðsynlegt
-        vegna þess að NP-liðir geta innihaldið innfelda NP-liði.
+        Leita að „(NP“ í strengnum og nota svigatalningu til að finna
+        hvar NP-liðurinn endar (þegar opnunar- og lokasvigar eru jafnir). Þetta er 
+        nauðsynlegt vegna þess að NP-liðir geta innihaldið innfelda NP-liði.
 
-    MIKILVÆGT: Við finnum NP sem er upphafsstafur merkis, þ.e.a.s. „(NP ",
-    „(NP-SBJ ", „(NP-OB1 ", o.s.frv. Öll NP-afbrigði eru nafnliðir.
+    MIKILVÆGT: Við finnum NP sem er upphafsstafur merkis, þ.e.a.s. „(NP “,
+    „(NP-SBJ “, „(NP-OB1 “, o.s.frv. Öll NP-afbrigði eru nafnliðir.
 
     Dæmi:
-        Tré: (ROOT (IP-MAT (NP-SBJ (NPR-N KPMG)) (VBPI opnar) (NP-OB1 (N-A skrifstofu))))
-        Skilar: ["(NP-SBJ (NPR-N KPMG))", "(NP-OB1 (N-A skrifstofu))"]
+        Tré: (ROOT (IP-MAT (NP-SBJ (NPR-N Fyrirtækið)) (VBPI opnar) (NP-OB1 (N-A skrifstofu))))
+        Skilar: ["(NP-SBJ (NPR-N Fyrirtækið))", "(NP-OB1 (N-A skrifstofu))"]
 
     Args:
         tree_str: Þáttunartré sem strengur.
@@ -102,29 +98,29 @@ def extract_np_spans(tree_str: str) -> list[str]:
     """
     np_spans = []
 
-    # Leita að öllum stöðum þar sem „(NP" kemur fyrir.
-    # Eftir „(NP" verður annað hvort bil „ " (ef NP er bara NP) eða
-    # bandstrik „-" (ef NP hefur viðskeyti, t.d. NP-SBJ, NP-OB1).
-    # Eða opnunarsvigrúmur „(" ef NP inniheldur strax undirtré.
+    # Leita að öllum stöðum þar sem „(NP“ kemur fyrir.
+    # Eftir „(NP“ verður annað hvort bil „ “ (ef NP er bara NP) eða
+    # bandstrik „-“ (ef NP hefur viðskeyti, t.d. NP-SBJ, NP-OB1).
+    # Eða opnunarsvigrúmur „(“ ef NP inniheldur strax undirtré.
     i = 0
     while i < len(tree_str):
-        # Finna næsta „(NP" í strengnum
+        # Finna næsta „(NP“ í strengnum
         pos = tree_str.find('(NP', i)
         if pos == -1:
             break  # Enginn NP-liður eftir
 
         # Athuga hvort þetta sé raunverulegt NP-merki.
-        # Næsti stafur á eftir „(NP" verður að vera bil, bandstrik, eða svigrúmur.
-        # Þetta kemur í veg fyrir rangar niðurstöður ef „NP" er hluti af öðru orði
-        # (þó það sé mjög ólíklegt í IcePaHC-þáttunartréum).
-        next_pos = pos + 3  # Staðsetning á eftir „(NP"
+        # Næsti stafur á eftir „(NP“ verður að vera bil, bandstrik eða svigi.
+        # Þetta kemur í veg fyrir rangar niðurstöður ef „NP“ er hluti af öðru orði
+        # (þó það sé mjög ólíklegt í IcePaHC-þáttunartrjám).
+        next_pos = pos + 3  # Staðsetning á eftir „(NP“
         if next_pos < len(tree_str) and tree_str[next_pos] not in (' ', '-', '('):
             # Ekki raunverulegt NP-merki, halda áfram
             i = next_pos
             continue
 
-        # Nota svigrúmatalning (bracket counting) til að finna hvar NP-liðurinn endar.
-        # Byrja á 1 vegna þess að við höfum fundið opnunarsvigrúm „(".
+        # Nota svigatalningu (bracket counting) til að finna hvar NP-liðurinn endar.
+        # Byrja á 1 vegna þess að við höfum fundið opnunarsvigrúm „(“.
         # Þegar teljari nær 0, erum við komin út úr NP-liðnum.
         depth = 0
         j = pos
@@ -148,9 +144,9 @@ def extract_np_spans(tree_str: str) -> list[str]:
 
 # ============================================================
 # TELJA ORÐ Í NAFNLIÐ / COUNT TOKENS IN NP
-# Laufblöð (leaves) í þáttunartréi eru orðin sjálf.
+# Laufblöð (leaves) í þáttunartré eru orðin sjálf.
 # Þau eru stafir sem koma á eftir orðflokkamerki og eru
-# lokaðir af lokunarsvigrúmi „)".
+# lokaðir af loka-sviga „)“.
 # ============================================================
 
 def count_tokens_in_np(np_str: str) -> int:
@@ -159,16 +155,16 @@ def count_tokens_in_np(np_str: str) -> int:
     AÐFERÐ:
         Laufblöð (terminal nodes / leaves) í svigastreng eru orðin sjálf —
         þ.e. stafir sem koma á eftir bili á eftir orðflokkamerki,
-        rétt á undan lokunarsvigrúmi.
+        rétt á undan loka-sviga.
 
-        Til dæmis í „(NP-SBJ (D-N Sá) (ADJ-N stóri) (N-N hundur))":
-            - „Sá" er laufblað undir D-N
-            - „stóri" er laufblað undir ADJ-N
-            - „hundur" er laufblað undir N-N
+        Til dæmis í „(NP-SBJ (D-N Sá) (ADJ-N stóri) (N-N hundur))“:
+            - „Sá“ er laufblað undir D-N
+            - „stóri“ er laufblað undir ADJ-N
+            - „hundur“ er laufblað undir N-N
             → 3 orð
 
     Þessi aðferð notar regluleg segð til að finna laufblöð:
-    leita að mynstri þar sem bil er á undan orði og „)" á eftir.
+    leita að mynstri þar sem bil er á undan orði og „)“ á eftir.
 
     Args:
         np_str: Nafnliður sem strengur í svigaformi.
@@ -178,9 +174,9 @@ def count_tokens_in_np(np_str: str) -> int:
     """
     # Regluleg segð sem finnur laufblöð (leaves) í svigastreng.
     # Mynstur: eitt eða fleiri stafir sem eru ekki svigrúm eða bil,
-    # strax á undan lokunarsvigrúmi „)".
+    # strax á undan loka-sviga „)“.
     # [^\s\(\)]+ nær yfir: hvaða stafi sem er nema bil, ( og )
-    # (?=\))     er „lookahead" sem tryggir að næsti stafur sé )
+    # (?=\))     er „lookahead“ sem tryggir að næsti stafur sé )
     #            án þess að taka hann inn í samsvörunina.
     leaves = re.findall(r'[^\s\(\)]+(?=\))', np_str)
 
@@ -203,17 +199,17 @@ def measure_np_length(parsed_file: Path) -> tuple[float, int, list[int]]:
 
     ATHUGASEMD UM INNFELDA NP:
         NP sem er innfeldur í öðrum NP er talinn sérstaklega.
-        Dæmi: „(NP (D-N Sá) (NP (N-N hundur) (PP (P frá) (NP (NPR-D Keflavík)))))"
+        Dæmi: „(NP (D-N Sá) (NP (N-N hundur) (PP (P frá) (NP (NPR-D Keflavík)))))“
         Hér finnast þrír NP-liðir:
-            1. Ytri NP: „Sá hundur frá Keflavík" (4 orð)
-            2. Innri NP: „hundur frá Keflavík" (3 orð)
-            3. Innsti NP: „Keflavík" (1 orð)
+            1. Ytri NP: „Sá hundur frá Keflavík“ (4 orð)
+            2. Innri NP: „hundur frá Keflavík“ (3 orð)
+            3. Innsti NP: „Keflavík“ (1 orð)
 
     Args:
         parsed_file: Slóð á skrá með þáttuðum trjám.
 
     Returns:
-        Tuple af:
+        Samstæðu (tuple) af:
             - v: meðallengd nafnliða (meðalfjöldi orða per NP)
             - n_nps: heildarfjöldi nafnliða sem fundust
             - lengths: listi af lengdum allra nafnliða (til greiningar)
@@ -223,7 +219,7 @@ def measure_np_length(parsed_file: Path) -> tuple[float, int, list[int]]:
     lengths = []  # Lengd hvers NP-liðar (fjöldi orða)
 
     for tree_str in trees:
-        # Finna alla NP-liði í þessu tréi
+        # Finna alla NP-liði í þessu tré
         np_spans = extract_np_spans(tree_str)
 
         for np_str in np_spans:

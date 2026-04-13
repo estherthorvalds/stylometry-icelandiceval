@@ -43,8 +43,11 @@ ENDURTEKNINGARGREINING / REPETITION DETECTION:
     mannlega textans) inn í framhaldið. Þetta blæs upp stílmælingar á
     tilbúinn hátt. Þegar --prompt-dir er gefið, leitar skriftan að 10+
     orða samfelldum runum úr promptinu sem birtast í framhaldinu og
-    skrifar skýrslu (repetition_report.txt). Endurtekningar eru EKKI
-    fjarlægðar sjálfkrafa — nemandinn ákveður per skrá.
+    skrifar skýrslu (repetition_report.txt).
+
+    Sjálfgefið er endurtekningar aðeins greindar og skýrðar.
+    Ef --remove-repetitions er gefið, eru endurtekningar fjarlægðar
+    úr úttakinu sjálfkrafa.
 
 KEYRSLA / USAGE:
     # Hreinsa öll LLM-úttök án endurtekningargreiningar
@@ -52,11 +55,18 @@ KEYRSLA / USAGE:
         --input-dir data/experiment/llm_continuations/ \\
         --output-dir data/experiment/llm_continuations_clean/
 
-    # Með endurtekningargreiningu
+    # Með endurtekningargreiningu (aðeins skýrsla)
     python scripts/preprocess_llm_output.py \\
         --input-dir data/experiment/llm_continuations/ \\
         --output-dir data/experiment/llm_continuations_clean/ \\
         --prompt-dir data/experiment/prompts/
+
+    # Greina OG fjarlægja endurtekningar
+    python scripts/preprocess_llm_output.py \\
+        --input-dir data/experiment/llm_continuations/ \\
+        --output-dir data/experiment/llm_continuations_clean/ \\
+        --prompt-dir data/experiment/prompts/ \\
+        --remove-repetitions
 
     # Hreinsa eitt líkan
     python scripts/preprocess_llm_output.py \\
@@ -534,11 +544,11 @@ def apply_sentence_endings(text: str) -> str:
 #     og hægt er, og hoppum svo yfir samsvörunina til að forðast
 #     tvíteljun.
 #
-# AÐ TAKA ÁKVÖRÐUN / NOT AUTOMATIC REMOVAL:
-#     Við FJARLÆGJUM EKKI sjálfkrafa endurtekna búta. Þetta er
-#     aðferðafræðileg ákvörðun sem nemandinn þarf að taka per skrá.
-#     Skriftan skrifar AÐEINS skýrslu — nemandinn ákveður hvað á
-#     að gera við hverja samsvörun.
+# AÐ TAKA ÁKVÖRÐUN / OPTIONAL REMOVAL:
+#     Sjálfgefið er skriftan AÐEINS skýrsla — nemandinn ákveður hvað á
+#     að gera við hverja samsvörun. Ef --remove-repetitions er gefið,
+#     fjarlægir skriftan endurtekna búta sjálfkrafa úr úttakinu og
+#     skráir hvað var fjarlægt í skýrsluna.
 # ============================================================
 
 # Lágmarkslengd samsvörunar (orð) til að teljast endurtekning.
@@ -703,6 +713,380 @@ def find_repeated_passages(
     return matches
 
 
+# ============================================================
+# SETNINGARSKIPTING / SENTENCE SEGMENTATION
+# ============================================================
+# Til að fjarlægja endurtekningar á setningamörkum (ekki í miðjum
+# setningum) þurfum við að skipta textanum í setningar.
+#
+# VANDAMÁL MEÐ ÍSLENSKT MÁL / CHALLENGES WITH ICELANDIC:
+#   - Skammstafanir (abbreviations) nota punkt en eru EKKI
+#     setningarendi: t.d., o.fl., m.a., þ.e., nr., dr., o.s.frv.,
+#     þ.á.m., bls., dags., sbr., skv., gr., mgr., pr., sl.
+#   - Aukastafir / tugabrot (decimals): "3.500", "0.05"
+#   - Ártöl og dagsetningar: "1. mars", "5. júlí"
+#   - Tilvitnunarmerki: „..." og "..." — punktur inni í
+#     tilvitnun gæti verið eða ekki setningarendi
+#
+# AÐFERÐ / APPROACH:
+#   Við notum regex sem leitar að [.?!] og svo hvítbili og stóran
+#   staf á eftir, en hleypur yfir þekktar skammstafanir.
+#   Þetta er NÁLGUN (heuristic), ekki fullkomin þáttun.
+# ============================================================
+
+# Íslenskar skammstafanir sem enda á punkti en eru EKKI setningarendi.
+# Listinn þarf ekki að vera tæmandi — betri er að halda örlítið
+# fleiri setningum en að klippa vitlaust.
+# Tveir flokkar:
+#   1. Ein-punkts: "nr.", "dr.", "bls.", o.s.frv.
+#   2. Margir punktar: "t.d.", "o.fl.", "m.a.", "þ.e.", "o.s.frv.", "þ.á.m."
+ABBREVIATIONS = frozenset({
+    # Ein-punkts skammstafanir
+    'nr', 'dr', 'bls', 'dags', 'sbr', 'skv', 'gr', 'mgr', 'pr', 'sl',
+    'hr', 'sr', 'ms', 'fv', 'hv', 'nk', 'kr', 'ca', 'frh', 'tbl',
+    'stk', 'ath', 'hdr',
+    # Ensk skammstafanir sem birtast í íslensku fræðitextum
+    'al', 'fig', 'vol', 'ed', 'eds', 'vs', 'etc', 'approx', 'dept',
+    'prof', 'assoc', 'inc',
+})
+
+# Regex sem finnur íslenskar marg-punkts skammstafanir:
+# t.d., o.fl., m.a., þ.e., o.s.frv., þ.á.m., a.m.k., þ.m.t.
+# Mynstur: 1-3 lágstafir, punktur, 1-3 lágstafir, punktur [, ...]
+MULTI_DOT_ABBREV = re.compile(
+    r'^[a-záéíóúýþæöð]{1,3}\.'
+    r'(?:[a-záéíóúýþæöð]{1,3}\.)+$',
+    re.IGNORECASE,
+)
+
+
+def split_into_sentences(text: str) -> list[dict]:
+    """Skipta texta í setningar og halda utan um staðsetningar.
+
+    AÐFERÐ / METHOD:
+        Ganga í gegnum textann staf fyrir staf og leita að setningarendamerkjum
+        (. ? !) sem eru fylgt af hvítbili og stórum staf (eða enda texta).
+        Sleppa þekktum skammstöfunum og tugabrotum.
+
+    SKILGREINING Á SETNINGU / SENTENCE DEFINITION:
+        Setning er textabútur sem byrjar (venjulega) á stórum staf og
+        endar á . ? eða ! þar sem næsta orð byrjar á stórum staf
+        eða textinn endar.
+
+    Args:
+        text: Texti til að skipta (getur verið ein lína eða margar).
+
+    Returns:
+        Listi af dict, eitt per setningu:
+            - 'text': Setningarstrengur
+            - 'char_start': Byrjunarstaða í upprunalega strengnum
+            - 'char_end': Endasetning (exclusive)
+            - 'word_start': Byrjunarorðavísir (miðað við text.split())
+            - 'word_end': Endaorðavísir (exclusive)
+    """
+    if not text.strip():
+        return []
+
+    # Brot textann í orð til að reikna orðavísa (word indices)
+    words = text.split()
+
+    # Notum stafastaðsetningu til að finna setningamörk.
+    # Finna öll orð og stöður þeirra í strengnum.
+    # Hvert orð er (start_char, end_char, word_index, word_text).
+    word_spans: list[tuple[int, int, int, str]] = []
+    search_start = 0
+    for idx, word in enumerate(words):
+        pos = text.index(word, search_start)
+        word_spans.append((pos, pos + len(word), idx, word))
+        search_start = pos + len(word)
+
+    # --- FINNA SETNINGAMÖRK ---
+    # Ganga í gegnum orðin og athuga hvort hvert orð endar á
+    # setningarendamerki sem er RAUNVERULEGT setningarendi.
+    sentence_breaks: list[int] = []  # Vísir á SÍÐASTA orð setningar
+
+    for i, (char_s, char_e, word_idx, word_text) in enumerate(word_spans):
+        # Sleppa ef þetta er síðasta orðið — meðhöndla sérstaklega
+        if i == len(word_spans) - 1:
+            continue
+
+        # Athuga hvort orðið endar á setningarendamerki
+        stripped = word_text.rstrip()
+        if not stripped:
+            continue
+        last_char = stripped[-1]
+        if last_char not in '.?!':
+            continue
+
+        # --- SLEPPA SKAMMSTÖFUNUM ---
+        # Fjarlægja endamerki og athuga hvort orðkjarninn er þekkt
+        # skammstöfun.
+        core = stripped.rstrip('.?!').lower()
+
+        # 1. Ein-punkts skammstafanir: "nr.", "dr.", "bls."
+        if core in ABBREVIATIONS:
+            continue
+
+        # 2. Marg-punkts skammstafanir: "t.d.", "o.fl.", "m.a."
+        if MULTI_DOT_ABBREV.match(stripped.lower()):
+            continue
+
+        # --- SLEPPA TUGABROTUM OG ÁRTÖLUM ---
+        # "3.500", "0.05" — ef orðið á undan eða á eftir er tala
+        # þá er þetta tugabrot, ekki setningarendi.
+        # "1." í "1. mars" — raðtala, ekki setningarendi.
+        if last_char == '.':
+            # Athuga hvort kjarninn er tala: "3.500" → "3.500"
+            # eða "1" (raðtala). Sleppa ef tala.
+            if core.replace('.', '').replace(',', '').isdigit():
+                continue
+
+        # --- ATHUGA HVORT NÆSTA ORÐ BYRJAR Á STÓRUM STAF ---
+        # Setningarendi er [.?!] + hvítbil + stór stafur.
+        # Ef næsta orð byrjar á lágstaf er þetta líklega ekki
+        # setningarendi (t.d. "dr. Jón" → ok, en "dr. jón" → nei).
+        # Undantekning: ? og ! eru alltaf setningarendi.
+        next_word = word_spans[i + 1][3]
+        next_first = next_word[0] if next_word else ''
+
+        if last_char == '.':
+            # Punktur: krefjumst stórs stafs á eftir
+            if next_first and not next_first.isupper() and next_first != '„':
+                continue
+        # ? og ! eru alltaf setningarendi (nema ef næsta orð er lágstaf,
+        # sem er mjög sjaldgæft og þá líklega hluti af sama texta).
+
+        # Þetta er setningarendi!
+        sentence_breaks.append(i)
+
+    # --- BYGGJA SETNINGARLISTA ---
+    # Skera textann á mörkunum.
+    sentences: list[dict] = []
+    start_word_idx = 0
+
+    for break_pos in sentence_breaks:
+        # Setningin nær frá start_word_idx til break_pos (inklúsíft)
+        end_word_idx = break_pos + 1  # exclusive
+
+        # Finna stafa-stöðu: frá byrjun fyrsta orðs til enda síðasta
+        char_start = word_spans[start_word_idx][0]
+        char_end = word_spans[end_word_idx - 1][1]
+
+        sent_text = text[char_start:char_end].strip()
+        if sent_text:
+            sentences.append({
+                'text': sent_text,
+                'char_start': char_start,
+                'char_end': char_end,
+                'word_start': start_word_idx,
+                'word_end': end_word_idx,
+            })
+
+        start_word_idx = end_word_idx
+
+    # Síðasta setningin (eftir síðasta brotpunkti til enda)
+    if start_word_idx < len(word_spans):
+        char_start = word_spans[start_word_idx][0]
+        char_end = word_spans[-1][1]
+        sent_text = text[char_start:char_end].strip()
+        if sent_text:
+            sentences.append({
+                'text': sent_text,
+                'char_start': char_start,
+                'char_end': char_end,
+                'word_start': start_word_idx,
+                'word_end': len(word_spans),
+            })
+
+    return sentences
+
+
+# ============================================================
+# TENGJA ENDURTEKNINGAR VIÐ SETNINGAR
+# MAP REPETITIONS TO SENTENCES
+# ============================================================
+# Fyrir hverja endurtekingu (cont_word_start, cont_word_end),
+# finnum hvaða setning(ar) hún skarast við og merkjum ALLAR
+# þær setningar til fjarlægingar.
+# ============================================================
+
+# Lágmarksfjöldi orða í setningu til að HALDA henni ef hún verður
+# eftir einsamul í málsgrein eftir fjarlægingu nágrannasetninganna.
+# Ef setningin hefur færri orð en þetta, er hún merkt í skýrslunni
+# en EKKI fjarlægð sjálfkrafa (nemandinn ákveður).
+MIN_ORPHAN_WORDS = 5
+
+
+def map_repetitions_to_sentences(
+    sentences: list[dict],
+    repetitions: list[dict],
+) -> list[dict]:
+    """Finna hvaða setningar innihalda endurtekningar og merkja þær.
+
+    Fyrir hverja endurtekingu athugum við hvaða setning(ar) skarast
+    við orðabilið. Ef endurtekning spannar tvær setningar (byrjar í
+    einni, endar í nágrannasetningunni) eru BÁÐAR merktar.
+
+    Args:
+        sentences: Listi af dict frá split_into_sentences.
+        repetitions: Listi af dict frá find_repeated_passages.
+
+    Returns:
+        Listi af dict, eitt per setningu SEM Á AÐ FJARLÆGJA:
+            - 'sentence_idx': Vísir í sentences-listann
+            - 'text': Texti setningarinnar
+            - 'word_start': Byrjunarorðavísir setningar
+            - 'word_end': Endaorðavísir setningar
+            - 'matched_by': Listi af repetition-vísir sem valda fjarlægingu
+    """
+    # Mengi af setningavísun sem á að fjarlægja
+    to_remove: dict[int, list[int]] = {}  # sent_idx → [rep_idxs]
+
+    for rep_idx, rep in enumerate(repetitions):
+        rep_start = rep['cont_word_start']
+        rep_end = rep['cont_word_end']
+
+        for sent_idx, sent in enumerate(sentences):
+            s_start = sent['word_start']
+            s_end = sent['word_end']
+
+            # Athuga skörun (overlap):
+            # Tvö bil [a,b) og [c,d) skarast ef a < d og c < b.
+            if rep_start < s_end and s_start < rep_end:
+                to_remove.setdefault(sent_idx, []).append(rep_idx)
+
+    # Byggja niðurstöðulista
+    result = []
+    for sent_idx in sorted(to_remove.keys()):
+        sent = sentences[sent_idx]
+        result.append({
+            'sentence_idx': sent_idx,
+            'text': sent['text'],
+            'word_start': sent['word_start'],
+            'word_end': sent['word_end'],
+            'matched_by': to_remove[sent_idx],
+        })
+
+    return result
+
+
+# ============================================================
+# FJARLÆGJA ENDURTEKNINGAR Á SETNINGAMÖRKUM
+# REMOVE REPEATED PASSAGES AT SENTENCE BOUNDARIES
+# ============================================================
+# Þegar --remove-repetitions er gefið, fjarlægjum við HEILAR
+# SETNINGAR sem innihalda endurtekna búta, frekar en að eyða
+# aðeins samsvaraðri orðarunu (sem skilar eftir brotasetningar).
+#
+# ELDRA VANDAMÁL (LEIÐRÉTT):
+#   Áður voru aðeins samsvarað orð fjarlægð, sem gat skilið eftir:
+#     "Formaðurinn segir að ekki með ótvíræðum hraða fyrir lausn."
+#   Nú er ÖLL setningin fjarlægð ef hún inniheldur endurtekingu.
+#
+# AÐFERÐ:
+#     1. Skipta textanum í setningar (split_into_sentences)
+#     2. Finna hvaða setningar skarast við endurtekningar
+#        (map_repetitions_to_sentences)
+#     3. Fjarlægja merktar setningar
+#     4. Hreinsa hvítbil
+#     5. Athuga hvort „munaðarlausar" (orphaned) stuttar setningar
+#        urðu eftir — merkja í skýrslu en fjarlægja ekki
+# ============================================================
+
+
+def remove_repeated_passages(
+    text: str,
+    repetitions: list[dict],
+) -> tuple[str, int, int, list[dict], list[dict]]:
+    """Fjarlægja heilar setningar sem innihalda endurtekna promptbúta.
+
+    AÐFERÐ:
+        1. Skipta textanum í setningar
+        2. Finna hvaða setningar innihalda endurtekningar
+        3. Fjarlægja þær setningar
+        4. Hreinsa hvítbil og greinarmerki
+        5. Greina munaðarlausar stuttar setningar
+
+    Args:
+        text: Hreinsaður texti (úr clean_llm_text).
+        repetitions: Listi af dict frá find_repeated_passages.
+            Hvert dict hefur 'cont_word_start' og 'cont_word_end'.
+
+    Returns:
+        Tuple af:
+            - text_after: Texti eftir fjarlægingu.
+            - words_before: Orðafjöldi fyrir fjarlægingu.
+            - words_after: Orðafjöldi eftir fjarlægingu.
+            - removed_sentences: Listi af dict um fjarlægðar setningar
+              (frá map_repetitions_to_sentences).
+            - orphaned_sentences: Listi af dict um stuttar setningar
+              sem urðu eftir (< MIN_ORPHAN_WORDS orð) — til skýrslu.
+    """
+    if not repetitions:
+        word_count = len(text.split())
+        return text, word_count, word_count, [], []
+
+    words_before = len(text.split())
+
+    # --- SKREF 1: SKIPTA Í SETNINGAR ---
+    sentences = split_into_sentences(text)
+
+    if not sentences:
+        return text, words_before, words_before, [], []
+
+    # --- SKREF 2: FINNA SETNINGAR SEM Á AÐ FJARLÆGJA ---
+    removed = map_repetitions_to_sentences(sentences, repetitions)
+    removed_indices = {r['sentence_idx'] for r in removed}
+
+    if not removed_indices:
+        # Engar setningar til fjarlægingar (endurtekningin var of stutt
+        # til að ná yfir heila setningu, eða eitthvað óvænt)
+        return text, words_before, words_before, [], []
+
+    # --- SKREF 3: HALDA SETNINGUM SEM ERU EKKI MERKTAR ---
+    kept_sentences = []
+    for idx, sent in enumerate(sentences):
+        if idx not in removed_indices:
+            kept_sentences.append(sent)
+
+    # --- SKREF 4: SAMEINA OG HREINSA ---
+    text_after = ' '.join(s['text'] for s in kept_sentences)
+
+    # Hreinsa hvítbil
+    text_after = re.sub(r'  +', ' ', text_after)
+    text_after = text_after.strip()
+
+    words_after = len(text_after.split()) if text_after else 0
+
+    # --- SKREF 5: GREINA MUNAÐARLAUSAR SETNINGAR ---
+    # Setningar sem urðu eftir en hafa færri en MIN_ORPHAN_WORDS orð.
+    # Þessar gætu verið brotasetningar eða einstakar stuttar setningar
+    # sem voru á milli tveggja fjarlægðra setninga. Nemandinn fær
+    # viðvörun en þær eru EKKI fjarlægðar sjálfkrafa.
+    orphaned: list[dict] = []
+    for sent in kept_sentences:
+        word_count = len(sent['text'].split())
+        if word_count < MIN_ORPHAN_WORDS:
+            orphaned.append({
+                'text': sent['text'],
+                'word_count': word_count,
+                'word_start': sent['word_start'],
+                'word_end': sent['word_end'],
+            })
+
+    # --- PRENTA SAMANTEKT ---
+    n_removed = len(removed_indices)
+    n_total = len(sentences)
+    print(f"      [REMOVE] {words_before} → {words_after} orð "
+          f"({words_before - words_after} fjarlægð, "
+          f"{n_removed}/{n_total} setningar fjarlægðar)")
+    if orphaned:
+        print(f"      [VARÚÐ] {len(orphaned)} stutt(ar) setning(ar) "
+              f"(<{MIN_ORPHAN_WORDS} orð) urðu eftir — skoða handvirkt")
+
+    return text_after, words_before, words_after, removed, orphaned
+
+
 def find_prompt_for_continuation(
     cont_filename: str,
     prompt_dir: Path,
@@ -838,6 +1222,7 @@ def process_file(
     output_path: Path,
     prompt_path: Path | None = None,
     save: bool = True,
+    remove_repetitions: bool = False,
 ) -> dict:
     """Hreinsa eina LLM-úttaksskrá og vista niðurstöðu.
 
@@ -847,12 +1232,17 @@ def process_file(
         prompt_path: Slóð á promptskrá (valkvætt). Ef gefið, er
             endurtekningargreining keyrð á móti promptinu.
         save: Ef False, ekki skrifa úttaksskrá (notað fyrir --dry-run).
+        remove_repetitions: Ef True OG prompt_path er gefin, fjarlægja
+            endurtekna búta úr úttakinu (ekki aðeins skýrsla).
 
     Returns:
         Dict með tölfræði um hreinsunina:
             - filename: skráarheiti
             - input_words: orðafjöldi í inntaki
-            - output_words: orðafjöldi í úttaki
+            - output_words: orðafjöldi í úttaki (eftir hreinsun og fjarlægingu)
+            - words_before_removal: orðafjöldi eftir hreinsun, FYRIR fjarlægingu
+            - words_after_removal: orðafjöldi eftir fjarlægingu (= output_words ef fjarlægt)
+            - repetitions_removed: bool — hvort endurtekningar voru fjarlægðar
             - stats: dict frá clean_llm_text
             - repetitions: listi af samsvörunum við prompt (eða [])
     """
@@ -865,19 +1255,53 @@ def process_file(
     # Hreinsa textann
     cleaned_text, stats = clean_llm_text(raw_text)
 
-    # Telja orð í úttaki
-    output_words = len(cleaned_text.split())
+    # Telja orð eftir hreinsun (markdown, meta, hvítbil)
+    words_after_cleaning = len(cleaned_text.split())
 
     # --- ENDURTEKNINGARGREINING / REPETITION DETECTION ---
     # Ef promptskrá var gefin, leita að orðréttum endurtekningum.
     # ATHUGASEMD: Við keyrum þetta á HREINSAÐA textanum, ekki hráu,
     # svo við berum saman „raunverulega" textann við promptið.
     repetitions: list[dict] = []
+    repetitions_removed = False
+    words_before_removal = words_after_cleaning
+    words_after_removal = words_after_cleaning
+    removed_sentences: list[dict] = []
+    orphaned_sentences: list[dict] = []
+
     if prompt_path is not None and prompt_path.exists():
         prompt_raw = prompt_path.read_text(encoding='utf-8')
         # Fjarlægja leiðbeiningarstrenginn úr fremst í promptinu
         prompt_human = strip_prompt_instruction(prompt_raw)
         repetitions = find_repeated_passages(cleaned_text, prompt_human)
+
+        # --- SETNINGATENGSL / SENTENCE MAPPING ---
+        # Alltaf reikna hvaða setningar endurtekningarnar falla í,
+        # bæði fyrir skýrslu (report-only) og fjarlægingu.
+        # Þetta gerir nemandanum kleift að sjá HEILAR SETNINGAR
+        # sem myndu verða fjarlægðar, ekki bara orðarunurnar.
+        if repetitions:
+            sentences = split_into_sentences(cleaned_text)
+            mapped_sentences = map_repetitions_to_sentences(
+                sentences, repetitions
+            )
+
+        # --- FJARLÆGJA ENDURTEKNINGAR / REMOVE REPETITIONS ---
+        # Ef --remove-repetitions var gefið OG samsvörun fannst,
+        # fjarlægjum endurtekna búta úr textanum.
+        if remove_repetitions and repetitions:
+            (cleaned_text, words_before_removal, words_after_removal,
+             removed_sentences, orphaned_sentences) = (
+                remove_repeated_passages(cleaned_text, repetitions)
+            )
+            repetitions_removed = True
+        elif repetitions:
+            # Aðeins skýrsla — skráum hvaða setningar MYNDU verða
+            # fjarlægðar svo nemandinn geti séð í skýrslunni.
+            removed_sentences = mapped_sentences
+
+    # Lokaskráargildi úttaks
+    output_words = len(cleaned_text.split())
 
     # Vista hreinsaðan texta (nema í dry-run)
     if save:
@@ -888,6 +1312,11 @@ def process_file(
         'filename': input_path.name,
         'input_words': input_words,
         'output_words': output_words,
+        'words_before_removal': words_before_removal,
+        'words_after_removal': words_after_removal,
+        'repetitions_removed': repetitions_removed,
+        'removed_sentences': removed_sentences,
+        'orphaned_sentences': orphaned_sentences,
         'stats': stats,
         'repetitions': repetitions,
     }
@@ -933,8 +1362,14 @@ def print_file_report(info: dict) -> None:
     reps = info.get('repetitions', [])
     if reps:
         rep_words = sum(r['length'] for r in reps)
-        rep_pct = (rep_words / info['output_words'] * 100) if info['output_words'] else 0
-        changes.append(f"ENDURTEKN: {len(reps)} bút./{rep_words}orð ({rep_pct:.0f}%)")
+        # Nota words_before_removal sem nefnara — ef endurtekningar voru
+        # fjarlægðar, þá er output_words lægra og gæfi rangt hlutfall.
+        base_words = info.get('words_before_removal', info['output_words'])
+        rep_pct = (rep_words / base_words * 100) if base_words else 0
+        if info.get('repetitions_removed', False):
+            changes.append(f"ENDURTEKN FJARLÆGÐ: {len(reps)} bút./{rep_words}orð ({rep_pct:.0f}%)")
+        else:
+            changes.append(f"ENDURTEKN: {len(reps)} bút./{rep_words}orð ({rep_pct:.0f}%)")
 
     # Orðafjöldabreyting
     word_diff = info['input_words'] - info['output_words']
@@ -996,8 +1431,14 @@ def print_summary(all_results: list[dict]) -> None:
     # flokkaða eftir líkani (efsta möppustig).
     files_with_reps = [r for r in all_results if r.get('repetitions')]
     if files_with_reps:
+        # Athuga hvort endurtekningar voru fjarlægðar eða aðeins skýrðar
+        any_removed = any(r.get('repetitions_removed') for r in files_with_reps)
+
         print()
-        print(f"  ENDURTEKNINGAR ÚR PROMPT / PROMPT REPETITIONS")
+        if any_removed:
+            print(f"  ENDURTEKNINGAR ÚR PROMPT — FJARLÆGÐAR / REMOVED")
+        else:
+            print(f"  ENDURTEKNINGAR ÚR PROMPT / PROMPT REPETITIONS")
         print(f"  {'─' * 50}")
 
         # Flokka eftir líkani (fyrsta hluta hlutfallslegrar slóðar)
@@ -1014,9 +1455,21 @@ def print_summary(all_results: list[dict]) -> None:
                 sum(rep['length'] for rep in r['repetitions'])
                 for r in model_results
             )
-            print(f"    {model}: {len(model_results)} skrár með "
-                  f"endurtekningar, {total_reps} bútar samtals, "
-                  f"{total_rep_words} orð")
+            status = "fjarlægð" if any_removed else "greind"
+            print(f"    {model}: {len(model_results)} skrár, "
+                  f"{total_reps} bútar ({total_rep_words} orð) [{status}]")
+
+        # Ef fjarlægt, sýna heildaráhrifin á orðafjölda
+        if any_removed:
+            total_before = sum(r.get('words_before_removal', 0)
+                               for r in files_with_reps)
+            total_after = sum(r.get('words_after_removal', 0)
+                              for r in files_with_reps)
+            print(f"  {'─' * 50}")
+            print(f"  Orðafjöldi skráa með endurtekningum:")
+            print(f"    Fyrir fjarlægingu:  {total_before:,}")
+            print(f"    Eftir fjarlægingu:  {total_after:,}")
+            print(f"    Orð fjarlægð:       {total_before - total_after:,}")
 
 
 def write_repetition_report(
@@ -1055,11 +1508,20 @@ def write_repetition_report(
     lines.append("")
     lines.append("Lágmarkslengd samsvörunar: " + str(MIN_REPEAT_WORDS) + " orð")
     lines.append("")
-    lines.append("AÐFERÐAFRÆÐILEG ATHUGASEMD:")
-    lines.append("    Þessar endurtekningar eru ekki fjarlægðar sjálfkrafa.")
-    lines.append("    Nemandinn ákveður per skrá hvort/hvernig á að bregðast")
-    lines.append("    við þeim. Ef líkanið afritar mannlega textann orðrétt,")
-    lines.append("    blæs það upp stílmælingar á tilbúinn hátt.")
+    # Athuga hvort endurtekningar voru fjarlægðar eða aðeins greindar
+    any_removed = any(
+        r.get('repetitions_removed') for r in all_results if r.get('repetitions')
+    )
+    if any_removed:
+        lines.append("STAÐA: ENDURTEKNINGAR FJARLÆGÐAR (--remove-repetitions)")
+        lines.append("    Endurtekningar voru sjálfkrafa fjarlægðar úr úttakinu.")
+        lines.append("    Orðafjöldi fyrir og eftir fjarlægingu er skráður")
+        lines.append("    per skrá hér að neðan.")
+    else:
+        lines.append("STAÐA: ENDURTEKNINGAR AÐEINS GREINDAR (ekki fjarlægðar)")
+        lines.append("    Nemandinn ákveður per skrá hvort/hvernig á að bregðast")
+        lines.append("    við þeim. Notaðu --remove-repetitions til að fjarlægja")
+        lines.append("    sjálfkrafa.")
     lines.append("")
     lines.append(f"Skrár með endurtekningar: {len(files_with_reps)} af "
                  f"{len(all_results)} alls")
@@ -1078,10 +1540,18 @@ def write_repetition_report(
 
             lines.append(f"SKRÁ: {r.get('relative_path', r['filename'])}")
             lines.append(f"  Líkan: {r.get('model', '?')}")
-            lines.append(f"  Orðafjöldi (hreinsaður): {r['output_words']}")
+            if r.get('repetitions_removed', False):
+                lines.append(
+                    f"  Orðafjöldi: {r['words_before_removal']} → "
+                    f"{r['words_after_removal']} "
+                    f"(−{r['words_before_removal'] - r['words_after_removal']} orð fjarlægð)"
+                )
+            else:
+                lines.append(f"  Orðafjöldi (hreinsaður): {r['output_words']}")
             lines.append(
                 f"  {len(reps)} endurteknir bútar samtals "
                 f"({total_rep_words} orð, {pct:.1f}% af framhaldi)"
+                + (" [FJARLÆGÐ]" if r.get('repetitions_removed') else " [AÐEINS GREINT]")
             )
             lines.append("")
 
@@ -1090,10 +1560,33 @@ def write_repetition_report(
                     f"  [{idx}] {rep['length']} orð, "
                     f"orðastaða {rep['cont_word_start']}–{rep['cont_word_end']}"
                 )
-                lines.append(f"      Í framhaldi:")
+                lines.append(f"      Samsvarað orðaruna í framhaldi:")
                 lines.append(f"        \"{rep['cont_text']}\"")
-                lines.append(f"      Í prompti:")
+                lines.append(f"      Samsvarað orðaruna í prompti:")
                 lines.append(f"        \"{rep['prompt_match']}\"")
+                lines.append("")
+
+            # --- SETNINGAR SEM FJARLÆGÐAR / MYNDU VERÐA FJARLÆGÐAR ---
+            removed_sents = r.get('removed_sentences', [])
+            if removed_sents:
+                action = "FJARLÆGÐAR" if r.get('repetitions_removed') else "MYNDU VERÐA FJARLÆGÐAR"
+                lines.append(f"  SETNINGAR {action} ({len(removed_sents)}):")
+                for s_idx, sent_info in enumerate(removed_sents, start=1):
+                    lines.append(f"    [{s_idx}] \"{sent_info['text']}\"")
+                lines.append("")
+
+            # --- MUNAÐARLAUSAR STUTTAR SETNINGAR / ORPHANED SHORT SENTENCES ---
+            orphaned_sents = r.get('orphaned_sentences', [])
+            if orphaned_sents:
+                lines.append(
+                    f"  VARÚÐ: {len(orphaned_sents)} stutt(ar) setning(ar) "
+                    f"(<{MIN_ORPHAN_WORDS} orð) — skoða handvirkt:"
+                )
+                for o_idx, orph in enumerate(orphaned_sents, start=1):
+                    lines.append(
+                        f"    [{o_idx}] ({orph['word_count']} orð) "
+                        f"\"{orph['text']}\""
+                    )
                 lines.append("")
 
             lines.append("-" * 70)
@@ -1159,6 +1652,13 @@ Dæmi um keyrslu:
              "gemini_academic_prompt_010.txt → academic_prompt_010.txt)."
     )
     parser.add_argument(
+        '--remove-repetitions',
+        action='store_true',
+        help="Fjarlægja endurtekna promptbúta úr úttakinu. "
+             "Krefst --prompt-dir. Sjálfgefið: aðeins greina og skýra, "
+             "ekki fjarlægja."
+    )
+    parser.add_argument(
         '--repetition-report',
         type=Path,
         default=None,
@@ -1185,6 +1685,11 @@ Dæmi um keyrslu:
         print(f"VILLA: Promptmappa finnst ekki: {args.prompt_dir}")
         sys.exit(1)
 
+    # --remove-repetitions krefst --prompt-dir
+    if args.remove_repetitions and args.prompt_dir is None:
+        print("VILLA: --remove-repetitions krefst --prompt-dir")
+        sys.exit(1)
+
     print("=" * 60)
     print("LLM-FORVINNSLA / LLM OUTPUT PREPROCESSING")
     print("=" * 60)
@@ -1195,6 +1700,10 @@ Dæmi um keyrslu:
         print(f"  Prompt:   {args.prompt_dir}")
         print(f"  Endurtekningargreining: VIRK (lágmark "
               f"{MIN_REPEAT_WORDS} orð)")
+        if args.remove_repetitions:
+            print(f"  Endurtekningarfjarlæging: VIRK — bútar verða fjarlægðir")
+        else:
+            print(f"  Endurtekningarfjarlæging: SLÖKKT (notaðu --remove-repetitions)")
     else:
         print(f"  Endurtekningargreining: SLÖKKT (notaðu --prompt-dir)")
     if args.dry_run:
@@ -1235,6 +1744,7 @@ Dæmi um keyrslu:
             output_path,
             prompt_path=prompt_path,
             save=not args.dry_run,
+            remove_repetitions=args.remove_repetitions,
         )
 
         # Bæta við lýsigögnum sem print_summary og report nota

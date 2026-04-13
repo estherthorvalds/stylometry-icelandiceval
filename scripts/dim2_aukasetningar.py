@@ -6,31 +6,30 @@ dim2_aukasetningar.py — VÍDD 2: Hlutfall aukasetninga (subordination ratio)
 =============================================================================
 
 TILGANGUR / PURPOSE:
-    Þetta skrifta mælir hlutfall aukasetninga (subordinate clauses) í texta.
-    Aukasetningar eru setningar sem eru háðar aðalsetningu — t.d.
+    Þessi skrifta mælir hlutfall aukasetninga (subordinate clauses) í texta.
+    Aukasetningar eru setningar sem eru háðar aðalsetningu, t.d.
     „Hún sagði [að hann kæmi]" þar sem „að hann kæmi" er aukasetningin.
 
     This script measures the ratio of subordinate clauses (IP-SUB) to
     matrix/main clauses (IP-MAT) in text.
 
 MÁLVÍSINDI / LINGUISTICS:
-    Hlutfall aukasetninga er klassískt mælikvarða á setningaflækjustig
+    Gott er að nota hlutfall aukasetninga til að mæla setningaflækjustig
     (syntactic complexity). Fræðitextar hafa yfirleitt hærra hlutfall
     aukasetninga en fréttir eða blogg, vegna þess að akademískt ritmál
-    notar fleiri háðar setningar til að lýsa flóknum hugmyndum.
+    notar fleiri setningaliði innan sömu málsgreinar til að lýsa flóknum 
+    hugmyndum.
 
     - Hátt hlutfall → flóknari setningagerð (fræðitextar, akademískt ritmál)
     - Lágt hlutfall → einfaldari setningagerð (fréttir, blogg)
 
-    Þetta er ein af þremur víddum í Milička-formúlunni okkar.
-
 LYKLAR IcePaHC SEM VIÐ NOTUM:
     IP-MAT    = Aðalsetning (matrix clause) — sjálfstæð setning
     IP-SUB    = Aukasetning (subordinate clause) — háð setning
-    CP-REL    = Tilvísunaraukasetning (relative clause, t.d. „sem ég þekki")
-    CP-ADV    = Atviksorðsaukasetning (adverbial clause, t.d. „þegar hann kom")
-    CP-THT    = „Að"-setning (that-clause, t.d. „sagði að hann kæmi")
-    CP-QUE    = Spurnaraukasetning (indirect question, t.d. „spurði hvort...")
+    CP-REL    = Tilvísunaraukasetning (relative clause, t.d. „sem ég þekki“)
+    CP-ADV    = Atviksorðsaukasetning (adverbial clause, t.d. „þegar hann kom“)
+    CP-THT    = Að-setning (that-clause, t.d. „sagði að hann kæmi“)
+    CP-QUE    = Spurnaraukasetning (indirect question, t.d. „spurði hvort...“)
 
 INNTAK / INPUT:
     Þáttuð tré úr data/parsed/human/*.txt og data/parsed/llm/*.txt
@@ -77,22 +76,22 @@ def load_parsed_trees(path: Path) -> list[str]:
 
 
 # ============================================================
-# TELJA MERKINGAR Í EINU TRÉI / COUNT LABELS IN ONE TREE
+# TELJA MERKINGAR Í EINU TRÉ / COUNT LABELS IN ONE TREE
 # Telur hversu oft tiltekið merki (label) kemur fyrir í trénu.
-# Við notum regluleg segð (regex) til að finna merkin.
+# Við notum reglulegar segðir (regex) til að finna merkin.
 # ============================================================
 
 def count_label(tree_str: str, label: str) -> int:
-    """Telja hversu oft tiltekið merki kemur fyrir í þáttunartréi.
+    """Telja hversu oft tiltekið merki kemur fyrir í þáttunartré.
 
-    Notar regluleg segð til að finna merki sem koma á eftir opnunarsvigrúmi '('.
-    Til dæmis, til að finna „IP-MAT" í trénu, leitar segðin að „(IP-MAT"
-    þar sem næsta stafur er bil eða annar svigrúmur.
+    Notar reglulegar segðir til að finna merki sem koma á eftir sviga '('.
+    Til dæmis, til að finna „IP-MAT“ í trénu, leitar segðin að „(IP-MAT“
+    þar sem næsti stafur er bil eða annar svigi.
 
     HVERS VEGNA REGEX EN EKKI EINFÖLD STRENGJALEIT?
     Ef við notuðum einfaldlega `tree_str.count('IP-MAT')`, gætu verið
-    rangar niðurstöður ef „IP-MAT" birtist sem hluti af öðru orði.
-    Með regex tryggjum við að „IP-MAT" sé merkið sjálft, ekki hluti af
+    rangar niðurstöður ef „IP-MAT“ birtist sem hluti af öðru orði.
+    Með regex tryggjum við að „IP-MAT“ sé merkið sjálft, ekki hluti af
     lengra heiti.
 
     Args:
@@ -104,7 +103,7 @@ def count_label(tree_str: str, label: str) -> int:
     """
     # re.escape() tryggir að sérstakir regex-stafir í merkinu (eins og -)
     # séu meðhöndlaðir sem venjulegir stafir.
-    # \( leitar að opnunarsvigrúmi og (\s|\() leitar að bili eða svigrúmi á eftir.
+    # \( leitar að opnunarsviga og (\s|\() leitar að bili eða sviga strax í kjölfarið.
     pattern = r'\(' + re.escape(label) + r'[\s\(]'
     return len(re.findall(pattern, tree_str))
 
@@ -123,7 +122,7 @@ def measure_subordination(parsed_file: Path) -> tuple[float, int, int]:
 
     Þar sem:
         IP-MAT = aðalsetning (matrix clause) — sjálfstæð setning
-        IP-SUB = aukasetning (subordinate clause) — háð setning
+        IP-SUB = aukasetning (subordinate clause) — háð aðalsetningu
 
     Þetta hlutfall segir okkur hversu flókin setningagerð textans er.
     Gildi nálægt 0 þýðir aðallega aðalsetningar (einföld gerð).
@@ -134,30 +133,30 @@ def measure_subordination(parsed_file: Path) -> tuple[float, int, int]:
         parsed_file: Slóð á skrá með þáttuðum trjám.
 
     Returns:
-        Tuple af:
+        Samstæða - tuple:
             - v: hlutfall aukasetninga (0.0 til 1.0)
             - n_sub: fjöldi aukasetninga (IP-SUB)
             - n_mat: fjöldi aðalsetninga (IP-MAT)
     """
     trees = load_parsed_trees(parsed_file)
 
-    # Heildarfjöldi yfir alla setninga í textanum
+    # Heildarfjöldi allra setninga í textanum
     n_mat = 0   # Aðalsetningar (IP-MAT)
     n_sub = 0   # Aukasetningar (IP-SUB)
 
     for tree_str in trees:
-        # Telja aðalsetningar (IP-MAT) í þessu tréi.
+        # Telja aðalsetningar (IP-MAT) í þessu .
         # Hvert tré getur innihaldið fleiri en eina aðalsetningu ef
         # þáttarinn greinir samtengt form (coordinate structure).
         n_mat += count_label(tree_str, 'IP-MAT')
 
-        # Telja aukasetningar (IP-SUB) í þessu tréi.
+        # Telja aukasetningar (IP-SUB) í þessu tré.
         # Ein aðalsetning getur innihaldið margar aukasetningar,
-        # t.d. „Hún sagði [að hann kæmi] [þegar hún kæmi]" hefur
+        # t.d. „Hún sagði [að hann kæmi] [þegar hún kæmi]“ hefur
         # eina IP-MAT og tvær IP-SUB.
         n_sub += count_label(tree_str, 'IP-SUB')
 
-    # Reikna hlutfall. Vernda gegn deilingu með núlli.
+    # Reikna hlutfall. Passa að deila ekki með núlli.
     total = n_mat + n_sub
     v = n_sub / total if total > 0 else 0.0
 
