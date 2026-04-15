@@ -46,10 +46,11 @@ data/experiment/human_reference/
 
 # Unseen authored texts (full novels/works, not for public distribution)
 data/unseen_authored_texts/
+output/parsed/prompts/unseen_*
+output/parsed/human_reference/unseen_*
 
 # Unseen experiment: prompt/reference splits of authored texts
-data/experiment_unseen/prompts/
-data/experiment_unseen/human_reference/
+data/experiment_unseen/
 
 # News headlines from earlier pilot experiment
 output/news_headlines/human_texts/
