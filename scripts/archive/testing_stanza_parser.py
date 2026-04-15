@@ -16,7 +16,7 @@ for h in headlines:
     has_subject = 'NP*SBJ' in tree
     print(f"{'✓' if has_subject else '✗'} {h}")
 
-doc = nlp("Eg mun hér vera að eigi komist maðurinn út ef hann er hér inni en þú GAKK til stofu")
+doc = nlp("Maðurinn sem að koma í gær er farinn.")
 print(str(doc.sentences[0].constituency))
 for sentence in doc.sentences:
     tree = str(sentence.constituency).replace('*', '-')
