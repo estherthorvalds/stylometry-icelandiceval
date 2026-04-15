@@ -8,81 +8,73 @@ dim7_complementizers.py — VÍDD 7: Tíðni tengiorða/samtenginga (complementi
 
 TILGANGUR / PURPOSE:
     Þessi skrifta mælir tíðni tengiorða (complementizers) í þáttuðum trjám.
-    Tengiorð kynna aukasetningar (subordinate clauses) og eru mikilvæg
-    mælistika á setningaflækjustigi (syntactic complexity).
+    Tengiorð kynna aukasetningar (subordinate clauses) og eru hér skoðuð til að
+    mæla setningaflækjustig (syntactic complexity).
 
     This script measures the frequency of complementizer nodes (C sem, C að)
     in IceConParse constituency-parsed output.
 
 MÁLVÍSINDI / LINGUISTICS:
-    Tengiorð (complementizers) opna aukasetningar. Á íslensku eru tvö
-    aðaltengiorð:
+    Tengiorð (complementizers) opna aukasetningar. Í þessari skriftu er aðallega
+    litið á eftirfarandi tengiorð:
 
-    1. „að" (that) — kynna fullyrðingaraukasetningar (declarative complement
-       clauses). Dæmi: „Hún sagði **að** hann væri veikur."
+    1. „að“ (that) — kynna fallsetningar (declarative complement
+       clauses). Dæmi: „Hún sagði **að** hann væri veikur.“
        Þessi setning er í CP-THT (that-clause) í IcePaHC.
 
-    2. „sem" (which/that/who) — kynna tilvísunaraukasetningar (relative
-       clauses). Dæmi: „Maðurinn **sem** kom í gær er veikur."
+    2. „sem“ (which/that/who) — kynna tilvísunaraukasetningar (relative
+       clauses). Dæmi: „Maðurinn **sem** kom í gær er veikur.“
        Þessi setning er í CP-REL (relative clause) í IcePaHC.
 
     Há tíðni tengiorða gefur til kynna flókna setningagerð með mörgum
-    innfelldum aukasetningum — algeng í formlegum, upplýsingaþéttum
-    textum. Þetta viðbætir vídd 2 (subordination ratio) án þess að
+    innfelldum aukasetningum — algeng í formlegum textum með mikið af
+    upplýsingum. Þetta bætir við vídd 2 (subordination ratio) án þess að
     endurtaka hana: vídd 2 telur hversu margar setningar eru aukasetningar,
     vídd 7 skoðar HVERNIG aukasetning er kynnt.
 
     HVERS VEGNA TVÆR MISMUNANDI VÍDDIR FYRIR UNDIRSKIPUN:
         Vídd 2 (aukasetningarhlutfall): Telur IP-SUB vs IP-MAT — mælir
             HLUTFALL aukasetninga af öllum setningum.
-        Vídd 7 (tengiorðatíðni): Telur C-hnúta — mælir AÐFERÐ undirskipunar
+        Vídd 7 (að/sem-tengiorðatíðni): Telur C-hnúta — mælir AÐFERÐ undirskipunar
             (hvernig aukasetningar eru tengdar aðalsetningu).
-
-        Þetta er ólíkt vegna þess að sumar aukasetningar hafa EKKI
-        tengiorð (t.d. innfelldar spurningar, lýsingarháttar-aukasetningar),
-        og hlutfall sem/að segir okkur eitthvað um TEGUND undirskipunar:
-            - Mikið af „sem" → margar tilvísunaraukasetningar (relative
-              clauses), sem eru algengar þegar höfundur þarf að skilgreina
-              eða auðkenna hluti — fræðitextar, lagamál.
-            - Mikið af „að" → margar fullyrðingaraukasetningar (complement
-              clauses), sem eru algengar þegar höfundur greinir frá skoðunum,
-              tilfinningum eða talrænni máltjáningu.
-
+        
     TENGSL VIÐ BIBER-RAMMA / CONNECTION TO BIBER'S MDA:
+
+        Þessar tvær víddir hjálpast að við að skoða aukasetningar í textum. 
+        Í Biber er fjallað um hvers lags textategundir eru líklegri en aðrar
+        til að innihalda mikið af slíkum setningum. 
+
         Í MDA-ramma Bibers (1988) eru tengiorð hluti af „elaborated vs.
-        situation-dependent reference" víddinni. Textar með mikla notkun
-        tengiorða hafa „elaborated reference" — rithöfundurinn treystir
+        situation-dependent reference“ víddinni. Textar með mikla notkun
+        tengiorða hafa „elaborated reference“ — höfundurinn treystir
         ekki á samhengi (context) heldur skilgreinir allt í setningunni.
         Textar sem nota fá tengiorð treysta á samhengi (talmál, blogg
         þar sem lesandinn og höfundurinn deila reynslu).
 
-    MARGRÆÐNI „AÐ" / AMBIGUITY OF „AÐ":
-        Orðið „að" á íslensku hefur mörg hlutverk:
-            1. Tengiorð / Complementizer (C að): „Hún sagði **að** hann kæmi"
-            2. Forsetning / Preposition (P að): „Ég fór **að** húsinu"
-            3. Nafnháttarmerki / Infinitive marker (TO að): „Hún ætlar **að** fara"
+        Ekki verður stuðst við þessa staðhæfingu hér þar sem verið er að 
+        mæla íslenskt mál og ekki hægt að vísa í góða heimild sem heldur þessu 
+        fram. Þessar skriftur gera það sem þær gera sem er einfaldlega að 
+        telja aukasentingar og tengiorð. 
+
+    MARGRÆÐNI „AÐ“ / AMBIGUITY OF „AÐ“:
+        Orðið „að“ á íslensku hefur mörg hlutverk:
+            1. Tengiorð / Complementizer (C að): „Hún sagði **að** hann kæmi“
+            2. Forsetning / Preposition (P að): „Ég fór **að** húsinu“
+            3. Nafnháttarmerki / Infinitive marker (TO að): „Hún ætlar **að** fara“
 
         Þáttarinn (IceConParse) sér um þessa aðgreiningu. Í þáttunartrjám:
             (C að)  = tengiorð    ← ÞETTA TELJUM VIÐ
             (P að)  = forsetning  ← EKKI talið
             (TO að) = nafnháttur  ← EKKI talið
 
-        Regex-mynstrið okkar leitar EINGÖNGU að „(C að)" svo engin margræðni
+        Regex-mynstrið okkar leitar EINGÖNGU að „(C að)“ svo engin margræðni
         er til staðar í talningunni. Þetta er helsti kosturinn við að nota
         þáttuð tré frekar en hrátexta.
 
-    MARGRÆÐNI „SEM" / AMBIGUITY OF „SEM":
-        Orðið „sem" á íslensku er nánast eingöngu tilvísunartengiorð.
+    MARGRÆÐNI „SEM“ / AMBIGUITY OF „SEM“:
+        Er orðið „sem“ á íslensku nánast eingöngu tilvísunartengiorð?
         Í IcePaHC-svigaformi birtist það sem (C sem) í CP-REL-hnútum.
-        Engin veruleg margræðni er til staðar.
-
-    VÆNTAR NIÐURSTÖÐUR / EXPECTED PATTERNS:
-    - Fræðitextar (Læknablaðið): HÁTT — mikil innfelling, margar tilvísanar-
-      aukasetningar til að skilgreina hugtök og auðkenna fyrirbæri.
-    - Fréttir (RÚV): MIÐLUNGS — tilvísunaraukasetningar til að auðkenna
-      fólk og atburði („ráðherrann sem...", „fyrirtækið sem...").
-    - Blogg (Jonas.is): LÆGRA — einfaldari setningagerð, meira af
-      samhliðun (coordination) frekar en undirskipun (subordination).
+        ATHUGA MÖGULEGA MARGRÆÐNI??
 
 INNTAK / INPUT:
     Þáttuð tré úr data/parsed/human/*.txt og data/parsed/llm/*.txt
@@ -93,10 +85,10 @@ INNTAK / INPUT:
     2. Tafla á skipanalínu (með villuleitarupplýsingum)
 
 KEYRSLA / USAGE:
-    # Á möppu:
+    # Í möppu:
     python scripts/dim7_complementizers.py --parsed-dir output/parsed/
 
-    # Á tilgreindum skrám:
+    # Í tilgreindum skrám:
     python scripts/dim7_complementizers.py --files output/parsed/news_001.parsed
 
     # Sem innflutt eining:
@@ -142,44 +134,44 @@ def load_parsed_trees(path: Path) -> list[str]:
 # ============================================================
 #
 # TENGIORÐ Í ICEPAHC-SVIGAFORMI / COMPLEMENTIZERS IN BRACKET NOTATION:
-#   Tengiorð birtast sem endahnútar (terminal nodes) með merkið „C":
+#   Tengiorð birtast sem endahnútar (terminal nodes) með merkið „C“:
 #       (C sem)   — tilvísunartengiorð (relative complementizer)
-#       (C að)    — fullyrðingartengiorð (declarative complementizer)
+#       (C að)    — fallsetningatengiorð (declarative complementizer)
 #
-#   MIKILVÆGT: „að" birtist einnig sem:
+#   MIKILVÆGT: „að“ birtist einnig sem:
 #       (P að)   — forsetning (preposition) → EKKI talið
 #       (TO að)  — nafnháttarmerki (infinitive marker) → EKKI talið
-#   Regex-mynstrið \(C\s+að\) tryggir að við teljum EINGÖNGU „(C að)".
+#   Regex-mynstrið \(C\s+að\) tryggir að við teljum EINGÖNGU „(C að)“.
 #
 # LAUFBLÖÐ OG SETNINGAMERKI:
 #   LEAF_PATTERN finnur öll orð (laufblöð) í trénu til heildarorðatalningar.
 #   IP-MAT og IP-SUB eru notuð til setningatalningar (endurnýtt frá dim2).
 # ============================================================
 
-# --- „SEM" TENGIORÐ / RELATIVE COMPLEMENTIZER ---
+# --- „SEM“ TENGIORÐ / RELATIVE COMPLEMENTIZER ---
 # Finnur endahnúta (C sem) — tilvísunartengiorð í CP-REL hnútum.
 # Mynstur: \( + C + eitt-eða-fleiri-bil + sem + \)
 # Dæmi sem samsvara:   (C sem)
-# Dæmi sem SAMSVARA EI: (CONJ sem), (N-N sem) — ef slíkt væri til
+# Dæmi sem SAMSVARA EKKI: (CONJ sem), (N-N sem) — ef slíkt væri til
 C_SEM_PATTERN = re.compile(r'\(C\s+sem\)')
 
-# --- „AÐ" TENGIORÐ / DECLARATIVE COMPLEMENTIZER ---
-# Finnur endahnúta (C að) — fullyrðingartengiorð í CP-THT hnútum.
+# --- „AÐ“ TENGIORÐ / DECLARATIVE COMPLEMENTIZER ---
+# Finnur endahnúta (C að) — fallsetningatengiorð í CP-THT hnútum.
 # Mynstur: \( + C + eitt-eða-fleiri-bil + að + \)
 # Dæmi sem samsvara:    (C að)
-# Dæmi sem SAMSVARA EI: (P að), (TO að), (C sem)
+# Dæmi sem SAMSVARA EKKI: (P að), (TO að), (C sem)
 C_AD_PATTERN = re.compile(r'\(C\s+að\)')
 
 # --- ÖLL LAUFBLÖÐ / ALL LEAVES (for total word count) ---
-# Sama mynstur og í dim3, dim4, dim5. Laufblað = orðform rétt á
-# undan lokunarsvigrúmi ).
+# Sama mynstur og í dim3, dim4, dim5. Laufblað = orðmynd á
+# undan lokunarsviga ).
 LEAF_PATTERN = re.compile(r'[^\s\(\)]+(?=\))')
 
 # --- SETNINGAMERKI / CLAUSE LABELS (endurnýtt frá dim2) ---
 # IP-MAT = aðalsetning (matrix clause)
 # IP-SUB = aukasetning (subordinate clause)
-# Þessi regex-mynstur finna merkin í trénu á eftir opnunarsvigrúmi.
-# [\s\(] eftir merkinu tryggir að við finnum heilt merki, ekki hluta.
+# Þessi regex-mynstur finna merkin í trénu á eftir opnunarsviga.
+# [\s\(] á eftir merkinu = finna heilt merki, ekki hluta.
 IP_MAT_PATTERN = re.compile(r'\(IP-MAT[\s\(]')
 IP_SUB_PATTERN = re.compile(r'\(IP-SUB[\s\(]')
 
@@ -200,13 +192,19 @@ def extract_comp_counts_from_tree(tree_str: str) -> dict:
     DÆMI ÚR RAUNVERULEGUM TRJÁM:
         Tré: (ROOT (IP-MAT (NP-SBJ (D-N Maðurinn) (CP-REL (C sem)
              (IP-SUB (VBDI kom)))) (VBDI fór)))
-        → 1 „sem", 0 „að", 4 orð, 1 IP-MAT, 1 IP-SUB
+        → 1 „sem“, 0 „að“, 4 orð, 1 IP-MAT, 1 IP-SUB
 
         Tré: (ROOT (IP-MAT (NP-SBJ (PRO-N Hún)) (VBDI sagði)
              (CP-THT (C að) (IP-SUB (NP-SBJ (PRO-N hann))
              (MDDS myndi) (VB koma)))))
-        → 0 „sem", 1 „að", 6 orð, 1 IP-MAT, 1 IP-SUB
+        → 0 „sem“, 1 „að“, 6 orð, 1 IP-MAT, 1 IP-SUB
 
+        Tré: (ROOT (IP*MAT (NP*SBJ (N-N Maðurinn) (CP*REL (C sem) 
+            (TO að) (IP*SUB (VB koma) (PP (P í) (NP (N-A gær)))))) 
+            (BEPI er) (VBN farinn) (. .)))
+        → Í tilfellinu „sem að“ telur þáttarinn „að“ ranglega vera 
+            nafnháttarmerki, sem er gott í þessu tilfelli því annars
+            yrði dæmið ranglega talið tvisvar. 
     Args:
         tree_str: Eitt þáttunartré sem strengur í svigaformi.
 
@@ -235,7 +233,7 @@ def extract_comp_counts_from_tree(tree_str: str) -> dict:
 
 # ============================================================
 # AÐALMÆLING / MAIN MEASUREMENT
-# Keyra á heila skrá af þáttuðum trjám og reikna öll hlutföll.
+# Keyra skrá af þáttuðum trjám og reikna öll hlutföll.
 # ============================================================
 
 def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
@@ -244,8 +242,8 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
     REIKNIAÐFERÐ:
         1. Lesa öll þáttuð tré úr skrá
         2. Telja (C sem) og (C að) per tré
-        3. Leggja saman yfir öll tré
-        4. Reikna hlutföll og tíðni
+        3. Telja öll tré
+        4. Reikna hlutfall og tíðni
 
     ÚTREIKNINGAR:
         - comp_per_1000_words = (sem + að) / heildarorð × 1000
@@ -313,8 +311,8 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
     # --- REIKNA HLUTFÖLL ---
 
     # 1. Tengiorð per 1.000 orð — aðalmælikvarði
-    #    Þetta er sambærilegt við Biber-mælikvarða „that-deletions" og
-    #    „WH-relative clauses" nema við teljum bæði sem og að.
+    #    Þetta er sambærilegt við Biber-mælikvarða „that-deletions“ og
+    #    „WH-relative clauses“ nema við teljum bæði sem og að.
     if total_words > 0:
         comp_per_1000 = (total_comp / total_words) * 1000
     else:
@@ -329,7 +327,7 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
         comp_per_clause = 0.0
 
     # 3. sem-hlutfall (relative complementizer ratio)
-    #    Hlutfall „sem" af öllum tengiorðum. Ef hátt → flestar
+    #    Hlutfall „sem“ af öllum tengiorðum. Ef hátt → flestar
     #    aukasetningar eru tilvísunaraukasetningar (CP-REL).
     if total_comp > 0:
         sem_ratio = total_sem / total_comp
@@ -431,8 +429,8 @@ def print_results_table(results: list[dict]) -> None:
 
     DÁLKASKÝRINGAR:
         sem   = Fjöldi (C sem) — tilvísunartengiorð
-        að    = Fjöldi (C að) — fullyrðingartengiorð
-        Σtgi  = Heildarfjöldi tengiorða (sem + að)
+        að    = Fjöldi (C að) — fallsetningatengiorð
+        Σteng = Heildarfjöldi tengiorða (sem + að)
         Orð   = Heildarfjöldi orða (laufblöð)
         Setn  = Heildarfjöldi setninga (IP-MAT + IP-SUB)
         /1000 = Tengiorð per 1.000 orð
@@ -446,7 +444,7 @@ def print_results_table(results: list[dict]) -> None:
     print("=" * 110)
 
     # Hauslína / Header
-    print(f"  {'Skrá':<35} {'sem':<5} {'að':<5} {'Σtgi':<5} "
+    print(f"  {'Skrá':<35} {'sem':<5} {'að':<5} {'Σteng':<5} "
           f"{'Orð':<7} {'Setn':<6} {'/1000':<7} {'/setn':<7} "
           f"{'s-hlf':<7} {'sem/k':<7} {'að/k':<7}")
     print(f"  {'-'*35} {'-'*5} {'-'*5} {'-'*5} "
@@ -506,22 +504,22 @@ def print_results_table(results: list[dict]) -> None:
     print()
     print("  SKÝRING DÁLKA / COLUMN KEY:")
     print("    sem   = Fjöldi (C sem) — tilvísunartengiorð (relative complementizer)")
-    print("    að    = Fjöldi (C að) — fullyrðingartengiorð (declarative complementizer)")
-    print("    Σtgi  = Heildarfjöldi tengiorða (sem + að)")
-    print("    Orð   = Heildarfjöldi orða (laufblöð í þáttunartréum)")
+    print("    að    = Fjöldi (C að) — fallsetningatengiorð (declarative complementizer)")
+    print("    Σteng  = Heildarfjöldi tengiorða (sem + að)")
+    print("    Orð   = Heildarfjöldi orða (laufblöð í þáttunartrjám)")
     print("    Setn  = Heildarfjöldi setninga (IP-MAT + IP-SUB)")
     print("    /1000 = Tengiorð per 1.000 orð")
     print("    /setn = Tengiorð per setningu (IP-MAT + IP-SUB)")
     print("    s-hlf = sem-hlutfall: sem / (sem + að)")
-    print('    sem/k = „sem" per 1.000 orð')
-    print('    að/k  = „að" per 1.000 orð')
+    print('    sem/k = „sem“ per 1.000 orð')
+    print('    að/k  = „að“ per 1.000 orð')
     print()
     print("  TÚLKUN:")
-    print("    /1000 > 40  → mikil tengiorðanotkun (fræðitextar, lögtextar)")
-    print("    /1000 ~ 25-40 → miðlungs (fréttir)")
-    print("    /1000 < 25  → lág tengiorðanotkun (blogg, talmál)")
+    print("    /1000 > 40  → mikil tengiorðanotkun")
+    print("    /1000 ~ 25-40 → miðlungs")
+    print("    /1000 < 25  → lág tengiorðanotkun")
     print("    s-hlf > 0.5 → flestar aukasetningar eru tilvísanar (CP-REL)")
-    print("    s-hlf < 0.5 → flestar aukasetningar eru fullyrðingar (CP-THT)")
+    print("    s-hlf < 0.5 → flestar aukasetningar eru fallsetningar (CP-THT)")
 
 
 # ============================================================
@@ -532,7 +530,7 @@ def find_parsed_files(parsed_dir: Path) -> list[Path]:
     """Finna allar þáttaðar skrár í möppu (endurkvæmt).
 
     Leitar að .txt skrám sem innihalda þáttuð tré (ein lína = eitt tré).
-    Raðar skrám í stafrófsröð til endurtekjanlegrar (reproducible) keyrslu.
+    Raðar skrám í stafrófsröð til endurtaka (reproducible) keyrslu.
 
     Args:
         parsed_dir: Mappa með þáttuðum skrám.

@@ -55,6 +55,8 @@ FLÆÐI / FLOW:
 KEYRSLA / USAGE:
     python scripts/run_milicka.py
     python scripts/run_milicka.py --output-csv output/milicka_results.csv
+    python scripts/run_milicka.py --plot
+    python scripts/run_milicka.py --plot --figure-dir output/figures
 """
 
 import argparse
@@ -703,11 +705,17 @@ def compute_se_per_register(
 # AÐALFLÆÐI / MAIN BENCHMARK FLOW
 # ============================================================
 
-def run_benchmark(output_csv: Path | None = None) -> None:
+def run_benchmark(
+    output_csv: Path | None = None,
+    plot: bool = False,
+    figure_dir: Path | None = None,
+) -> None:
     """Keyra Milička-viðmið á öllum textum og prenta niðurstöður.
 
     Args:
         output_csv: Ef gefin, vista niðurstöður í CSV-skrá.
+        plot: Ef True, búa til dreifirit og súlurit.
+        figure_dir: Mappa fyrir myndir (sjálfgefið output/figures/).
     """
 
     # ── SKREF 1: Finna öll úrtök og LLM-líkön ──
@@ -982,6 +990,16 @@ def run_benchmark(output_csv: Path | None = None) -> None:
     if output_csv:
         save_csv(all_rows, output_csv)
 
+    # ── TEIKNA MYNDIR / GENERATE PLOTS ──
+    if plot:
+        if figure_dir is None:
+            figure_dir = PROJECT_ROOT / "output" / "figures"
+        print(f"\n{'=' * 80}")
+        print("TEIKNA MYNDIR / GENERATING PLOTS")
+        print(f"  Mappa: {figure_dir}")
+        print("=" * 80)
+        generate_plots(all_rows, B_values, figure_dir)
+
 
 # ============================================================
 # VISTA NIÐURSTÖÐUR SEM CSV / SAVE RESULTS AS CSV
@@ -1024,6 +1042,220 @@ def save_csv(rows: list[dict], output_path: Path) -> None:
 
 
 # ============================================================
+# LÍNURIT / PLOTTING
+# ============================================================
+# Búa til Milička-stíls dreifirit (scatterplots) og
+# súlurit yfir B-gildi. Matplotlib er aðeins flutt inn
+# þegar --plot er gefið svo það sé ekki nauðsynleg forsenda
+# fyrir þá sem vilja aðeins tölulegar niðurstöður.
+#
+# Generate Milička-style scatterplots and a B-score bar chart.
+# matplotlib is imported lazily so it is not a hard dependency
+# for users who only want the numerical output.
+# ============================================================
+
+# Litapaletta per textategund — litblinduvæn.
+# Register colour palette — colourblind-friendly.
+REGISTER_COLOURS: dict[str, str] = {
+    'academic': '#4477AA',   # blátt / blue
+    'blog':     '#EE6677',   # appelsínugult / coral-orange
+    'news':     '#228833',   # grænt / green
+    'unseen':   '#AA3377',   # fjólublátt / purple
+}
+
+# Sjálfgefinn litur ef textategund er ekki þekkt.
+# Fallback colour for unknown registers.
+_DEFAULT_COLOUR = '#BBBBBB'
+
+
+def _pretty_model_name(raw: str) -> str:
+    """Snoturra líkansheiti til birtingar / Prettify model name for display."""
+    return raw.replace('_', ' ').title()
+
+
+def generate_plots(
+    all_rows: list[dict],
+    B_values: dict[str, dict[str, float]],
+    figure_dir: Path,
+) -> None:
+    """Búa til dreifirit og súlurit og vista í möppu.
+
+    Create per-dimension scatterplots and an aggregate B-score
+    bar chart and save to *figure_dir*.
+
+    Args:
+        all_rows: Listi af per-sample dict (frá run_benchmark).
+        B_values: {model: {register: B}} (frá run_benchmark).
+        figure_dir: Slóð á möppu þar sem myndir eru vistaðar.
+    """
+    # Seinkað innflutningur / Lazy import
+    import matplotlib
+    matplotlib.use('Agg')  # Bakendi án glugga / non-interactive backend
+    import matplotlib.pyplot as plt
+
+    figure_dir.mkdir(parents=True, exist_ok=True)
+
+    # --- Finna allar textategundir og líkön í gögnunum ---
+    # --- Discover all registers and models in the data ---
+    registers_in_data: list[str] = sorted(
+        {row['register'] for row in all_rows}
+    )
+    models_in_data: list[str] = sorted(
+        {row['model'] for row in all_rows}
+    )
+
+    if not all_rows:
+        print("  Engar niðurstöður til að teikna — sleppi myndum.")
+        return
+
+    # ==========================================================
+    # MYND 1: Dreifirit per vídd / Per-dimension scatterplots
+    # ==========================================================
+
+    for dim in DIMENSIONS:
+        dim_id = dim['id']
+        dim_rows = [r for r in all_rows if r['dim_id'] == dim_id]
+        if not dim_rows:
+            continue
+
+        n_models = len(models_in_data)
+        fig, axes = plt.subplots(
+            1, n_models,
+            figsize=(5 * n_models, 4.8),
+            squeeze=False,
+            sharey=True,
+        )
+
+        # Finna ás-mörk / determine axis limits
+        all_v = (
+            [r['v_human'] for r in dim_rows]
+            + [r['v_model'] for r in dim_rows]
+        )
+        v_min = min(all_v)
+        v_max = max(all_v)
+        margin = (v_max - v_min) * 0.08 if v_max > v_min else 0.1
+        lo = v_min - margin
+        hi = v_max + margin
+
+        for col_idx, model_name in enumerate(models_in_data):
+            ax = axes[0, col_idx]
+            model_rows = [r for r in dim_rows if r['model'] == model_name]
+
+            # Teikna hornalínu / diagonal y=x
+            ax.plot([lo, hi], [lo, hi], ls='--', color='#888888',
+                    lw=1, zorder=1)
+
+            # Teikna punkta per textategund / scatter by register
+            for reg in registers_in_data:
+                reg_rows = [r for r in model_rows if r['register'] == reg]
+                if not reg_rows:
+                    continue
+                xs = [r['v_human'] for r in reg_rows]
+                ys = [r['v_model'] for r in reg_rows]
+                colour = REGISTER_COLOURS.get(reg, _DEFAULT_COLOUR)
+                ax.scatter(
+                    xs, ys,
+                    c=colour, label=reg.capitalize(),
+                    s=36, alpha=0.8, edgecolors='white', linewidths=0.4,
+                    zorder=2,
+                )
+
+            ax.set_xlim(lo, hi)
+            ax.set_ylim(lo, hi)
+            ax.set_aspect('equal', adjustable='box')
+            ax.set_title(_pretty_model_name(model_name), fontsize=11)
+
+            if col_idx == 0:
+                ax.set_ylabel('v (LLM)', fontsize=10)
+            ax.set_xlabel('v (mannlegt / human)', fontsize=10)
+            ax.tick_params(labelsize=9)
+
+        # Sameiginlegur titill og skýring / shared title and legend
+        fig_title = f"{dim['name']} ({dim['label']})"
+        fig.suptitle(fig_title, fontsize=13, fontweight='bold', y=1.02)
+
+        # Einn legend fyrir alla — setja undir / shared legend below
+        handles, labels = axes[0, 0].get_legend_handles_labels()
+        if handles:
+            fig.legend(
+                handles, labels,
+                loc='lower center',
+                ncol=len(registers_in_data),
+                fontsize=9,
+                frameon=False,
+                bbox_to_anchor=(0.5, -0.04),
+            )
+
+        fig.tight_layout()
+        out_path = figure_dir / f"scatter_{dim_id}.png"
+        fig.savefig(out_path, dpi=150, bbox_inches='tight')
+        plt.close(fig)
+        print(f"  Vistað: {out_path}")
+
+    # ==========================================================
+    # MYND 2: B-gildi súlurit / B-score grouped bar chart
+    # ==========================================================
+
+    if not B_values:
+        return
+
+    # Finna textategundir sem eru til í B_values
+    b_registers = sorted(
+        {reg for mv in B_values.values() for reg in mv}
+    )
+    b_models = sorted(B_values)
+    n_reg = len(b_registers)
+    n_mod = len(b_models)
+
+    if n_mod == 0 or n_reg == 0:
+        return
+
+    import numpy as np
+    x = np.arange(n_mod)
+    bar_width = 0.8 / n_reg
+
+    fig, ax = plt.subplots(figsize=(max(6, 2 * n_mod), 5))
+
+    for i, reg in enumerate(b_registers):
+        vals = []
+        for model_name in b_models:
+            b = B_values[model_name].get(reg, 0.0)
+            # Takmarka inf gildi við sýnilegt hámark / cap inf for display
+            vals.append(b if not math.isinf(b) else float('nan'))
+        colour = REGISTER_COLOURS.get(reg, _DEFAULT_COLOUR)
+        offset = (i - n_reg / 2 + 0.5) * bar_width
+        ax.bar(
+            x + offset, vals, bar_width,
+            label=reg.capitalize(), color=colour,
+            edgecolor='white', linewidth=0.5,
+        )
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(
+        [_pretty_model_name(m) for m in b_models],
+        fontsize=10,
+    )
+    ax.set_ylabel('B-gildi (heildarskor / aggregate score)', fontsize=10)
+    ax.set_title(
+        'Milička B-gildi per líkan og textategund',
+        fontsize=12, fontweight='bold',
+    )
+
+    # Viðmiðslínur / reference lines
+    ax.axhline(y=1, ls=':', color='#888888', lw=0.8, label='B = 1')
+    ax.axhline(y=2, ls=':', color='#BBBBBB', lw=0.8, label='B = 2')
+
+    ax.legend(fontsize=9, frameon=False)
+    ax.tick_params(labelsize=9)
+    fig.tight_layout()
+
+    out_path = figure_dir / "B_scores.png"
+    fig.savefig(out_path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f"  Vistað: {out_path}")
+
+
+# ============================================================
 # SKIPANALÍNUVIÐMÓT / COMMAND LINE INTERFACE
 # ============================================================
 
@@ -1039,6 +1271,12 @@ Dæmi:
 
   # Keyra og vista CSV-niðurstöður:
   python scripts/run_milicka.py --output-csv output/milicka_results.csv
+
+  # Keyra og búa til myndir:
+  python scripts/run_milicka.py --plot
+
+  # Keyra allt — CSV og myndir í sérstaka möppu:
+  python scripts/run_milicka.py --output-csv output/milicka_results.csv --plot --figure-dir output/figures
         """
     )
     parser.add_argument(
@@ -1048,9 +1286,26 @@ Dæmi:
         help="Slóð á CSV-skrá til að vista nákvæmar niðurstöður "
              "(ein lína per líkan × textategund × úrtak × vídd)."
     )
+    parser.add_argument(
+        '--plot',
+        action='store_true',
+        default=False,
+        help="Búa til Milička-stíls dreifirit og B-gildi súlurit "
+             "(krefst matplotlib)."
+    )
+    parser.add_argument(
+        '--figure-dir',
+        type=Path,
+        default=None,
+        help="Mappa til að vista myndir (sjálfgefið: output/figures/)."
+    )
 
     args = parser.parse_args()
-    run_benchmark(output_csv=args.output_csv)
+    run_benchmark(
+        output_csv=args.output_csv,
+        plot=args.plot,
+        figure_dir=args.figure_dir,
+    )
 
 
 if __name__ == "__main__":

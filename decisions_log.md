@@ -295,3 +295,39 @@ Nýjar færslur fyrir decisions_log.md:
 **Rökstuðningur:** Mikilvægast að kanna getu líkana til að búa til stíl en ekki kópípeista það sem sent var á þau. Vandamálið var tæknilegs eðlis, sem mikilvægt er að greina frá en það er ekki tengt þessari mælingu.
 
 **Útkoma:** Svo virðist sem sum líkönin lendi í tæknilegum örðugleikum þegar kemur að íslensku. Það þarf að gera grein fyrir því í greininni. Tekin var ákvörðun um að fjarlægja endurtekningar og mæla það sem hægt var að mæla. 
+
+
+
+### 020 — 14. apríl 2026 — Fjórði textaflokkur: óbirtur skáldskapur
+
+**Samhengi:** RMH-textar hafa líklega verið í þjálfunargögnum risamállíkana (sjá ákvörðun 010 og Yang et al., 2023). Þetta er skjalfestur fyrirvari en erfitt að meta hversu mikil áhrif mengunin hefur á niðurstöður. Til að prófa þetta beint þarf texta sem sannanlega er óséður af öllum líkönum.
+
+**Valkostir sem voru skoðaðir:**
+1. Halda áfram með þrjá flokka og setja fyrirvara — Einfaldara, en mengunarvandamálið helst óleyst.
+2. Bæta við fjórða flokki úr óbirtum skáldskap höfundar — Leysir mengunarvandamálið beint. Hægt að bera saman: skora líkönin öðruvísi á óséðum gögnum en RMH-gögnum? Gallinn er að sumir textarnir eru óyfirlesnir svo þáttarinn gæti lent í vandræðum.
+
+**Ákvörðun:** Valkostur 2.
+
+**Rökstuðningur:** 15 sýni (~2.000 orð) tiltæk án viðbótarvinnu. Pípan er þegar tilbúin — þetta er eins og að bæta við líkani, ekki endurbyggja neitt. Niðurstöðurnar bæta kafla í umræðu greinarinnar þar sem mengunarveldið er rætt. Ef niðurstöður á óséðum gögnum eru verulega frábrugðnar RMH-niðurstöðum eru það áhugaverðar rannsóknarniðurstöður í sjálfu sér.
+
+**Fyrirvari:** Textarnir eru eftir einn höfund og geta ekki talist fulltrúi skáldsagnatefnis á íslensku. Verður tekið fram í greininni.
+
+**Afleiðingar:** Bæta „unseen authored text“ sem fjórða flokki. 15 sýni × 1 flokkur = 15 ný pör. Keyra í gegnum sömu pípu.
+
+
+---
+
+### 021 — 14. apríl 2026 — Hitastigsbreytingar
+
+**Samhengi:** Fyrstu fjögur líkönin voru keyrð handvirkt í gegnum spjallviðmót. Það þýðir að ekki er hægt að endurtaka með breyttu hitastigi. Einnig er þetta takmarkaður fjölda líkana. Niðurstöðurnar eru nægar fyrir námskeiðsverkefni en út af sumarverkefninu er betra að fá niðurstöður sem gefa betri vísbendingu um hvað er að virka.
+
+**Valkostir sem voru skoðaðir:**
+1. Nota bara líkön með spjallviðmóti — Ókeypis en ekki hægt að endurtaka. Takmarkað við þau líkön sem hafa opið spjallviðmót. Tímafrekt.
+2. Kaupa API-aðgang — Kostnaður en gefur endurtakanleika, hitastigstilraunir og fleiri líkön.
+
+**Ákvörðun:** Valkostur 2.
+
+**Rökstuðningur:** Þrennt styrkir greinina verulega: (1) endurtakanleiki (API-köll með föstum breytum), (2) hitastigstilraunir (Milička fann áhugaverðustu niðurstöður sínar þar), (3) fleiri líkön (GPT - mögulega fleiri ef tími gefst?) þá fer greinin frá því að fjalla um „nokkur dæmi“ yfir í „yfirlit“.
+
+**Afleiðingar:** Bæta við allavega einu GPT líkani við mismunandi hitastig. Aðferðafræðikafli greinarinnar mun lýsa tveimur lotum gagnasöfnunar: (1) handvirkt í spjallviðmóti, (2) API með stýrðum breytum.
+

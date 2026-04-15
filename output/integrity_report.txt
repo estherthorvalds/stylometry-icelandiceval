@@ -1,0 +1,129 @@
+======================================================================
+HEILLEIKASKÝRSLA / INTEGRITY REPORT
+======================================================================
+  Skrár skoðaðar / Files checked: 171
+  Viðvaranir samtals / Total warnings: 33
+
+SAMANTEKT PER FLOKK / SUMMARY BY CATEGORY:
+--------------------------------------------------
+  Tvítekin efni / Duplicates               ⚠ 1
+  Prompt-leki / Bleed-through              ⚠ 2
+  Of stutt / Too short                     ⚠ 29
+  Misræmi möppu / Folder mismatch          ✓
+  Vantar pör / Missing pairs               ⚠ 1
+  Tungumál / Language                      ✓
+  NaN-hlutfall / NaN rate                  ✓
+
+======================================================================
+NÁKVÆMAR VIÐVARANIR / DETAILED WARNINGS
+======================================================================
+
+--- Tvítekin efni / Duplicates (1) ---
+
+  TVÍTEKIN EFNI / DUPLICATE CONTENT (sha256: 01ba4719c80b6fe9...):
+    /Users/esther/Documents/GitHub/stylometry-icelandiceval/data/experiment/llm_continuations_preprocessed/le_chat_thinking/academic/lechat_thinking_academic_prompt_009.txt
+    /Users/esther/Documents/GitHub/stylometry-icelandiceval/data/experiment/llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_002.txt
+
+--- Prompt-leki / Bleed-through (2) ---
+
+  PROMPT-LEKI / PROMPT BLEED-THROUGH: llm_continuations_preprocessed/gpt_5/blog/gpt5_blog_prompt_006.txt
+    Setning úr prompt (100% samsvarun): "Svo grátt hafa þingmenn hans leikið Þingvelli um áratugi...."
+
+  PROMPT-LEKI / PROMPT BLEED-THROUGH: llm_continuations_preprocessed/gpt_5/news/gtp_5_news_prompt_001.txt
+    Setning úr prompt (100% samsvarun): "Ný rammaáætlun 2017...."
+
+--- Of stutt / Too short (29) ---
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/academic/lechat_fast_academic_prompt_002.txt
+    610 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/academic/lechat_fast_academic_prompt_003.txt
+    258 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/academic/lechat_fast_academic_prompt_006.txt
+    191 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/academic/lechat_fast_academic_prompt_011.txt
+    209 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/academic/lechat_fast_academic_prompt_015.txt
+    696 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/blog/lechat_fast_blog_prompt_013.txt
+    390 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/news/lechat_fast_news_prompt_001.txt
+    329 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/news/lechat_fast_news_prompt_006.txt
+    618 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/news/lechat_fast_news_prompt_009.txt
+    652 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/news/lechat_fast_news_prompt_011.txt
+    486 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_fast/news/lechat_fast_news_prompt_014.txt
+    599 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/academic/lechat_thinking_academic_prompt_001.txt
+    540 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/academic/lechat_thinking_academic_prompt_009.txt
+    0 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/academic/lechat_thinking_academic_prompt_013.txt
+    516 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_001.txt
+    335 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_002.txt
+    0 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_003.txt
+    586 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_004.txt
+    601 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_006.txt
+    188 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_007.txt
+    217 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_008.txt
+    391 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_010.txt
+    488 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_013.txt
+    308 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/blog/lechat_thinking_blog_prompt_015.txt
+    139 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/news/le_chat_thinking_news_prompt_001.txt
+    455 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/news/le_chat_thinking_news_prompt_007.txt
+    633 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/news/le_chat_thinking_news_prompt_009.txt
+    453 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/news/le_chat_thinking_news_prompt_010.txt
+    698 orð (lágmark: 700)
+
+  OF STUTT / TOO SHORT: llm_continuations_preprocessed/le_chat_thinking/news/le_chat_thinking_news_prompt_012.txt
+    682 orð (lágmark: 700)
+
+--- Vantar pör / Missing pairs (1) ---
+
+  VANTAR FRAMHÖLD / MISSING CONTINUATIONS: le_chat_fast
+    Vantar 9 skrár: blog_002, blog_003, blog_004, blog_005, blog_006, blog_007, blog_008, blog_009, blog_015
+
+======================================================================

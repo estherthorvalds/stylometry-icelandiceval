@@ -22,7 +22,7 @@ HVERS VEGNA / WHY:
     Milička's formulas need constituency parse trees to measure sentence structure.
     The parser is expensive to run, so we run it ONCE and save the results.
 
-ÞRJÁR UPPSPRETTUR / THREE SOURCES:
+FIMM UPPSPRETTUR / FIVE SOURCES:
 
     1. PROMPT-TEXTAR (fyrri helmingur mannlegra texta):
        Slóð: data/experiment/prompts/
@@ -47,25 +47,41 @@ HVERS VEGNA / WHY:
        Þáttað eins og er — preprocess_llm_output.py hefur þegar hreinsað
        markdown, metaumfjöllun og endurtekningar.
 
+    4. ÓSÉÐ HÖFUNDATEXTAR — PROMPT (fyrri helmingur óséðra bókmenntatexta):
+       Slóð: data/experiment_unseen/prompts/
+       Skrár: unseen_prompt_001.txt, ...
+       Sama leiðbeiningarlína og í (1) — fjarlægð á sama hátt.
+
+    5. ÓSÉÐ HÖFUNDATEXTAR — VIÐMIÐ (seinni helmingur óséðra bókmenntatexta):
+       Slóð: data/experiment_unseen/human_reference/
+       Skrár: unseen_ref_001.txt, ...
+       Þáttað eins og er, engin forvinnsla þörf.
+
 ÚTTAK / OUTPUT:
     output/parsed/
-    ├── prompts/                              # Þáttuð prompt-gögn
+    ├── prompts/                              # Þáttuð prompt-gögn (aðaltilraun)
     │   ├── academic_prompt_001_parsed.psd
     │   ├── blog_prompt_001_parsed.psd
     │   └── ...
-    ├── human_reference/                      # Þáttuð viðmiðsgögn
+    ├── human_reference/                      # Þáttuð viðmiðsgögn (aðaltilraun)
     │   ├── academic_ref_001_parsed.psd
     │   ├── blog_ref_001_parsed.psd
     │   └── ...
-    └── llm_continuations_preprocessed/       # Þáttuð LLM-framhöld
-        ├── gemini_3_thinking/
-        │   ├── academic/
-        │   │   └── gemini_academic_prompt_010_parsed.psd
-        │   ├── blog/
-        │   └── news/
-        ├── gpt_5/...
-        ├── le_chat_fast/...
-        └── le_chat_thinking/...
+    ├── llm_continuations_preprocessed/       # Þáttuð LLM-framhöld
+    │   ├── gemini_3_thinking/
+    │   │   ├── academic/
+    │   │   │   └── gemini_academic_prompt_010_parsed.psd
+    │   │   ├── blog/
+    │   │   └── news/
+    │   ├── gpt_5/...
+    │   ├── le_chat_fast/...
+    │   └── le_chat_thinking/...
+    └── prompts/                              # Þáttuð prompt-gögn (óséð)
+    │   ├── unseen_prompt_001_parsed.psd      #   (frá experiment_unseen/prompts/)
+    │   └── ...
+    └── human_reference/                      # Þáttuð viðmiðsgögn (óséð)
+        ├── unseen_ref_001_parsed.psd         #   (frá experiment_unseen/human_reference/)
+        └── ...
 
     Hvert tré er ein lína í .psd skrá. Stjörnur (*) í þáttunartréum eru
     skiptar út fyrir bandstrik (-) til samræmis við IcePaHC-skemað.
@@ -123,10 +139,17 @@ DEFAULT_MODEL_PATH = PROJECT_ROOT / "models" / "is_icepahc_transformer_finetuned
 # 3. llm_continuations_preprocessed/ — LLM-framhöld eftir forvinnslu.
 #    Hvert líkan í sinni undirmöppu (gemini_3_thinking/, gpt_5/, o.s.frv.),
 #    með academic/, blog/, news/ undir hverju.
+#
+# 4. experiment_unseen/prompts/ — fyrri helmingur óséðra höfundatexta.
+#    Sama leiðbeiningarlína og í aðaltilrauninni — fjarlægð á sama hátt.
+#
+# 5. experiment_unseen/human_reference/ — seinni helmingur óséðra höfundatexta.
 DEFAULT_INPUT_DIRS = [
     PROJECT_ROOT / "data" / "experiment" / "prompts",
     PROJECT_ROOT / "data" / "experiment" / "human_reference",
     PROJECT_ROOT / "data" / "experiment" / "llm_continuations_preprocessed",
+    PROJECT_ROOT / "data" / "experiment_unseen" / "prompts",
+    PROJECT_ROOT / "data" / "experiment_unseen" / "human_reference",
 ]
 
 # Úttak: rótarmappa þar sem þáttuð tré verða vistuð.

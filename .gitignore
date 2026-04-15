@@ -44,6 +44,13 @@ data/experiment/prompts/
 # 45 reference files (second halves of selected human texts)
 data/experiment/human_reference/
 
+# Unseen authored texts (full novels/works, not for public distribution)
+data/unseen_authored_texts/
+
+# Unseen experiment: prompt/reference splits of authored texts
+data/experiment_unseen/prompts/
+data/experiment_unseen/human_reference/
+
 # News headlines from earlier pilot experiment
 output/news_headlines/human_texts/
 

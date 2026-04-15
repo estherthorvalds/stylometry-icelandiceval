@@ -640,3 +640,35 @@ le_chat_thinking:    15 files,  66 passages,  3,879 words
 - Yfirfara kóðann.
 - Endurskoða niðurstöður og senda til Miðeindar. 
 - Skoða scatter matplotlib á borð við það sem sést í grein Milicka.
+
+
+### 14. apríl 2026 — Skipulag greinar, fjórði textaflokkur, API-ákvörðun
+
+**Tími:** 4 klst.
+
+**Hvað gerði ég:**
+- Skipulagði greinina. Fór yfir öll gögn verkefnisins (research_log, decisions_log, ARCHITECTURE.md, reference_tracker, skriftur) og samdi uppbyggingu greinar í samvinnu við Claude Opus 4.6. Uppbygging byggð á Milička en aðlöguð að íslensku samhengi.
+- Ákvað að bæta við fjórða textaflokki: óbirtur skáldskapur eftir mig sjálfa. 15 sýni (2.000+ orð hvert) tiltæk. Markmið: prófa mengunarveldið (data contamination) — þessir textar eru sannanlega óséðir af öllum líkönum.
+- Skoða API-aðgang til að bæta við og skoða mismunandi hitastig (temperature), líklegast GPT. Þetta styrkir greininguna verulega þar sem áhugaverðustu niðurstöður Milička birtust við hitastigsbreytingar: Hægt verður að endurtaka tilraunina með hitastigstilraunum, fleiri líkön.
+- Útbjó verkefnaáætlun til að halda utan um það sem eftir er (Heimaverkefni 5).
+
+**Uppgötvanir:**
+- Óbirtur skáldskapur leysir RMH-mengunarvandamálið beint: í stað þess að setja fyrirvara er hægt að bera saman niðurstöður á RMH-textum (mögulega mengaðir) við óséð gögn og sjá hvort munur sé. 
+- Le Chat Think á mjög erfitt með áður óséðan skáldskap, festist ítrekað í „alveg alveg alveg“ lúppum. 
+- Le Chat Fast er farið. Le Chat Balanced er komið í staðinn. Óséði textinn verður að fara í gegnum það í stað Fast. 
+- API-aðgangur gefur þrennt sem vantar: (1) möguleika á að endurtaka með sama líkani, (2) hitastigstilraunir (Milička fann áhugaverðustu niðurstöður sínar þar), (3) fleiri líkön til að færast frá „nokkur dæmi“ yfir í nokkuð gott yfirlit yfir frammistöðu mismunandi líkana.
+
+**Hugsanir / túlkun:**
+- Markmiðið er nú að fá raunverulegar niðurstöður sem nýtast í sumarverkefnið. Hvaða líkan á best við til textagerðar á íslensku? Greinin skal svara því.
+- Fjórði flokkurinn (óbirtur skáldskapur) er aðeins eftir einn höfund — getur ekki talist fulltrúi skáldsagnaefnis á íslensku. Þetta er tilraun til að prófa ómengaða texta (óbirtir - hafa ómögulega verið skrapaðir), ekki að skilgreina skáldskap sem textategund. Gallinn er þó að sumir textar eru óyfirlesnir og sömuleiðis óhefðbundnir sem þýðir að þáttarinn gæti lent í vandræðum með mennska textann. 
+
+**Opnar spurningar:**
+- Hvaða Claude-líkön á að prófa? Sonnet 4.6 og Opus 4.6? Haiku? Get aðeins gert 3 Sonnet texta í einu með fríkeypis útgáfunni.
+- Hvaða hitastig hjá GPT? Milička notaði ýmis, 0 og 1 voru áhugaverðust. 
+
+**Næstu skref:**
+- Undirbúa óbirta textana: draga út 15 sýni (~2.000 orð), keyra í gegnum extract_samples.py og prepare_paired_experiment.py.
+- Fá API-aðgang.
+- Keyra nýju líkönin í gegnum pípuna.
+- Senda stöðuskýrslu til Miðeindar.
+- Byrja að skrifa greinardrög (introduction, related work) samhliða gagnavinnslu.

@@ -1,0 +1,98 @@
+Munurinn er hins vegar sá, að (13)c-d spá því að ekki sé hægt að stinga frumlaginu milli annarra sagna, eða milli óbeins og beins andlags; og það stenst allt saman, eins og (14)-(15) sýna. Bæði er talsverður munur á íslensku og ensku einmitt hvað varðar ýmsa hegðun sagna og sagnasambanda (og nægir þar að nefna að í neitunar- og spurnarsetningum í ensku kemur hjálparsögnin do til sögu); og eins er ljóst að sagnliðurinn getur tæpast verið algildur í málum heimsins. Og svo er reyndar:
+(16)a Jón mun hafa lesið bókina
+b Lesið bókina mun Jón hafa
+(17)a Hann skal geta þetta
+b *Þetta skal hann geta
+Þetta bendir til þess að hjálparsagnir af þeirri tegund sem hér er til umfjöllunar hegði sér með grundvallarólíkum hætti eftir því hvort þær koma á undan eða á eftir meginmerkingarsögninni. Spurningin er þá sú hvort slíkt megi skýra með einfaldri greiningu á liðbyggingu setninganna eða hvort til þurfi flóknari tækifæri.
+4.2 Hjálparsagnir og setningarliðir
+Við höfum nú séð að sagnir í fallháttum virðast á einhvern hátt mynda setningarlið með fylgiorðum sínum, þótt sagnir í persónuháttum geri það ekki að neinu marki sem við getum rætt um á einhlítan hátt. Nú hefur hjálparliðnum verið hafnað hér að framan; en ef hægt væri að skýra margs konar mun þessara flokka með návist eða fjarvist slíks liðar, mætti segja að þar væru komin rök fyrir því að gera ráð fyrir honum, þótt þau rök séu einungis óbein.
+Höskuldur Þráinsson (1983) hefur lagt til þá greiningu að hjálparsagnir í íslensku skiptist í tvær megintegundir. Annars vegar eru það sagnir sem taka sagnlið sem fyllilið, þar sem sagnliðurinn er enginn fullgildur setningarlið með eigin frumlag; hins vegar eru það sagnir sem taka fullar setningar sem fylliliði, þar sem setningin hefur sitt eigið frumlag, þótt það sé eytt á yfirborðinu vegna samsemdar við frumlag aðalsetningarinnar. Þessi greinarmunur er í sæmilegu samræmi við þá skipan mála sem við finnum í skyldum málum, og raunar er hann kominn úr hefð þeirrar kenninátta sem gengur aftur til Rosenbaums (1967) og Chomskys (1965) þótt margt hafi breyst í greiningum síðan þá.
+Spurningin sem hér vaknar er sú hvort þetta sé einungis málfarslegar gátur eða hvort hér sé um að ræða dýpri reglubundar mynstrar sem ganga þvert á mismunandi tegundir sagna. Ef við skoðum hegðun þessara sagna nánar, kemur í ljós að greiningarmunurinn er ekki alltaf eins skýr og maður myndi vilja:
+(25)a Hann hefur verið að lesa bókina
+b Að lesa bókina hefur hann verið
+c *Bókina hefur hann verið að lesa
+d Bókina hefur hann verið að lesa
+Þessi dæmi sýna að þótt flutningstakmarkanir séu til staðar, þá eru þær ekki algerar; í vissum samhengjum, sérstaklega þegar um er að ræða forhluta setningarinnar (topicalization), er hægt að flytja hluta af fylliliðnum en ekki annan. Þetta er í samræmi við þá hugmynd að fylliliðurinn myndi ekki einn líkan lið heldur sé skiptur upp í einingum sem geta hegðað sér sjálfstætt undir vissum kringumstæðum.
+Við skulum nú beina sjónum að spurningunni um hvernig á að skýra þann mun sem er á hegðun sagna eins og munu og skulu annars vegar og hafa og vera hins vegar þegar kemur að möguleika á að stinga frumlagi inn á milli þeirra og meginmerkingarsagnarinnar:
+(26)a Jón mun lesa bókina
+b Lesa bókina mun Jón
+c *Jón mun Jón lesa bókina
+(27)a Jón hefur lesið bókina
+b Lesið bókina hefur Jón
+c *Hefur Jón lesið bókina *d. Jón hefur Jón lesið bókina
+Það er augljóst af þessum dæmum að frumlagsfærsla inn á milli hjálparsagnar og meginmerkingarsagnar er ekki möguleg í neinu tilvikanna, þó að önnur tegundir umstæðingar séu leyfðar. Þetta er í góðu samræmi við þær kenningar sem gera ráð fyrir að hjálparsögnin og meginmerkingarsögnin ásamt hennar fylgiorðum myndi saman eina liðareiningu, hvort sem við köllum hana sagnlið eða setningarlið.
+4.3 Frumlagseyðing og samsemi
+Eins og fram hefur komið hér að framan er eitt af helstu einkennum þeirrar tegundar sem Höskuldur kallar „equi"-sagnir það að frumlag undirskipuðu setningarinnar er eytt vegna samsemdar við eitthvað í aðalsetningunni, oftast frumlag hennar. Þetta fyrirbæri er algengt í mörgum málum og er kallað „equi-NP deletion" í eldri kenningum eða „PRO" í nýrri stjórnar- og bindingarkenningu (Government and Binding Theory, sbr. Chomsky 1981).
+Dæmi um þetta í íslensku:
+(28)a Jón reyndi [PRO að lesa bókina]
+b María vildi [PRO fara í bíó]
+c Við reyndum [PRO að skilja skýringuna]
+Í öllum þessum dæmum er frumlag undirsetningarinnar ósagt en skilið sem sama aðili og frumlag aðalsetningarinnar. Þannig vísar PRO í (28)a til Jóns, í (28)b til Maríu og í (28)c til okkar. Þetta er grundvallarmunur á þessum sögnum og hjálparsögnum eins og hafa og vera, þar sem engin undirsetning er til staðar í þeim skilningi sem hér er átt við.
+En málið er flóknara en svo, þar sem sumar sagnir leyfa PRO að vísa til annarra þátttakenda en frumlags aðalsetningarinnar:
+(29)a Jón bauð Maríu [PRO að koma]
+b Hún lofaði honum [PRO að hjálpa]
+c Við biðjum ykkur [PRO að vera þolinmæð]
+Hér vísar PRO til andlags aðalsetningarinnar (eða kerfisbundins nafnliðar í þgf.) frekar en til frumlags hennar. Þetta eru dæmi um það sem í eldri kenningum var kallað „object-equi" en í nýrri er greint frá með öðrum hætti, þar sem stjórnunarsamband (control) PRO ræðst af sérstökum eiginleikum sögnina (control properties).
+Spurningin er þá hvort slíkt stjórnunarsamband sé hluti af laxómi sögnanna eða hvort þetta sé almennari fyrirbæri í málfræðinni. Chomsky (1981) og fylgismenn hans hafa haldið því fram að PRO sé sérstakt frumlög sem þarf að vera stjórnað (controlled) af einhverjum nafnlið í setningunni, og að þær reglur sem ákvarða hvaða nafnliðurinn er séu almennar og ekki sögntengdar. Aðrir hafa gagnrýnt þessa skoðun og haldið því fram að stjórnun sé í raun laxómabundið fyrirbæri.
+4.4 Atviksliðir og staðsetning þeirra
+Eitt af þeim spurningum sem hefur verið þrástutt í rannsóknum á íslensku málfræði er spurningin um hvar atviksliðir (adverbials) geta staðið í setningu. Í ensku er þetta að vissu leyti einfaldara, þar sem atviksliðir geta almennt staðið á eftir sagnliðnum eða í upphafi setningarinnar, með takmarkaðari möguleikum á að koma inn í sagnliðinn sjálfan. Í íslensku er mynstrið flóknara:
+(30)a Jón las sjaldan bókina
+b Jón las bókina sjaldan
+c Sjaldan las Jón bókina
+d *Las Jón sjaldan bókina
+Þó að (30)d sé vond setning, eru (30)a-c allar lýðheilbrigðar, þótt með einhverjum merkingartónum sem kunna að vera mismunandi. Þetta bendir til þess að atviksliðir séu ekki bundnir við fasta stöðu í setningafræðilegri uppbyggingu íslensku, en þó með vissum takmörkunum.
+Sumir hafa haldið því fram að þessi sveigjanleiki í íslensku stafi af frjálsari orðaröð almennt séð, sem er einkennandi fyrir flestar Skandinavískar og Germanskar tungumélar að ákveðnu leyti (þótt þar sé mikill munur milli málanna). Þótt íslensku sé oft lýst sem máli með fremur frjálsa orðaröð miðað við ensku, er þó ljóst að þessi „frelsi" er mjög takmarkaður og bundin þverstæðulegum kröfum.
+Það eru einkum þrjár tegundir takmarkana sem skipta máli hér:
+Í fyrsta lagi eru það setningarfræðilegar takmarkanir sem leiðir af uppbyggingu setningarinnar sjálfrar, þ.e. af því hvar liðirnir eru í hrísluuppbyggingunni. Í öðru lagi eru það merkingarlegar takmarkanir sem leiðir af því hvaða þátttakendur eru til staðar og hvernig þeir tengjast sögnina merkingarlega. Í þriðja lagi eru það pragmatískar takmarkanir sem leiðir af samhengi og samtalskringumstæðum.
+(31)a Hann hafði alltaf lesið bókirnar
+b Alltaf hafði hann lesið bókirnar
+c Hann hafði lesið bókirnar alltaf
+d *Hann hafði lesið alltaf bókirnar
+Dæmið í (31)d er villandi vont þótt við séum of snar að dæma það; í raun og veru geta sumir málnotendur samþykkt slíkar setningar í óformlegu máli. Þetta dregur fram eitt af helstu vandamálum í rannsóknum á setningarfræði: það er erfitt að fá ótvíræðar niðurstöður úr dómnum og oft er grátt svæðið milli þess sem er greinilega leyfilegt og þess sem er greinilega bannað mjög vítt.
+4.5 Kvantarar og umsvifssetningar
+Við höfum þegar minnst á innskot kvantara (quantifier postposing) í tengslum við rök Höskuldar fyrir mismun flokkanna. Nú er rétt að skoða þetta nánar. Kvantarar eins og allir, flestir, margir, fáir, enginn geta bæði komið sem frumlög og andlög setninga, og þeir geta jafnframt komið inn í aukasetningu í vissum tilvikum:
+(32)a Allir munu hafa lesið þessa bók
+b *Þessa bók munu allir hafa lesið
+c Þessa bók munu hafa lesið allir
+(33)a Margir hafa reynt þetta
+b *Þetta hafa margir reynt
+c Þetta hafa reynt margir
+Þau dæmi sem hér eru sett fram sýna að færsla kvantara yfir sagnfylgi (postverbal position) er möguleg í íslensku í vissum tilvikum, og að niðurstaðan ræðst bæði af tegund kvantarans og af setningafræðilegum eiginleikum setningarinnar að öðru leyti. Þetta er í samræmi við þær kenningar sem gera ráð fyrir sérstakri reiknireglu (scope rule) fyrir kvantara, sem virkar öðruvísi en almenn orðaröðunarreglur.
+Hér er líka rétt að minnast á það fyrirbæri sem í ensku er kallað „quantifier float", þar sem kvantari sem tengist nafnlið getur losaður sig frá honum og staðið á öðrum stað í setningunni:
+(34)a Þeir hafa allir lesið bókina
+b Allir hafa þeir lesið bókina
+c Þeir hafa lesið bókina allir
+Í (34) er kvantarinn allir greinilega tengdur við persónufornafnið þeir, en hann getur staðið á mismunandi stöðum. Þetta er kallað „floating quantifier" í bókmenntunum og hefur verið notað sem rök bæði fyrir og gegn ýmsum setningarfræðilegum kenningum.
+4.6 Spurnarsetningar og neitanir
+Eitt af þeim sviðum þar sem munurinn á íslensku og ensku kemur skýrast fram er í myndun spurnarsetningar og neitanarsetninga. Í ensku þarf í flestum tilvikum annað hvort hjálparsögnina do eða aðra hjálparsögn til að mynda beinar spurningar og neitanir:
+(35) Enska:
+a He reads books → Does he read books? / He does not read books
+b She can swim → Can she swim? / She cannot swim
+(36) Íslenska:
+a Hann les bækur → Les hann bækur? / Hann les ekki bækur
+b Hún getur synt → Getur hún synt? / Hún getur ekki synt
+Þetta sýnir að íslenski kerfið er einfaldara í þessum skilningi: sögnin sjálf flyst til upphafsstöðu setningarinnar (CP-spec eða C í nýrri kenningum) til að mynda beinaspur. Þetta fyrirbæri er kallað „verb second" (V2) og er einkenni norrænna mála og þýskrar og hollenskrar tungu, í grundvallarmun frá ensku sem er ekki V2-mál.
+V2-reglan í íslensku segir að sögnin þurfi alltaf að vera í öðru sæti setningarinnar þegar setningin er meginsetning (main clause). Ef eitthvað annað en frumlagið er fyrst í setningunni (t.d. atviksliður, andlag, eða annar liður), þarf frumlagið að koma á eftir sögnina:
+(37)a Í gær las Jón bókina
+b Bókina las Jón í gær
+c Aldrei les hann neitt gagnlegt
+Í undirsetningum (subordinate clauses) gildir V2-reglan hins vegar almennt ekki:
+(38)a Ég veit að Jón las bókina í gær
+b Hún sagði að hann hefði alltaf lesið bókina
+c *Ég veit að las Jón bókina í gær
+Þetta sýnir að V2-reglan er bundin við ákveðna setninga­gerð og gildir ekki með algildum hætti. Rannsóknir síðustu ára hafa bent til að þetta sé almælt fyrirbæri í V2-málum að undirsetningar séu undanskildar V2-kröfunni, þótt þar sé munur milli málanna (sbr. t.d. frönsku þar sem sögnin í meginsetningum flyst ekki á sama hátt og í skandinavísku málum).
+4.7 Niðurstaða
+Í þessum kafla höfum við farið yfir helstu rök fyrir og gegn ýmsum greiningunum á uppbyggingu íslensku sagnaliðar og hjálparsagnasambanda. Við höfum séð að:
+a) Sagnir í fallháttum mynda líklega lið með fylgiorðum sínum, á meðan sagnir í persónuháttum gera það ekki á sama hátt.
+b) Hjálparsagnir hegða sér á margvíslegum hætti eftir tegund þeirra, og þessi munur í hegðun er að hluta til skýranlegur með því að gera ráð fyrir mismunandi djúpgerðaruppbyggingu.
+c) Frumlagseyðing (PRO-insertion) í fylliliðum er bundin við ákveðnar sagnategundir og er ekki algildt fyrirbæri í íslensku.
+d) Kvantarar og atviksliðir geta staðið á mismunandi stöðum í íslensku, með þeim takmörkunum sem leiðir af setningarfræðilegri uppbyggingu, merkingu og samhengi.
+e) V2-reglan skýrir margt af þeirri sérstöku hegðun íslensku sagna í meginsetningum, en gildir ekki í undirsetningum.
+Það er ljóst að rannsóknir á þessum sviðum eru enn í fullum gangi og að margt er óleyst. Eitt af stærstu vandamálunum er hvernig á að samræma þær niðurstöður sem koma fram við greiningu á íslensku við þær kenningar sem þróaðar hafa verið aðallega á grundvelli ensku og annarra Vestur-Evrópu­mála. Þetta þýðir að rannsóknir á íslensku hafa bæði teorétískt gildi og gildi sem prófsteinn á algildi (universality) setningarfræðilegra kenninga.
+
+Lokaorð
+
+Þessi ritgerð hefur reynt að gera grein fyrir nokkrum af þeim grundvallarspurningum sem koma upp þegar við reynum að skýra uppbyggingu íslensku setninga og setningaliða, sérstaklega hvað varðar hlutverk hjálparsagna og sagnliðar. Við höfum séð að þar sem sum mál, eins og enska, hafa þróað sérstakan hjálparlið (Aux) sem skýrir marga eiginleika hjálparsagnasambandanna, þá þarf skýringin á íslensku að vera önnur eða að minnsta kosti fléttað saman á annan hátt við þær grunnreglur sem við þekkjum úr öðrum tungumálum.
+Vandinn liggur að hluta til í því að íslenski málkerfi er þannig að margar þær hliðstæður sem við notum til að skýra eitt fyrirbæri hafa bein áhrif á hvernig við skýrum annað. Þetta er ekki gallinn á kenningunum heldur einmitt ein af sterku hliðunum: góð setningarfræðileg kenning á að vera gagnvirk með þessum hætti og skýra margar mismunandi hliðar málfræðinnar sem ein heild.
+Jafnframt höfum við séð að empirískar gögn um hvað er leyfilegt og hvað ekki í íslensku eru oft villandi og krefjast vandlegrar túlkunar. Dómarnir eru oft á gráu svæði og geta verið misjafnir milli málnotenda og milli samhengi. Þetta er áskorun við rannsóknir á öllum náttúrulegum tungumálum og er ekki sérlegt vandamál íslensku. Engu að síður bendir það til þess að varfærnara nálægi sé réttara en að reyna að draga of harðar línur á grundvelli takmarkaðra gagna.
+Vonlegt er að frekari rannsóknir á þessum sviðum, bæði á grundvelli formlegar setningarfræðikenningar og á grundvelli gagnvísar málhegðunarrannsókna (corpus linguistics), muni henda ljósi á þau atriði sem enn eru óskýr og stuðla að dýpri skilningi á uppbyggingu íslensku máls.
