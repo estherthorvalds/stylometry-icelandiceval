@@ -216,7 +216,7 @@ def load_parsed_trees(path: Path) -> list[str]:
 PRO_PATTERN = re.compile(r'\(PRO-([NADG])\s+([^\s\)]+)\)')
 
 # Regex sem finnur ES (expletive subject) merkt „það“.
-# Þetta nær yfir bæði „(ES það)" og „(ES Það)".
+# Þetta nær yfir bæði „(ES það)“ og „(ES Það)“.
 ES_PATTERN = re.compile(r'\(ES\s+[Þþ]að\)')
 
 # Regex sem finnur ÖLL laufblöð (terminal nodes / leaves) í trénu.
@@ -300,7 +300,7 @@ def measure_third_person_pronouns(
         - third_person_to_pronoun = þriðjup. / öll fornöfn
           (Hversu stórt hlutfall fornafnanna eru í þriðju persónu)
         - third_person_per_1000 = (þriðjup. / heildarorð) × 1000
-          (Tíðni þriðjupersónufornafna á hverja 1.000 orð)
+          (Tíðni þriðjupersónufornafna á hver 1.000 orð)
 
     Args:
         parsed_file: Slóð á skrá með þáttuðum trjám.

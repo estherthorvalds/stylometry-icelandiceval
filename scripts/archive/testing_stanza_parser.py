@@ -23,7 +23,7 @@ for sentence in doc.sentences:
     tree = tree.replace('ROOT ', '')
     print(tree)
 
-doc = nlp("'Gerðu annaðhvort,' sagði húskarl, 'að þú FAR á brott eða gakk inn og ver hér í nótt'")
+doc = nlp("Farðu burtu. Komið sæl. Farið öll til fjandans. Borðaðu matinn. Láttu mig vera. Keyptu nýjan bíl. Kauptu nýjan bíl. Checkaðu á þessu.")
 print(str(doc.sentences[0].constituency))
 for sentence in doc.sentences:
     tree = str(sentence.constituency).replace('*', '-')

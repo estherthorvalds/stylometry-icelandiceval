@@ -6,12 +6,24 @@ run_milicka.py — AÐALSKRIFTA: Keyrir allar víddir og reiknar Milička-formú
 ===============================================================================
 
 TILGANGUR / PURPOSE:
-    Þetta er aðalskriftið sem tengir allt saman. Það keyrir allar sjö
-    víddir (dim1–dim7) á mannlegum og LLM-framleiddun textum, reiknar
-    Milička-formúlurnar og prentar niðurstöður.
+    Þetta er aðalskriftið sem tengir allt saman. Það keyrir allar
+    víddirnar (dim1–dim11) á mannlegum og LLM-framleiddun textum,
+    reiknar Milička-formúlurnar og prentar niðurstöður.
 
-    This is the main orchestrator script. It runs all seven dimensions on
-    human and LLM texts, computes Milička's formulas, and prints results.
+    This is the main orchestrator script. It runs all dimensions
+    (dim1–dim11) on human and LLM texts, computes Milička's formulas,
+    and prints results.
+
+ATHUGIÐ — VÍDD 8 KREFST FORUTREIKNINGS / NOTE — DIM8 REQUIRES PRECOMPUTATION:
+    Vídd 8 (BÍN-orðaforðaþekja) notar „parse-once“ cache-lagi. Keyrðu
+    `scripts/dim8_bin_ratio.py` á öllum textaskrám ÁÐUR en þetta skrift
+    er keyrt. Ef output/dim8_bin_summary.csv vantar er vídd 8 sleppt og
+    viðvörun prentað — aðrar víddir halda áfram.
+
+    Dim8 (BÍN vocabulary coverage) uses a parse-once cache. Run
+    `scripts/dim8_bin_ratio.py` on all text directories BEFORE running
+    this script. If output/dim8_bin_summary.csv is missing, dim8 is
+    skipped with a warning; other dimensions continue to run.
 
 MILIČKA-FORMÚLURNAR / THE FORMULAS:
     Formúla 1: Δv = v_human - v_model
@@ -28,27 +40,36 @@ MILIČKA-FORMÚLURNAR / THE FORMULAS:
         Staðlað frávik per vídd. Meðal-Δv yfir úrtök er deilt með
         staðalskekkju (standard error) náttúrulegs fráviks.
 
-    Formúla 4: B = ‖b‖ = √(Σ b_d²)
-        Heildarskor yfir allar víddir. Evklíðskt norm af öllum b_d gildum.
+    Formúla 4 (aðlöguð): B = √(meðaltal(b_d²))    [RMS-form]
+        Upphafleg formúla Milička (2025) er B = ‖b‖ = √(Σ b_d²) —
+        evklíðskt norm. Hér notum við RMS-form (root-mean-square) til
+        að halda B-skori sambærilegu þvert á málsýni með ólíkum fjölda
+        gildra vídda (þegar t.d. vídd 7 skilar NaN fyrir stök málsýni).
+        Þegar allar n víddir eru gildar gildir
+            sqrt(mean(b_d²)) = ‖b‖ / sqrt(n)
+        — sama sjálfgildi og hjá Milička upp að fastri kvarðabreytingu
+        sqrt(n). Röðun líkana helst óbreytt þegar n er fast; aðeins
+        algild B-gildi skala niður um sqrt(n)≈3.16 fyrir n=10. Sjá
+        ákvörðun 028 fyrir röksemdir.
 
 GAGNASKIPULAG / DATA LAYOUT:
     Þáttuð tré (frá parse_texts.py):
-        output/parsed/prompts/*_parsed.psd                            (45 skrár)
-        output/parsed/human_reference/*_parsed.psd                    (45 skrár)
-        output/parsed/llm_continuations_preprocessed/{model}/{reg}/   (per líkan)
+        output/parsed/prompts/*_parsed.psd                       (60 skrár)
+        output/parsed/human_texts/*_parsed.psd                   (60 skrár)
+        output/parsed/llm_continuations_clean/{model}/{reg}/     (per líkan)
 
-    Hrár texti (fyrir dim6 — orðalengd):
-        data/experiment/prompts/*.txt                                 (45 skrár)
-        data/experiment/human_reference/*.txt                         (45 skrár)
-        data/experiment/llm_continuations_preprocessed/{model}/{reg}/ (per líkan)
+    Hrár texti (fyrir dim6 = orðalengd, dim10 = LIX, dim11 = MTLD):
+        data/experiment/prompts/*.txt                            (60 skrár)
+        data/experiment/human_texts/*.txt                        (60 skrár)
+        data/experiment/llm_continuations_clean/{model}/{reg}/   (per líkan, ~342 alls)
 
 FLÆÐI / FLOW:
-    1. Finna öll úrtök (15 per textategund × 3 tegundir = 45)
+    1. Finna öll úrtök (15 per textategund × 4 tegundir = 60)
     2. Finna öll LLM-líkön og tengja við samsvarandi úrtök
-    3. Mæla dim1–dim7 á mannlegum viðmiðstextum (human_reference)
-    4. Mæla dim1–dim7 á prompttextum (prompts) — til SE-útreiknings
+    3. Mæla dim1–dim11 á mannlegum viðmiðstextum (human_texts)
+    4. Mæla dim1–dim11 á prompttextum (prompts) — til SE-útreiknings
     5. Reikna náttúrulegt frávik i_k per pör og SE per textategund
-    6. Mæla dim1–dim7 á LLM-framhöldum
+    6. Mæla dim1–dim11 á LLM-framhöldum
     7. Reikna Δv, b_d, B per líkan × textategund
     8. Prenta niðurstöður og vista CSV
 
@@ -70,8 +91,8 @@ from pathlib import Path
 # ============================================================
 # INNFLUTNINGUR Á VÍDDARSKRIFTUM / DIMENSION SCRIPT IMPORTS
 # Bætum scripts/ möppunni við sys.path svo Python finni
-# víddarföllin (dim1–dim7) þegar skriftið er keyrt frá
-# rótarmöppu verkefnisins.
+# víddarföllin (dim1–dim11, nema dim8 sem les cache-CSV) þegar
+# skriftið er keyrt frá rótarmöppu verkefnisins.
 # ============================================================
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -85,6 +106,11 @@ from dim4_past_tense import measure_past_tense
 from dim5_thirdperson_pronouns import measure_third_person_pronouns
 from dim6_word_length import measure_word_length
 from dim7_complementizers import measure_complementizers
+# ATHUGIÐ: dim8 er EKKI flutt inn sem fall hér — það les cache CSV
+# svo islenska er valfrjáls háðni. Sjá lookup_dim8_value() neðar.
+from dim9_tree_depth import measure_tree_depth
+from dim10_lix import measure_lix
+from dim11_mtld import measure_mtld
 from style_score import compute_style_score
 
 
@@ -98,22 +124,32 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # Frá parse_texts.py — .psd skrár í output/parsed/
 PARSED_DIR = PROJECT_ROOT / "output" / "parsed"
 PARSED_PROMPTS_DIR = PARSED_DIR / "prompts"
-PARSED_HUMAN_REF_DIR = PARSED_DIR / "human_reference"
-PARSED_LLM_DIR = PARSED_DIR / "llm_continuations_preprocessed"
+PARSED_HUMAN_REF_DIR = PARSED_DIR / "human_texts"
+PARSED_LLM_DIR = PARSED_DIR / "llm_continuations_clean"
 
 # --- HRÁR TEXTI / RAW TEXT ---
 # Fyrir dim6 (orðalengd) sem les hrátexta, ekki þáttuð tré.
 RAW_PROMPTS_DIR = PROJECT_ROOT / "data" / "experiment" / "prompts"
-RAW_HUMAN_REF_DIR = PROJECT_ROOT / "data" / "experiment" / "human_reference"
+RAW_HUMAN_REF_DIR = PROJECT_ROOT / "data" / "experiment" / "human_texts"
 RAW_LLM_DIR = (
-    PROJECT_ROOT / "data" / "experiment" / "llm_continuations_preprocessed"
+    PROJECT_ROOT / "data" / "experiment" / "llm_continuations_clean"
 )
 
 # Sjálfgefin úttaksskrá fyrir CSV-niðurstöður.
 DEFAULT_OUTPUT_CSV = PROJECT_ROOT / "output" / "milicka_results.csv"
 
+# Forútreiknuð CSV fyrir dim8 (búin til af scripts/dim8_bin_ratio.py)
+# Precomputed CSV for dim8 (produced by scripts/dim8_bin_ratio.py)
+DIM8_SUMMARY_CSV = PROJECT_ROOT / "output" / "dim8_bin_summary.csv"
+
 # Textategundir / Registers
-REGISTERS = ('academic', 'blog', 'news')
+REGISTERS = ('academic', 'blog', 'news', 'unseen')
+
+# Le Chat Fast (lagt niður á söfnunartíma) og Le Chat Balanced eru bæði Mistral's free-tier Le Chat á ólíkum tímapunktum; aggregað sem le_chat_free.
+MODEL_ALIASES = {
+    "le_chat_fast": "le_chat_free",
+    "le_chat_balanced": "le_chat_free",
+}
 
 # ============================================================
 # LEIÐBEININGARLÍNA Í PROMPTSKRÁM / PROMPT INSTRUCTION LINE
@@ -134,16 +170,19 @@ PROMPT_INSTRUCTION = (
 # ============================================================
 # VÍDDARSKRÁ / DIMENSION REGISTRY
 # ============================================================
-# Listi af öllum sjö víddum sem við mælum. Hvert stak skilgreinir:
+# Listi af öllum tíu víddum sem við mælum. Hvert stak skilgreinir:
 #   id    — Stutt auðkenni (notað í töflum og CSV)
 #   name  — Íslenski nafnið
 #   label — Enskt nafn (stytt)
-#   fn    — Mælifallið sem tekur Path og skilar niðurstöðu
+#   fn    — Mælifallið sem tekur Path og skilar niðurstöðu.
+#            Fyrir dim8 er þetta None — gildi er flett upp úr cache CSV.
 #   key   — Lykillinn til að draga aðalgildi (v) úr niðurstöðunni:
 #            int → tuple-vísir (dim1–3 skila tuple)
-#            str → dict-lykill (dim4–7 skila dict)
-#   input — 'parsed' ef víddin les þáttuð tré (.psd),
-#            'raw' ef hún les hrátexta (.txt) (aðeins dim6)
+#            str → dict-lykill (dim4–7, dim9, dim10, dim11 skila dict)
+#            Ónotað fyrir dim8 (gildið kemur beint úr CSV-dálki).
+#   input — 'parsed' ef víddin les þáttuð tré (.psd)  (dim1–5, dim7, dim9)
+#           'raw' ef hún les hrátexta (.txt)          (dim6, dim10, dim11)
+#           'precomputed_csv' ef hún les forunna CSV-skrá (dim8)
 # ============================================================
 
 DIMENSIONS = [
@@ -196,14 +235,151 @@ DIMENSIONS = [
         'input': 'raw',
     },
     {
+        # VÍDD 7: Hlutfall sem-tengiorða af öllum tengiorðum.
+        # Aðal-v er `comp_ratio = sem / (sem + að)`, bil [0, 1] eða
+        # NaN ef sem+að == 0. Pípan útilokar NaN-víddir frá b-vektor
+        # þess málsýnis (sjá summary report neðar). Sjá ákvörðun 028.
         'id': 'dim7',
         'name': 'Tengiorð',
         'label': 'Complementizers',
         'fn': measure_complementizers,
-        'key': 'comp_per_1000_words',
+        'key': 'comp_ratio',
         'input': 'parsed',
     },
+    {
+        'id': 'dim8',
+        'name': 'BÍN-þekja',
+        'label': 'BÍN coverage',
+        'fn': None,  # Les úr cache — sjá lookup_dim8_value()
+        'key': 'in_bin_ratio',  # Dálkur í dim8_bin_summary.csv
+        'input': 'precomputed_csv',
+    },
+    {
+        # VÍDD 9: Trédýpt (setningarþyngd). Aðlagað úr UD-byggðum
+        # „sentence weight“ fyrirlestri Steinþórs Steingrímssonar á
+        # IcePaHC liðgerðartré. Orthogonal við dim2: dim2 mælir TÍÐNI
+        # aukasetninga, dim9 mælir DÝPT innfelldra liða.
+        'id': 'dim9',
+        'name': 'Trédýpt',
+        'label': 'Tree depth',
+        'fn': measure_tree_depth,
+        'key': 'mean_tree_depth',
+        'input': 'parsed',
+    },
+    {
+        # VÍDD 10: LIX-læsilegskor. Hliðstæð dim6 — báðar mæla
+        # orðalengd/þyngd en dim10 bætir setningalengd við. Verður
+        # borin saman við dim6 í greiningarkafla; ein eða hvorug
+        # gæti fallið út við dimension selection í MA-lokaverkefni.
+        'id': 'dim10',
+        'name': 'LIX-læsilegskor',
+        'label': 'LIX readability',
+        'fn': measure_lix,
+        'key': 'lix_score',
+        'input': 'raw',
+    },
+    {
+        # VÍDD 11: MTLD (Measure of Textual Lexical Diversity,
+        # McCarthy & Jarvis 2010). Lengdarstöðugur arftaki TTR.
+        # Ekki hliðstæða Milička-vídda — Biber-hvött framlenging
+        # (Informational production / lexical diversity). Sjá
+        # ákvörðun 027 fyrir forathugun og hönnunarrökstuðning.
+        'id': 'dim11',
+        'name': 'Orðaforðafjölbreytni',
+        'label': 'Lexical diversity (MTLD)',
+        'fn': measure_mtld,
+        'key': 'final_mtld',
+        'input': 'raw',
+    },
 ]
+
+
+# ============================================================
+# DIM8 CACHE / DIM8 CACHE
+# ============================================================
+# Vídd 8 notar parse-once arkítektúr: scripts/dim8_bin_ratio.py
+# keyrir allar BÍN-flettingar og vistar niðurstöður í CSV.
+# run_milicka.py les CSV-skrána einu sinni í dict og flettir upp
+# eftir skráarheiti.
+#
+# AF HVERJU CACHE?
+#   1. islenska (BinPackage) er dýrt að hlaða í minnið.
+#   2. Fletting er auðveld að keyra sjálfstætt ef notandi vill
+#      kanna hvaða orð eru OOV áður en Milička er keyrt.
+#   3. islenska helst VALFRJÁLS háðni fyrir run_milicka.py — ef
+#      notandi hefur ekki dim8_bin_summary.csv, heldur pípan
+#      áfram án vídd 8 (skilar NaN fyrir dim8 og prentar aðvörun).
+# ============================================================
+
+# Einka-cache og boolean fyrir hvort CSV sé til.
+# None = ekki reynt að hlaða; dict = hlaðið; {} = reyndi en mistókst.
+_DIM8_CACHE: dict[str, float] | None = None
+_DIM8_WARNED: bool = False
+
+
+def _load_dim8_cache() -> dict[str, float]:
+    """Hlaða dim8_bin_summary.csv inn í dict {filename: in_bin_ratio}.
+
+    Aðeins keyrt einu sinni per ferli — niðurstaðan er geymd í
+    _DIM8_CACHE. Ef CSV er ekki til, skilum tómu dict og prentum
+    viðvörun EINU SINNI (með leiðbeiningum um hvernig má búa til).
+
+    Returns:
+        Dict {filename: in_bin_ratio}. Tómt dict ef CSV vantar.
+    """
+    global _DIM8_CACHE, _DIM8_WARNED
+    if _DIM8_CACHE is not None:
+        return _DIM8_CACHE
+
+    if not DIM8_SUMMARY_CSV.exists():
+        if not _DIM8_WARNED:
+            print(
+                f"\n  AÐVÖRUN: dim8 krefst {DIM8_SUMMARY_CSV} — "
+                f"finnst ekki."
+            )
+            print(
+                f"  Keyrðu: python scripts/dim8_bin_ratio.py "
+                f"--text-dir data/experiment/"
+            )
+            print(f"  Dim8 verður sleppt (NaN); aðrar víddir halda áfram.\n")
+            _DIM8_WARNED = True
+        _DIM8_CACHE = {}
+        return _DIM8_CACHE
+
+    cache: dict[str, float] = {}
+    with open(DIM8_SUMMARY_CSV, 'r', encoding='utf-8', newline='') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            fname = row.get('filename', '').strip()
+            val_str = row.get('in_bin_ratio', '').strip()
+            if not fname or not val_str:
+                continue
+            try:
+                cache[fname] = float(val_str)
+            except ValueError:
+                # Skemmd lína — sleppt með viðvörun
+                print(
+                    f"  AÐVÖRUN: Gat ekki þáttað in_bin_ratio='{val_str}' "
+                    f"fyrir {fname} í {DIM8_SUMMARY_CSV}"
+                )
+
+    _DIM8_CACHE = cache
+    return _DIM8_CACHE
+
+
+def lookup_dim8_value(file_path: Path) -> float:
+    """Fletta upp dim8 gildi fyrir skrá eftir skráarheiti.
+
+    Args:
+        file_path: Slóð á hráa textaskrá (.txt). Aðeins
+            skráarheitið (file_path.name) er notað fyrir uppflettingu.
+
+    Returns:
+        in_bin_ratio sem float, eða float('nan') ef skráarheitið
+        er ekki í cache (eða CSV vantar).
+    """
+    cache = _load_dim8_cache()
+    return cache.get(file_path.name, float('nan'))
 
 
 # ============================================================
@@ -214,7 +390,7 @@ def extract_value(result, key) -> float:
     """Draga aðalgildi (v) úr niðurstöðu víddarmælingar.
 
     Dim1–3 skila tuple þar sem v er fyrsta stakið (index 0).
-    Dim4–7 skila dict þar sem v er undir ákveðnum lykli.
+    Dim4–7, dim9, dim10 skila dict þar sem v er undir ákveðnum lykli.
 
     Args:
         result: Niðurstaða frá mælifalli (tuple eða dict).
@@ -242,21 +418,22 @@ def measure_file(dim: dict, file_path: Path) -> float:
     return extract_value(result, dim['key'])
 
 
-def measure_word_length_stripped(prompt_path: Path) -> float:
-    """Mæla orðalengd á promptskrá eftir að leiðbeiningarlína er fjarlægð.
+def measure_raw_stripped(dim: dict, prompt_path: Path) -> float:
+    """Mæla hrátextavídd á promptskrá eftir að leiðbeiningarlína er fjarlægð.
 
-    Dim6 les hrátexta (.txt). Promptskrár byrja á leiðbeiningarlínu
-    sem er EKKI hluti af mannlega textanum og þarf að fjarlægja
-    áður en orðalengd er mæld.
+    Hrátextavíddir (dim6 = orðalengd, dim10 = LIX) lesa .txt beint.
+    Promptskrár byrja á leiðbeiningarlínu sem er EKKI hluti af
+    mannlega textanum og þarf að fjarlægja áður en mælt er.
 
-    Notar tímabundna skrá (tempfile) þar sem measure_word_length
-    tekur Path, ekki streng.
+    Notar tímabundna skrá (tempfile) þar sem mælifallið tekur Path,
+    ekki streng.
 
     Args:
+        dim: Víddarskrá-dict úr DIMENSIONS (input='raw').
         prompt_path: Slóð á hráa promptskrá (.txt).
 
     Returns:
-        Meðalorðalengd (mean_length) sem float.
+        Aðalgildi víddarinnar sem float (dim['key'] úr niðurstöðu).
     """
     text = prompt_path.read_text(encoding='utf-8').strip()
 
@@ -272,8 +449,7 @@ def measure_word_length_stripped(prompt_path: Path) -> float:
         tmp_path = Path(tmp.name)
 
     try:
-        result = measure_word_length(tmp_path)
-        return result['mean_length']
+        return measure_file(dim, tmp_path)
     finally:
         tmp_path.unlink()
 
@@ -301,7 +477,7 @@ def measure_word_length_stripped(prompt_path: Path) -> float:
 #   academic_ref_001...    → ('academic', '001')
 #   gpt5_academic_prompt_001... → ('academic', '001')
 SAMPLE_ID_RE = re.compile(
-    r'(?P<register>academic|blog|news)_(?:prompt|ref)_(?P<number>\d+)'
+    r'(?P<register>academic|blog|news|unseen)_(?:prompt|ref)_(?P<number>\d+)'
 )
 
 
@@ -383,11 +559,14 @@ def discover_samples() -> tuple[dict, dict]:
     # --- 3. LLM-GÖGN / LLM DATA ---
 
     # Þáttuð LLM-tré (.psd) — ein undirmappa per líkan
+    # ATH: MODEL_ALIASES beitt á möppuheiti svo aliased líkön (t.d.
+    # le_chat_fast + le_chat_balanced → le_chat_free) safnast saman
+    # í eina línu í niðurstöðum. Möppuheiti í data/ eru ÓBREYTT.
     if PARSED_LLM_DIR.exists():
         for model_dir in sorted(PARSED_LLM_DIR.iterdir()):
             if not model_dir.is_dir():
                 continue
-            model_name = model_dir.name
+            model_name = MODEL_ALIASES.get(model_dir.name, model_dir.name)
             for f in sorted(model_dir.rglob('*_parsed.psd')):
                 sid = extract_sample_id(f.name)
                 if sid:
@@ -400,7 +579,7 @@ def discover_samples() -> tuple[dict, dict]:
         for model_dir in sorted(RAW_LLM_DIR.iterdir()):
             if not model_dir.is_dir():
                 continue
-            model_name = model_dir.name
+            model_name = MODEL_ALIASES.get(model_dir.name, model_dir.name)
             for f in sorted(model_dir.rglob('*.txt')):
                 sid = extract_sample_id(f.name)
                 if sid:
@@ -419,21 +598,25 @@ def measure_all_dims(
     file_paths: dict[str, Path],
     is_prompt: bool = False,
 ) -> dict[str, float]:
-    """Mæla allar 7 víddir á einni skrá og skila aðalgildum.
+    """Mæla allar víddir (dim1–dim11) á einni skrá og skila aðalgildum.
 
-    Dim1–5 og dim7 nota þáttuð tré (.psd).
-    Dim6 notar hrátexta (.txt).
+    Dim1–5, dim7 og dim9 nota þáttuð tré (.psd).
+    Dim6 (orðalengd) og dim10 (LIX) nota hrátexta (.txt).
+    Dim8 les forútreiknaða CSV eftir skráarheiti (hrátexta-slóðarinnar).
     Ef skrá vantar fyrir ákveðna vídd er NaN skilað.
 
     Args:
         file_paths: Dict með lyklum eins og 'prompt_parsed',
             'ref_parsed', 'llm_parsed', 'prompt_raw', 'ref_raw',
             'llm_raw' — slóðir á viðeigandi skrár.
-        is_prompt: Ef True, þetta eru promptgögn og dim6 þarf
-            að fjarlægja leiðbeiningarlínu áður en mælt er.
+        is_prompt: Ef True, þetta eru promptgögn og hrátextavíddir
+            (dim6, dim10) þurfa að fjarlægja leiðbeiningarlínu áður
+            en mælt er. Dim8
+            sér um leiðbeiningarlínu sjálft við forútreikning.
 
     Returns:
-        Dict {dim_id: v_value} t.d. {'dim1': 0.42, 'dim2': 0.31, ...}
+        Dict {dim_id: v_value} t.d. {'dim1': 0.42, 'dim2': 0.31, ...,
+            'dim8': 0.96}.
     """
     values: dict[str, float] = {}
 
@@ -458,7 +641,7 @@ def measure_all_dims(
                 values[dim_id] = float('nan')
 
         elif dim['input'] == 'raw':
-            # Dim6: nota hrátexta (.txt)
+            # Hrátextavíddir (dim6, dim10): nota hrátexta (.txt)
             raw_path = (
                 file_paths.get('prompt_raw')
                 or file_paths.get('ref_raw')
@@ -468,8 +651,8 @@ def measure_all_dims(
                 try:
                     if is_prompt:
                         # Fjarlægja leiðbeiningarlínu úr promptskrá
-                        values[dim_id] = measure_word_length_stripped(
-                            raw_path
+                        values[dim_id] = measure_raw_stripped(
+                            dim, raw_path
                         )
                     else:
                         values[dim_id] = measure_file(dim, raw_path)
@@ -478,6 +661,21 @@ def measure_all_dims(
                     values[dim_id] = float('nan')
             else:
                 values[dim_id] = float('nan')
+
+        elif dim['input'] == 'precomputed_csv':
+            # Dim8: fletta upp úr forútreiknaðri CSV eftir skráarheiti.
+            # Notum sömu hráu textaskrá og dim6 — skráarheitið gildir yfir
+            # prompt/ref/llm. Dim8 sjálft fjarlægir leiðbeiningarlínu við
+            # forútreikning, svo is_prompt fáninn þarf ekki að hafa áhrif.
+            raw_path = (
+                file_paths.get('prompt_raw')
+                or file_paths.get('ref_raw')
+                or file_paths.get('llm_raw')
+            )
+            if raw_path is None:
+                values[dim_id] = float('nan')
+            else:
+                values[dim_id] = lookup_dim8_value(raw_path)
 
     return values
 
@@ -571,7 +769,7 @@ def _measure_with_explicit_paths(
                 values[dim_id] = float('nan')
 
         elif dim['input'] == 'raw':
-            # Dim6: finna hráa textaskrá
+            # Hrátextavíddir (dim6, dim10): finna hráa textaskrá
             raw_path = None
             for key in ('ref_raw', 'prompt_raw', 'llm_raw'):
                 p = paths.get(key)
@@ -582,8 +780,8 @@ def _measure_with_explicit_paths(
             if raw_path:
                 try:
                     if is_prompt:
-                        values[dim_id] = measure_word_length_stripped(
-                            raw_path
+                        values[dim_id] = measure_raw_stripped(
+                            dim, raw_path
                         )
                     else:
                         values[dim_id] = measure_file(dim, raw_path)
@@ -592,6 +790,19 @@ def _measure_with_explicit_paths(
                     values[dim_id] = float('nan')
             else:
                 values[dim_id] = float('nan')
+
+        elif dim['input'] == 'precomputed_csv':
+            # Dim8: fletta upp í cache eftir hrátexta-skráarheiti.
+            # Cache er keyrð á nafn, svo .exists() ekki krafist.
+            raw_path = (
+                paths.get('ref_raw')
+                or paths.get('prompt_raw')
+                or paths.get('llm_raw')
+            )
+            if raw_path is None:
+                values[dim_id] = float('nan')
+            else:
+                values[dim_id] = lookup_dim8_value(raw_path)
 
     return values
 
@@ -778,6 +989,14 @@ def run_benchmark(
     # {model: {register: B_value}}
     B_values: dict[str, dict[str, float]] = {}
 
+    # ── NaN-LOGGING / SUMMARY REPORT BÓKHALD ──
+    # Til að skila summary-skýrslu eftir keyrslu (sjá ákvörðun 028):
+    #   nan_log: hver (model, register, number) með NaN per dimens.
+    #   sample_dim_counts: heildarfjöldi gildra vídda per (m, r, n).
+    nan_log: list[dict] = []
+    sample_dim_counts: dict[tuple[str, str, str], int] = {}
+    n_total_dims = len(DIMENSIONS)
+
     for model_name in sorted(models):
         print(f"\n{'─' * 60}")
         print(f"LÍKAN: {model_name}")
@@ -817,14 +1036,36 @@ def run_benchmark(
                 # Mæla LLM-framhald
                 v_model_vals = measure_llm(llm_paths)
 
+                # Bókhald fyrir NaN-summary: byrja við 0 og hækka per
+                # gilda vídd. Málsýni sleppt (engin gild vídd) er
+                # skráð sérstaklega neðar.
+                sample_dim_counts[(model_name, register, num)] = 0
+
                 # Reikna per vídd
                 for dim in DIMENSIONS:
                     dim_id = dim['id']
                     vh = v_human.get(dim_id, float('nan'))
                     vm = v_model_vals.get(dim_id, float('nan'))
 
+                    # Skrá NaN-tilvik í log fyrir summary-skýrslu.
+                    # NaN getur komið frá víddinni sjálfri (t.d.
+                    # dim7 á skrá án tengiorða) eða frá vantandi skrá.
                     if math.isnan(vh) or math.isnan(vm):
+                        which = []
+                        if math.isnan(vh):
+                            which.append('human')
+                        if math.isnan(vm):
+                            which.append('llm')
+                        nan_log.append({
+                            'model': model_name,
+                            'register': register,
+                            'number': num,
+                            'dim_id': dim_id,
+                            'reason': '+'.join(which) + ' NaN',
+                        })
                         continue
+
+                    sample_dim_counts[(model_name, register, num)] += 1
 
                     delta_v = vh - vm
                     delta_v_sums[dim_id].append(delta_v)
@@ -856,6 +1097,9 @@ def run_benchmark(
                     })
 
             # ── Reikna meðal-b_d per vídd og B per textategund ──
+            # `b_d_per_dim` inniheldur AÐEINS víddir með ≥1 gild Δv-pör.
+            # Víddir án gildra para eru útilokaðar úr RMS-nefnaranum (sjá
+            # ákvörðun 028) — að telja þær sem 0 myndi bjaga B niður.
             b_d_per_dim: dict[str, float] = {}
 
             print(f"\n    {'Vídd':<14} {'v̄_hum':>8} {'v̄_llm':>8} "
@@ -868,9 +1112,10 @@ def run_benchmark(
                 deltas = delta_v_sums[dim_id]
 
                 if not deltas:
+                    # Engin gild Δv per þessa vídd í þessari (líkan,
+                    # textategund) klefa — vídd sleppt úr B-útreikningi.
                     print(f"    {dim['label']:<14} {'—':>8} {'—':>8} "
                           f"{'—':>8} {'—':>8} {'—':>8} {'—':>6}")
-                    b_d_per_dim[dim_id] = 0.0
                     continue
 
                 mean_delta = sum(deltas) / len(deltas)
@@ -907,13 +1152,35 @@ def run_benchmark(
                     f"{se:>8.4f} {b_d:>+8.2f} {score:>6.1f}"
                 )
 
-            # FORMÚLA 4: B = ‖b‖ = √(Σ b_d²)
+            # FORMÚLA 4 (aðlöguð): B = sqrt(mean(b_d²))   [RMS-form]
+            # AÐLÖGUN frá Milička (2025) sem skilgreinir B = ‖b‖ =
+            # sqrt(Σ b_d²). RMS-formið heldur sambærilegri skala þvert á
+            # málsýni þar sem víddafjöldi er breytilegur (t.d. þegar
+            # vídd 7 skilar NaN fyrir tiltekið málsýni). Þegar allar n
+            # víddir eru gildar gildir
+            #     sqrt(mean(b_d²)) = ‖b‖ / sqrt(n)
+            # — sama sem Milička upp að fastri skalabreytingu sqrt(n).
+            # Röðun líkana er óbreytt þegar n er fast; aðeins algild
+            # B-gildi minnka um þátt sqrt(n)≈3.16 fyrir n=10.
+            # Sjá ákvörðun 028 fyrir röksemdir og skjalfestingu.
             b_d_list = list(b_d_per_dim.values())
+            n_valid_dims = len(b_d_list)
 
-            if any(b == float('inf') for b in b_d_list):
+            if n_valid_dims == 0:
+                # Engin gild vídd í þessum (líkan, textategund) klefa.
+                # Mjög ólíklegt í reynd; skráum sem NaN og prentum aðvörun.
+                print(
+                    f"    AÐVÖRUN: engin gild vídd fyrir "
+                    f"{model_name}/{register} — B sett sem NaN.",
+                    file=sys.stderr,
+                )
+                B = float('nan')
+            elif any(b == float('inf') for b in b_d_list):
                 B = float('inf')
             else:
-                B = math.sqrt(sum(b ** 2 for b in b_d_list))
+                B = math.sqrt(
+                    sum(b ** 2 for b in b_d_list) / n_valid_dims
+                )
 
             B_values[model_name][register] = B
 
@@ -963,6 +1230,56 @@ def run_benchmark(
             row += f" {'—':>10}"
         print(row)
 
+    # ── SUMMARY-SKÝRSLA UM GILDAR VÍDDIR / VALID DIMENSIONS REPORT ──
+    # Samantekt yfir fjölda gildra vídda per málsýni (sjá ákvörðun 028).
+    # Sample = (líkan, textategund, númer). Við birtum fjölda málsýna
+    # per víddafjölda, og lista yfir málsýni sem misstu víddir.
+    print(f"\n{'=' * 80}")
+    print("SUMMARY — GILDAR VÍDDIR PER MÁLSÝNI / VALID DIMENSIONS PER SAMPLE")
+    print("=" * 80)
+
+    if sample_dim_counts:
+        n_samples_total = len(sample_dim_counts)
+        # Safna dreifingu: hve mörg málsýni fengu k gildar víddir?
+        count_distribution: dict[int, int] = {}
+        for count in sample_dim_counts.values():
+            count_distribution[count] = count_distribution.get(count, 0) + 1
+
+        print(f"  Heildarfjöldi málsýna: {n_samples_total}")
+        print(f"  Heildarfjöldi vídda í pípu: {n_total_dims}")
+        print()
+        # Prenta frá fullu setti og niður
+        for k in sorted(count_distribution.keys(), reverse=True):
+            n = count_distribution[k]
+            if k == n_total_dims:
+                label = f"allar {n_total_dims} víddir"
+            elif k == 0:
+                label = "engin gild vídd (sleppt)"
+            else:
+                label = f"{k} víddir"
+            print(f"    {n}/{n_samples_total} málsýni á {label}")
+    else:
+        print("  (Engin málsýni með mælingar — ekkert að sýna.)")
+
+    # Ef einhverjir NaN-atburðir komu fram, birta lista
+    if nan_log:
+        print()
+        print(f"  Málsýni með víddir sem vantar ({len(nan_log)} NaN-atburðir):")
+        # Röðuð lýsing per málsýni
+        per_sample_nans: dict[tuple[str, str, str], list[str]] = {}
+        for entry in nan_log:
+            key = (entry['model'], entry['register'], entry['number'])
+            per_sample_nans.setdefault(key, []).append(
+                f"{entry['dim_id']} ({entry['reason']})"
+            )
+        for (model_name, reg, num) in sorted(per_sample_nans):
+            sid = f"{reg}_{num}"
+            dims_str = ', '.join(per_sample_nans[(model_name, reg, num)])
+            print(f"    {model_name}/{sid}: {dims_str}")
+    else:
+        print()
+        print("  Engin NaN-tilvik — allar víddir gildar fyrir öll málsýni.")
+
     # ── LEIÐBEININGAR UM TÚLKUN / INTERPRETATION GUIDE ──
     print(f"\n{'=' * 80}")
     print("HVERNIG Á AÐ TÚLKA NIÐURSTÖÐURNAR:")
@@ -976,10 +1293,14 @@ def run_benchmark(
     print("        |b_d| 1-2: veikt frávik")
     print("        |b_d| > 2: verulegt frávik")
     print()
-    print("  B   = √(Σ b_d²) (heildarskor yfir allar víddir)")
-    print("        B < 1: mjög nálægt mannlegum texta")
-    print("        B < 2: viðunandi")
-    print("        B > 5: verulegur munur")
+    print("  B   = √(meðaltal(b_d²))  (RMS-form, sjá ákvörðun 028)")
+    print("        Aðlögun frá Milička B = ‖b‖. Sambærilegur skali")
+    print("        þvert á málsýni með ólíkan fjölda gildra vídda.")
+    print("        Algild B-gildi eru sqrt(n)≈3.16× minni en hjá")
+    print("        Milička þegar allar 10 víddir eru gildar.")
+    print("        B < ~0.3: mjög nálægt mannlegum texta")
+    print("        B < ~0.7: viðunandi")
+    print("        B > ~1.5: verulegur munur")
     print()
     print("  Stig = 0-100 einkunn per vídd")
     print("        100 = fullkomið samræmi")

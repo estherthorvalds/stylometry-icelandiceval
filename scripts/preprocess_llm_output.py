@@ -6,7 +6,7 @@ preprocess_llm_output.py — Forvinnsla á LLM-útttökum til stílmælinga
 =====================================================================
 
 TILGANGUR / PURPOSE:
-    Þetta skrifta hreinsar texta sem risamállíkön (LLMs) framleiddu, svo
+    Þessi skrifta hreinsar texta sem risamállíkön (LLMs) framleiddu, svo
     þeir fái NÁKVÆMLEGA sömu forvinnslu og mannlegu textarnir í
     extract_samples.py.
 
@@ -51,25 +51,25 @@ ENDURTEKNINGARGREINING / REPETITION DETECTION:
 
 KEYRSLA / USAGE:
     # Hreinsa öll LLM-úttök án endurtekningargreiningar
-    python scripts/preprocess_llm_output.py \\
+    python3 scripts/preprocess_llm_output.py \\
         --input-dir data/experiment/llm_continuations/ \\
         --output-dir data/experiment/llm_continuations_clean/
 
     # Með endurtekningargreiningu (aðeins skýrsla)
-    python scripts/preprocess_llm_output.py \\
+    python3 scripts/preprocess_llm_output.py \\
         --input-dir data/experiment/llm_continuations/ \\
         --output-dir data/experiment/llm_continuations_clean/ \\
         --prompt-dir data/experiment/prompts/
 
     # Greina OG fjarlægja endurtekningar
-    python scripts/preprocess_llm_output.py \\
+    python3 scripts/preprocess_llm_output.py \\
         --input-dir data/experiment/llm_continuations/ \\
         --output-dir data/experiment/llm_continuations_clean/ \\
         --prompt-dir data/experiment/prompts/ \\
         --remove-repetitions
 
     # Hreinsa eitt líkan
-    python scripts/preprocess_llm_output.py \\
+    python3 scripts/preprocess_llm_output.py \\
         --input-dir data/experiment/llm_continuations/gemini_3_thinking/ \\
         --output-dir data/experiment/llm_continuations_clean/gemini_3_thinking/
 """
@@ -233,6 +233,315 @@ def strip_markdown(text: str) -> tuple[str, dict[str, int]]:
         cleaned_lines.append(line)
 
     return '\n'.join(cleaned_lines), stats
+
+
+# ============================================================
+# BÍN-STAÐFEST AÐGREINING SAMSKEYTTRA TÓKA
+# BÍN-VALIDATED SPLITTING OF CONCATENATED TOKENS
+# ============================================================
+# Sum LLM-úttök (sérstaklega Gemini academic) innihalda texta þar
+# sem bil vantar milli fyrirsagna og næsta texta, eða milli reita
+# í markdown/HTML-töflum sem voru strippaðar án bilja. Dæmi:
+#     „...roðaáhrifaÚtfjólublá..."  (fyrirsögn + texti)
+#     „LíffæriBráð áhrif..."         (töfluhaus + reitur)
+#     „0-2Lágt"                      (tölulegur reitur + textareitur)
+#
+# Þessi samskeyti brjóta þáttun og allar víddamælingar í verkefninu.
+# Lagfæringin er gerð í forvinnslu, áður en parse_texts.py er keyrt.
+#
+# HEURISTIC / HEURISTIC:
+#   Fyrir hvert lágstaf→hástaf mark leitum við að því hvort hvor hliðin
+#   sé gilt íslenskt orð samkvæmt BÍN. Aðeins ef báðar hliðar gefa
+#   smell (beinan eða samsetningu) er bili skotið inn.
+#
+#   Dæmi:
+#     „forvörnumEins" → „forvörnum Eins" (bæði í BÍN)
+#     „iPhone" → óbreytt (i er ekki í BÍN)
+#     „macOS" → óbreytt (mac er ekki í BÍN)
+#     „roðaáhrifaÚtfjólublá" → „roðaáhrifa Útfjólublá"
+#
+# AUKAREGLA FYRIR TÖFLUR:
+#   Tala→stór stafur: alltaf split. „0-2Lágt" → „0-2 Lágt".
+#   Stafur→tala: split AÐEINS ef stafaruna ≥4 tákn OG er í BÍN.
+#     Þetta grípur raunveruleg samskeyti án þess að brjóta vísindalegar
+#     skammstafanir eins og „PGE2" eða „IL-6".
+#
+# LATEX-VARÐVEISLA:
+#   LaTeX stærðfræði ($...$ og $$...$$) er varin með staðgengla-
+#   aðferð: skipt út fyrir __MATH_N__ áður en split er keyrt,
+#   sett til baka á eftir. Engin breyting innan formúla.
+# ============================================================
+
+# Íslenskir lágstafir og hástafir (án erlendra bókstafa c/q/w/z — þessir
+# koma aldrei í hreinum íslenskum orðum og eiga ekki að ýta af stað
+# aðgreiningu).
+_ICE_LOWER = 'a-záðéíóúýþæö'
+_ICE_UPPER = 'A-ZÁÐÉÍÓÚÝÞÆÖ'
+
+# Mynstur 1: lágstafur → hástafur (innan óaðskilins strengs).
+_PATTERN_LOWER_UPPER = re.compile(f'([{_ICE_LOWER}])([{_ICE_UPPER}])')
+# Mynstur 2: tala → hástafur (töflureitir).
+_PATTERN_DIGIT_UPPER = re.compile(f'([0-9])([{_ICE_UPPER}])')
+# Mynstur 3: stafur (lág eða há) → tala.
+_PATTERN_LETTER_DIGIT = re.compile(
+    f'([{_ICE_LOWER}{_ICE_UPPER}])([0-9])'
+)
+
+# LaTeX mynstur — $$...$$ fyrst (greedy út að næsta $$), svo stakur $...$.
+_PATTERN_LATEX_DISPLAY = re.compile(r'\$\$.+?\$\$', re.DOTALL)
+_PATTERN_LATEX_INLINE = re.compile(r'\$[^$\n]+?\$')
+
+# Staðgengill fyrir LaTeX — notar undirstrik sem eru hvorki bókstafir
+# né tölustafir, svo ekkert split-mynstur snertir þau. __MATH_N__ er
+# hannað með bandstrik fyrir tölu svo stafur-tala reglan slær ekki til.
+_MATH_PLACEHOLDER = '__MATH_{n}__'
+_MATH_PLACEHOLDER_RE = re.compile(r'__MATH_(\d+)__')
+
+
+def _is_icelandic_letter(ch: str) -> bool:
+    """Er stafurinn íslenskur bókstafur (há- eða lágstafur)?"""
+    if not ch or not ch.isalpha():
+        return False
+    lower = ch.lower()
+    return lower in 'abcdefghijklmnopqrstuvwxyzáðéíóúýþæö'
+
+
+def _is_icelandic_lower(ch: str) -> bool:
+    """Er stafurinn íslenskur lágstafur?"""
+    return ch in 'abcdefghijklmnopqrstuvwxyzáðéíóúýþæö'
+
+
+def _is_icelandic_upper(ch: str) -> bool:
+    """Er stafurinn íslenskur hástafur?"""
+    return ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÐÉÍÓÚÝÞÆÖ'
+
+
+def _extract_left_token(text: str, idx: int) -> str:
+    """Draga út vinstri tóka sem endar á lágstaf í `idx`.
+
+    Gengur til baka á meðan stafir eru lágstafir, og tekur síðan einn
+    hástaf ef hann kemur næst (til að grípa títill-sniðin orð eins og
+    „Bráð" úr samskeyti „...BráðÁhrif").
+    """
+    s = idx
+    # Safna lágstöfum aftur á bak
+    while s > 0 and _is_icelandic_lower(text[s - 1]):
+        s -= 1
+    # Bæta við einum hástaf ef hann er þar (upphaf orðs í samskeyti eða
+    # upphaf strengs)
+    if s > 0 and _is_icelandic_upper(text[s - 1]):
+        s -= 1
+    return text[s:idx + 1]
+
+
+def _extract_right_token(text: str, idx: int) -> str:
+    """Draga út hægri tóka sem byrjar á hástaf í `idx`.
+
+    Gengur áfram á meðan stafir eru lágstafir. Stöðvar á öðrum hástaf
+    (sem markar næstu orðamörk innan samskeytis) eða non-bókstaf.
+    """
+    n = len(text)
+    e = idx + 1
+    while e < n and _is_icelandic_lower(text[e]):
+        e += 1
+    return text[idx:e]
+
+
+def _bin_is_valid(
+    candidate: str,
+    bin_lookup,
+    cache: dict[str, bool],
+) -> bool:
+    """Athuga hvort `candidate` sé gilt íslenskt orð samkvæmt BÍN.
+
+    Reynir tvær uppflettingar (svipað og dim8_bin_ratio._lookup_bin):
+      1. Upprunalegt form — nær sérnöfnum með hástaf.
+      2. Lágstaf — nær almennum orðum sem voru hástafuð í upphafi setningar.
+
+    Samsetningargreining BÍN er nýtt sjálfkrafa: ef BÍN skilar niðurstöðu
+    sem hefur bmynd með bandstrikum (sem inntakið hafði ekki), þá var
+    orðið leyst með samsetningarreiknirit. Þetta teljum við einnig
+    gilt.
+
+    Args:
+        candidate: Strengur til að fletta upp.
+        bin_lookup: islenska.Bin hlutur.
+        cache: Dict til að muna niðurstöður (sama kandídat getur komið
+            oft fyrir í einu gagni).
+
+    Returns:
+        True ef BÍN þekkir orðið eða getur leyst það sem samsetningu.
+    """
+    if not candidate:
+        return False
+    if candidate in cache:
+        return cache[candidate]
+
+    # Fyrsta tilraun — upprunaleg stafsetning (sérnöfn varðveitt).
+    _, meanings = bin_lookup.lookup(candidate)
+    if meanings:
+        cache[candidate] = True
+        return True
+
+    # Önnur tilraun — lágstafa fyrsta staf (BÍN-lemmur eru yfirleitt
+    # lágstafaðar).
+    lower = candidate.lower()
+    if lower != candidate:
+        _, meanings = bin_lookup.lookup(lower)
+        if meanings:
+            cache[candidate] = True
+            return True
+
+    cache[candidate] = False
+    return False
+
+
+# --- BIN-SINGLETON ---
+# Hlöðum islenska.Bin aðeins EINU SINNI fyrir heila forvinnslulotu og
+# notum sameiginlegt cache svo aðeins ein uppfletting sé gerð per
+# einstakur kandídat (sami gæti komið oft fyrir í mörgum skrám).
+_BIN_INSTANCE = None
+_BIN_CACHE: dict[str, bool] = {}
+
+
+def _get_bin_singleton():
+    """Skila staka `islenska.Bin` hluti, lazy-initialized.
+
+    Endurtekið kall skilar sama hlut. Cache `_BIN_CACHE` er deilt
+    milli kalla svo aðgreiningarfall kallar ekki tvisvar upp sömu
+    uppflettingu.
+    """
+    global _BIN_INSTANCE
+    if _BIN_INSTANCE is None:
+        try:
+            from islenska import Bin
+        except ImportError as e:
+            raise ImportError(
+                "islenska pakkinn er nauðsynlegur fyrir "
+                "split_concatenated_tokens. "
+                "Settu upp með: pip install islenska"
+            ) from e
+        _BIN_INSTANCE = Bin()
+    return _BIN_INSTANCE
+
+
+def split_concatenated_tokens(
+    text: str,
+    bin_lookup,
+    cache: dict[str, bool] | None = None,
+) -> tuple[str, int]:
+    """Aðgreina samskeytta tóka með BÍN-staðfestingu.
+
+    Finnur þrenns konar mörk í textanum:
+      1. Lágstafur → hástafur: split aðeins ef báðar hliðar eru gild
+         íslensk orð í BÍN (beint eða sem samsetning).
+      2. Tala → hástafur: alltaf split (töflureitir).
+      3. Stafur → tala: split aðeins ef stafaruna er ≥4 tákn og er gild
+         í BÍN (sleppir vísindalegum skammstöfunum eins og „PGE2").
+
+    LaTeX stærðfræði ($...$ og $$...$$) er varin með staðgenglaaðferð:
+    skipt út fyrir __MATH_N__ áður en split er keyrt, sett til baka á
+    eftir.
+
+    Args:
+        text: Hráður texti.
+        bin_lookup: islenska.Bin hlutur (úr dim8_bin_ratio eða eigin
+            innflutningi).
+        cache: Valkvætt BÍN-niðurstöðu-cache. Ef ekki gefið er búið til
+            nýtt tómt dict fyrir þetta kall.
+
+    Returns:
+        Tuple af (aðgreindur texti, fjöldi aðgreininga sem voru gerðar).
+    """
+    if cache is None:
+        cache = {}
+
+    # --- SKREF 1: Varðveita LaTeX með staðgenglum ---
+    # $$...$$ fyrst svo inline-mynstrið grípi ekki hluta úr display-stærðfræði.
+    math_spans: list[str] = []
+
+    def _save_math(match: re.Match) -> str:
+        idx = len(math_spans)
+        math_spans.append(match.group(0))
+        return _MATH_PLACEHOLDER.format(n=idx)
+
+    text = _PATTERN_LATEX_DISPLAY.sub(_save_math, text)
+    text = _PATTERN_LATEX_INLINE.sub(_save_math, text)
+
+    splits_made = 0
+
+    # --- SKREF 2: Mynstur 1 — lágstafur → hástafur með BÍN-staðfestingu ---
+    # Við notum `re.sub` með callback sem skoðar upphaflega strenginn
+    # í gegnum m.string. Samsvaranir skarast ekki (mynstur er 2 tákn),
+    # svo ein umferð nægir.
+    def _rule_low_up(m: re.Match) -> str:
+        nonlocal splits_made
+        src = m.string
+        boundary_idx = m.start()  # staða lágstafsins
+        # Sleppum staðgenglum: __MATH_N__ inniheldur ekki lágstafi fylgda
+        # af hástafi, svo þetta er öruggt — en ef einhver textabútur
+        # væri innan staðgengils yrði hann varðaður þar sem hann var
+        # skipt út fyrir regex-leit.
+        left = _extract_left_token(src, boundary_idx)
+        right = _extract_right_token(src, boundary_idx + 1)
+
+        # Ef tókarnir eru mjög stuttir (t.d. einn stafur), líklega ekki
+        # raunverulegt samskeyti. Athugasemd: validator höndlar slíka
+        # kandídata líka (t.d. „i" er ekki í BÍN), en þetta sparar
+        # köll.
+        if len(left) < 2 or len(right) < 2:
+            return m.group(0)
+
+        if _bin_is_valid(left, bin_lookup, cache) and \
+                _bin_is_valid(right, bin_lookup, cache):
+            splits_made += 1
+            return m.group(1) + ' ' + m.group(2)
+        return m.group(0)
+
+    text = _PATTERN_LOWER_UPPER.sub(_rule_low_up, text)
+
+    # --- SKREF 3: Mynstur 2 — tala → hástafur (alltaf split) ---
+    def _rule_digit_up(m: re.Match) -> str:
+        nonlocal splits_made
+        splits_made += 1
+        return m.group(1) + ' ' + m.group(2)
+
+    text = _PATTERN_DIGIT_UPPER.sub(_rule_digit_up, text)
+
+    # --- SKREF 4: Mynstur 3 — stafur → tala (BÍN-staðfest) ---
+    def _rule_letter_digit(m: re.Match) -> str:
+        nonlocal splits_made
+        src = m.string
+        # m.start() er staða stafsins. Safnum öllum samfelldum stöfum
+        # þar á undan (og stafinn sjálfan).
+        s = m.start()
+        while s > 0 and _is_icelandic_letter(src[s - 1]):
+            s -= 1
+        letter_seq = src[s:m.start() + 1]
+
+        # Lágmarkslengd 4 tákn — styttri er líklega vísindaleg
+        # skammstöfun (PGE, IL, DNA, o.s.frv.).
+        if len(letter_seq) < 4:
+            return m.group(0)
+
+        if _bin_is_valid(letter_seq, bin_lookup, cache):
+            splits_made += 1
+            return m.group(1) + ' ' + m.group(2)
+        return m.group(0)
+
+    text = _PATTERN_LETTER_DIGIT.sub(_rule_letter_digit, text)
+
+    # --- SKREF 5: Setja LaTeX til baka ---
+    def _restore_math(match: re.Match) -> str:
+        idx = int(match.group(1))
+        if 0 <= idx < len(math_spans):
+            return math_spans[idx]
+        # Fallback: skilja eftir staðgengilinn (ætti aldrei að gerast).
+        return match.group(0)
+
+    text = _MATH_PLACEHOLDER_RE.sub(_restore_math, text)
+
+    return text, splits_made
 
 
 # ============================================================
@@ -1120,7 +1429,7 @@ def find_prompt_for_continuation(
     #   lechat_thinking_blog_prompt_002.txt → blog_prompt_002.txt
     #   gpt5_academic_prompt_001.txt      → academic_prompt_001.txt
     match = re.search(
-        r'(news|blog|academic)_prompt_\d+\.txt$',
+        r'(news|blog|academic|unseen)_prompt_\d+\.txt$',
         cont_filename,
     )
     if not match:
@@ -1172,15 +1481,19 @@ def clean_llm_text(text: str) -> tuple[str, dict]:
     Hreinsunarröð (cleaning pipeline):
         1. Fjarlægja metaumfjöllun (upphaf/endi)
         2. Fjarlægja markdown-sniðmerkingar
-        3. Norma hvítbil (eins og extract_samples.py)
-        4. Tryggja setningarendamerki (eins og extract_samples.py)
+        3. Aðgreina samskeytta tóka (BÍN-staðfest) — sjá ákvörðun 029
+        4. Norma hvítbil (eins og extract_samples.py)
+        5. Tryggja setningarendamerki (eins og extract_samples.py)
 
     HVERS VEGNA ÞESSI RÖÐ?
         - Meta-commentary fyrst, þar sem hún getur innihaldið markdown
           sem myndi ruglast við efni ef markdown-hreinsun gerð fyrst.
         - Markdown næst, þar sem það fjarlægir # og * merki sem myndu
           trufla hvítbilsnormun.
-        - Hvítbilsnormun þriðja, til að fá hreinar línur.
+        - Samskeytinga-aðgreining eftir markdown en FYRIR
+          hvítbilsnormun og endurtekningargreiningu: þáttarinn og
+          endurtekningargreiningin byggir á réttum orðamörkum.
+        - Hvítbilsnormun fjórða, til að fá hreinar línur.
         - Setningarendamerki síðast, þar sem þau þurfa hreinar línur
           til að virka rétt.
 
@@ -1189,6 +1502,8 @@ def clean_llm_text(text: str) -> tuple[str, dict]:
 
     Returns:
         Tuple af (hreinsaður texti, tölfræðidict).
+        Tölfræðin inniheldur m.a. 'concatenated_splits' (fjölda
+        aðgreininga sem voru gerðar).
     """
     all_stats = {}
 
@@ -1204,10 +1519,19 @@ def clean_llm_text(text: str) -> tuple[str, dict]:
     text, md_stats = strip_markdown(text)
     all_stats.update(md_stats)
 
-    # SKREF 3: Norma hvítbil — eins og extract_samples.py
+    # SKREF 3: Aðgreina samskeytta tóka (BÍN-staðfest).
+    # Sjá ákvörðun 029 í decisions_log.md. Keyrt á eftir markdown-
+    # hreinsun svo allir tákn eru þegar fjarlægðir, og á undan
+    # hvítbilsnormun og endurtekningargreiningu svo þær sjái rétta
+    # orðamörk. BÍN-hlutur er lazy-loaded og cache deilt á milli skráa.
+    bin_obj = _get_bin_singleton()
+    text, n_splits = split_concatenated_tokens(text, bin_obj, _BIN_CACHE)
+    all_stats['concatenated_splits'] = n_splits
+
+    # SKREF 4: Norma hvítbil — eins og extract_samples.py
     text = normalize_whitespace(text)
 
-    # SKREF 4: Tryggja setningarendamerki — eins og extract_samples.py
+    # SKREF 5: Tryggja setningarendamerki — eins og extract_samples.py
     text = apply_sentence_endings(text)
 
     return text, all_stats
@@ -1357,6 +1681,10 @@ def print_file_report(info: dict) -> None:
         changes.append(f"tilvitnun: {stats['blockquotes']}")
     if stats.get('code_spans', 0) > 0:
         changes.append(f"kóði: {stats['code_spans']}")
+    if stats.get('concatenated_splits', 0) > 0:
+        changes.append(
+            f"samskeyti aðgreind: {stats['concatenated_splits']}"
+        )
 
     # Endurtekningar (ef nokkrar fundust)
     reps = info.get('repetitions', [])
@@ -1409,6 +1737,9 @@ def print_summary(all_results: list[dict]) -> None:
     total_numbered = sum(r['stats'].get('numbered_lists', 0) for r in all_results)
     total_meta = sum(r['stats'].get('meta_lines_removed', 0) for r in all_results)
     total_hr = sum(r['stats'].get('horizontal_rules', 0) for r in all_results)
+    total_splits = sum(
+        r['stats'].get('concatenated_splits', 0) for r in all_results
+    )
 
     print(f"\n  HEILDARSAMANTEKT / OVERALL SUMMARY")
     print(f"  {'─' * 50}")
@@ -1425,6 +1756,7 @@ def print_summary(all_results: list[dict]) -> None:
     print(f"    Númeraðir listar:    {total_numbered}")
     print(f"    Lárétt strik:        {total_hr}")
     print(f"  Metaumfjöllun:         {total_meta} línur")
+    print(f"  Samskeyttir tókar aðgreindir: {total_splits} staðir")
 
     # --- ENDURTEKNINGAR PER LÍKAN / REPETITIONS PER MODEL ---
     # Ef einhver skrá hefur endurtekningar, prentum samantekt

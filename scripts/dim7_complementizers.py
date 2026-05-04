@@ -3,16 +3,33 @@
 from __future__ import annotations
 
 """
-dim7_complementizers.py — VÍDD 7: Tíðni tengiorða/samtenginga (complementizer frequency)
+dim7_complementizers.py — VÍDD 7: Hlutfall sem/að tengiorða (complementizer balance)
 ==========================================================================================
 
 TILGANGUR / PURPOSE:
-    Þessi skrifta mælir tíðni tengiorða (complementizers) í þáttuðum trjám.
-    Tengiorð kynna aukasetningar (subordinate clauses) og eru hér skoðuð til að
-    mæla setningaflækjustig (syntactic complexity).
+    Þessi skrifta mælir HLUTFALL sem-tengiorða af öllum tengiorðum
+    (complementizers) í þáttuðum trjám. Aðal-v-gildið er:
 
-    This script measures the frequency of complementizer nodes (C sem, C að)
-    in IceConParse constituency-parsed output.
+        comp_ratio = sem / (sem + að)
+
+    Bil [0, 1]; 1.0 = aðeins sem (algeng í fræðitextum með mörgum
+    tilvísunaraukasetningum), 0.0 = aðeins að (algeng í frásögn og
+    persónulegum textum með fallsetningum). Þessi proportion-form var
+    valin frekar en hrátt sem/að-hlutfall vegna þess að (1) hún er
+    bundin við [0,1], (2) samhverf um 0.5, og (3) lendir ekki í
+    deilingu með núlli þegar texti hefur engin „að“-tengiorð. Sjá
+    ákvörðun 028 fyrir rökstuðning.
+
+    NaN-MEÐFERÐ: Ef sem + að == 0 (skrá hefur engin tengiorð) skilum
+    við float('nan') og skráum nafn skrárinnar í stderr. Pípan
+    (run_milicka.py) útilokar NaN-víddir frá b-vektor þeirrar samplu.
+
+    Aukamælikvarði (ekki notaður í B-skor): comp_freq = (sem + að)/orð × 1000
+    — heildartíðni tengiorða per 1.000 orð. Til upplýsingar í CSV.
+
+    This script measures the proportion of complementizer nodes that are
+    sem (C sem) versus að (C að). Primary v = sem/(sem+að), in [0,1] or
+    NaN if sem+að == 0.
 
 MÁLVÍSINDI / LINGUISTICS:
     Tengiorð (complementizers) opna aukasetningar. Í þessari skriftu er aðallega
@@ -98,7 +115,9 @@ KEYRSLA / USAGE:
 
 import argparse
 import csv
+import math
 import re
+import sys
 from pathlib import Path
 
 
@@ -246,15 +265,16 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
         4. Reikna hlutfall og tíðni
 
     ÚTREIKNINGAR:
-        - comp_per_1000_words = (sem + að) / heildarorð × 1000
-          Tíðni tengiorða á hverja 1.000 orð — aðalmælikvarðinn.
-        - comp_per_clause = (sem + að) / (IP-MAT + IP-SUB)
-          Hversu mörg tengiorð per setningu — viðbótarmælikvarði.
-        - sem_ratio = sem / (sem + að)
-          Hlutfall tilvísunaraukasetninga (relative clauses) af öllum
-          tengiorðum. Hátt gildi → margar CP-REL, lágt → margar CP-THT.
-        - sem_per_1000_words, ad_per_1000_words
-          Tíðni hvers tengiorðs fyrir sig.
+        - comp_ratio = sem / (sem + að)         ← AÐAL-v
+          Hlutfall sem-tengiorða af öllum tengiorðum. Bil [0, 1].
+          NaN ef sem + að == 0 (skrá hefur engin tengiorð). Skráð í
+          stderr þegar NaN er skilað. Sama gildi og eldra `sem_ratio`
+          en NaN-meðvitað í stað þess að skila 0.0 sem gögn.
+        - comp_freq = (sem + að) / orð × 1000   ← aukamælikvarði
+          Heildartíðni tengiorða per 1.000 orð. Til upplýsingar.
+        - sem_ratio, comp_per_1000_words, comp_per_clause,
+          sem_per_1000_words, ad_per_1000_words — eldri dálkar,
+          haldið fyrir afturábaksamhæfi við áður vistuð CSV.
 
     Args:
         parsed_file: Slóð á skrá með þáttuðum trjám.
@@ -265,8 +285,12 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
             - filename
             - sem_count, ad_count, total_complementizers
             - total_words, total_clauses
+            - comp_ratio (AÐAL-v: sem/(sem+að), NaN ef sem+að==0)
+            - comp_freq  (aukamælikvarði: (sem+að)/orð × 1000)
+            - sem_ratio (eldra heiti, sami útreikningur og comp_ratio
+              en skilar 0.0 á tómum tengiorðum — geymt fyrir
+              afturábaksamhæfi)
             - comp_per_1000_words, comp_per_clause
-            - sem_ratio
             - sem_per_1000_words, ad_per_1000_words
     """
     trees = load_parsed_trees(parsed_file)
@@ -332,7 +356,26 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
     if total_comp > 0:
         sem_ratio = total_sem / total_comp
     else:
-        sem_ratio = 0.0
+        sem_ratio = 0.0  # eldri dálkur, varðveittur fyrir afturábaksamhæfi
+
+    # 3b. comp_ratio (AÐAL-v) — sama útreikningur og sem_ratio en
+    #     NaN-meðvitað. NaN er heiðarleg merking á óskilgreindu
+    #     gildi þegar texti hefur engin tengiorð til að flokka.
+    #     Sjá ákvörðun 028.
+    if total_comp > 0:
+        comp_ratio = total_sem / total_comp
+    else:
+        comp_ratio = float('nan')
+        print(
+            f"  [dim7] AÐVÖRUN: {parsed_file.name} hefur engin "
+            f"tengiorð (sem + að = 0); comp_ratio sett sem NaN.",
+            file=sys.stderr,
+        )
+
+    # 3c. comp_freq (aukamælikvarði) — heildartíðni tengiorða per
+    #     1.000 orð. Sama tala og comp_per_1000_words; haldið
+    #     sérstakt nafn til samræmis við ákvörðun 028.
+    comp_freq = comp_per_1000
 
     # 4. Tíðni hvers tengiorðs — til fíngreindar
     if total_words > 0:
@@ -345,9 +388,11 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
     if debug:
         print(f"  [DEBUG] comp/1000={comp_per_1000:.2f}, "
               f"comp/clause={comp_per_clause:.4f}, "
-              f"sem_ratio={sem_ratio:.4f}")
+              f"sem_ratio={sem_ratio:.4f}, "
+              f"comp_ratio={comp_ratio}")
         print(f"  [DEBUG] sem/1000={sem_per_1000:.2f}, "
-              f"að/1000={ad_per_1000:.2f}")
+              f"að/1000={ad_per_1000:.2f}, "
+              f"comp_freq={comp_freq:.2f}")
 
     return {
         'filename': parsed_file.name,
@@ -356,6 +401,8 @@ def measure_complementizers(parsed_file: Path, debug: bool = False) -> dict:
         'total_complementizers': total_comp,
         'total_words': total_words,
         'total_clauses': total_clauses,
+        'comp_ratio': comp_ratio,
+        'comp_freq': comp_freq,
         'comp_per_1000_words': comp_per_1000,
         'comp_per_clause': comp_per_clause,
         'sem_ratio': sem_ratio,
@@ -374,10 +421,12 @@ def save_results_csv(
 ) -> None:
     """Vista niðurstöður sem CSV-skrá.
 
-    Dálkar:
+    Dálkar (`comp_ratio` er aðal-v fyrir Milička-pípuna):
         filename, sem_count, ad_count, total_complementizers,
-        total_words, total_clauses, comp_per_1000_words,
-        comp_per_clause, sem_ratio, sem_per_1000_words, ad_per_1000_words
+        total_words, total_clauses,
+        comp_ratio, comp_freq,
+        comp_per_1000_words, comp_per_clause,
+        sem_ratio, sem_per_1000_words, ad_per_1000_words
 
     Args:
         results: Listi af dict frá measure_complementizers.
@@ -392,6 +441,8 @@ def save_results_csv(
         'total_complementizers',
         'total_words',
         'total_clauses',
+        'comp_ratio',
+        'comp_freq',
         'comp_per_1000_words',
         'comp_per_clause',
         'sem_ratio',
@@ -403,8 +454,15 @@ def save_results_csv(
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in results:
-            # Slétta hlutfallstölur til 4 aukastafa í CSV
+            # Slétta hlutfallstölur til 4 aukastafa í CSV.
+            # comp_ratio getur verið NaN — skrifum þá strenginn 'nan'.
             row_out = dict(row)
+            cr = row['comp_ratio']
+            row_out['comp_ratio'] = (
+                'nan' if isinstance(cr, float) and math.isnan(cr)
+                else f"{cr:.4f}"
+            )
+            row_out['comp_freq'] = f"{row['comp_freq']:.2f}"
             row_out['comp_per_1000_words'] = (
                 f"{row['comp_per_1000_words']:.2f}"
             )

@@ -50,6 +50,14 @@ INNTAK / INPUT:
     Hrein .txt skrár, ein per úrtak, í tilgreindri úttaksmöppu.
     Skráarheiti: {category}_{001..n}.txt
 
+SAMRÆMD FORVINNSLA VIÐ LLM-ÚTTAK / PARITY WITH LLM PREPROCESSING:
+    Flaggið `--split-concatenated` kveikir á BÍN-staðfestri aðgreiningu
+    samskeyttra tóka (sjá ákvörðun 029 og `preprocess_llm_output.py`).
+    Mannlegir RMH-textar eru yfirleitt hreinir, en ef þeir eiga að fá
+    NÁKVÆMLEGA sömu forvinnslu og LLM-úttak verður þetta flagg að vera
+    virkt á báðum hliðum. Framvegis skulu allar útdráttarkeyrslur nota
+    `--split-concatenated` ef sami valkostur er notaður á LLM-hlið.
+
 KEYRSLA / USAGE:
     python3 /Users/esther/Documents/GitHub/stylometry-icelandiceval/scripts/extract_samples.py --input-dir /Users/esther/Documents/GitHub/stylometry-icelandiceval/data/raw/IGC-News1_22.10/IGC-News1-22.10.ana/ruv --output-dir data/human_texts/news/ --target-words 2000
     python3 /Users/esther/Documents/GitHub/stylometry-icelandiceval/scripts/extract_samples.py --input-dir /Users/esther/Documents/GitHub/stylometry-icelandiceval/data/raw/IGC-Journals-22.10.TEI/lb/ --output-dir data/human_texts/academic/ --target-words 2000
@@ -665,6 +673,17 @@ Dæmi um keyrslu:
         default=0.10,
         help="Leyfilegt frávik frá markmiði sem hlutfall (sjálfgefið: 0.10 = 10%%)"
     )
+    parser.add_argument(
+        '--split-concatenated',
+        action='store_true',
+        help=(
+            "Keyra BÍN-staðfesta aðgreiningu samskeyttra tóka á hvert "
+            "úrtak (sama fall og í preprocess_llm_output.py). Sjálfgefið: "
+            "SLÖKKT. Virkjaðu þetta flagg þegar samræmi þarf við "
+            "LLM-forvinnslu (ákvörðun 029). RMH-gögn eru yfirleitt hrein "
+            "og fjöldi aðgreininga ætti að vera lágur eða núll."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -679,6 +698,8 @@ Dæmi um keyrslu:
     print(f"  Textategund: {category}")
     print(f"  Markmiðsorðafjöldi: {args.target_words}")
     print(f"  Vikmörk: ±{args.tolerance:.0%}")
+    if args.split_concatenated:
+        print("  BÍN-staðfest aðgreining samskeyttra tóka: VIRK")
     print()
 
     # --- SKREF 1: Lesa alla texta úr XML ---
@@ -703,6 +724,31 @@ Dæmi um keyrslu:
         tolerance=args.tolerance,
     )
     print(f"  {len(samples)} úrtök búin til")
+
+    # --- SKREF 3b (valfrjálst): BÍN-staðfest aðgreining samskeyttra tóka ---
+    # Keyrt aðeins ef --split-concatenated var gefið. Endurnotar sama fall
+    # og preprocess_llm_output.py (ákvörðun 029) til að tryggja samhljóða
+    # forvinnslu á mannlegum og LLM-textum þegar flaggið er valið.
+    if args.split_concatenated:
+        print(
+            "\nSKREF 3b: Aðgreini samskeytta tóka (BÍN-staðfest)..."
+        )
+        # Lazy-innflutningur svo óvirkt flagg valdi ekki BÍN-hleðslu.
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from preprocess_llm_output import (  # noqa: E402
+            _get_bin_singleton,
+            split_concatenated_tokens,
+        )
+        bin_obj = _get_bin_singleton()
+        cache: dict[str, bool] = {}
+        total_splits = 0
+        new_samples = []
+        for s in samples:
+            cleaned, n = split_concatenated_tokens(s, bin_obj, cache)
+            total_splits += n
+            new_samples.append(cleaned)
+        samples = new_samples
+        print(f"  Samskeyttir tókar aðgreindir: {total_splits} staðir")
 
     # --- SKREF 4: Vista ---
     print(f"\nSKREF 4: Vista í {args.output_dir}/...")

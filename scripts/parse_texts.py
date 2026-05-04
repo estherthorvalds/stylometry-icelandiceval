@@ -22,11 +22,22 @@ HVERS VEGNA / WHY:
     Milička's formulas need constituency parse trees to measure sentence structure.
     The parser is expensive to run, so we run it ONCE and save the results.
 
-FIMM UPPSPRETTUR / FIVE SOURCES:
+ÞRJÁR UPPSPRETTUR / THREE SOURCES:
+
+    Allar inntaksmöppur lifa undir data/experiment/. Textaflokkar eru
+    fjórir: academic, blog, news og unseen. Í prompts/ og human_texts/
+    er flokkurinn kóðaður í skráarheiti (academic_*, blog_*, news_*,
+    unseen_*) en í llm_continuations_clean/<model>/ er hver flokkur
+    sín undirmappa (academic/, blog/, news/, unseen/).
+
+    Áður lá unseen-flokkurinn í sérstakri möppu (data/experiment_unseen/)
+    en var sameinaður inn í data/experiment/ fyrir samræmi í pípu og
+    einfaldari skriftulógík.
 
     1. PROMPT-TEXTAR (fyrri helmingur mannlegra texta):
-       Slóð: data/experiment/prompts/
-       Skrár: academic_prompt_001.txt, blog_prompt_001.txt, news_prompt_001.txt, ...
+       Slóð: data/experiment/prompts/  (flatt — engar undirmöppur)
+       Skrár: academic_prompt_001.txt, blog_prompt_001.txt,
+              news_prompt_001.txt, unseen_prompt_001.txt, ...
        MIKILVÆGT: Hver skrá byrjar á leiðbeiningarlínu:
            "Haltu áfram með textann á sama hátt og í sama stíl og sjáðu til
             þess að hann innihaldi að minnsta kosti tvö þúsund orð. Textinn
@@ -36,52 +47,44 @@ FIMM UPPSPRETTUR / FIVE SOURCES:
        texti er þáttaður.
 
     2. VIÐMIÐSTEXTAR (seinni helmingur mannlegra texta):
-       Slóð: data/experiment/human_reference/
-       Skrár: academic_ref_001.txt, blog_ref_001.txt, news_ref_001.txt, ...
+       Slóð: data/experiment/human_texts/  (flatt — engar undirmöppur)
+       Skrár: academic_ref_001.txt, blog_ref_001.txt,
+              news_ref_001.txt, unseen_ref_001.txt, ...
        Þáttað eins og er, engin forvinnsla þörf.
 
-    3. LLM-FRAMHÖLD (forunnin):
-       Slóð: data/experiment/llm_continuations_preprocessed/
-       Undirmöppur per líkan: gemini_3_thinking/, gpt_5/, le_chat_fast/,
-       le_chat_thinking/ — hvert með academic/, blog/, news/.
+    3. LLM-FRAMHÖLD (hreinsuð):
+       Slóð: data/experiment/llm_continuations_clean/{model}/{academic,blog,news,unseen}/
+       Undirmöppur per líkan: claude_sonnet46/, deepseek_V32_expert/,
+       gemini_3_thinking/, gpt_5/, le_chat_balanced/, le_chat_fast/,
+       le_chat_thinking/ — hvert með academic/, blog/, news/, unseen/.
        Þáttað eins og er — preprocess_llm_output.py hefur þegar hreinsað
        markdown, metaumfjöllun og endurtekningar.
 
-    4. ÓSÉÐ HÖFUNDATEXTAR — PROMPT (fyrri helmingur óséðra bókmenntatexta):
-       Slóð: data/experiment_unseen/prompts/
-       Skrár: unseen_prompt_001.txt, ...
-       Sama leiðbeiningarlína og í (1) — fjarlægð á sama hátt.
-
-    5. ÓSÉÐ HÖFUNDATEXTAR — VIÐMIÐ (seinni helmingur óséðra bókmenntatexta):
-       Slóð: data/experiment_unseen/human_reference/
-       Skrár: unseen_ref_001.txt, ...
-       Þáttað eins og er, engin forvinnsla þörf.
-
 ÚTTAK / OUTPUT:
     output/parsed/
-    ├── prompts/                              # Þáttuð prompt-gögn (aðaltilraun)
+    ├── prompts/                              # Þáttuð prompt-gögn (flatt)
     │   ├── academic_prompt_001_parsed.psd
     │   ├── blog_prompt_001_parsed.psd
-    │   └── ...
-    ├── human_reference/                      # Þáttuð viðmiðsgögn (aðaltilraun)
+    │   ├── news_prompt_001_parsed.psd
+    │   └── unseen_prompt_001_parsed.psd
+    ├── human_texts/                          # Þáttuð viðmiðsgögn (flatt)
     │   ├── academic_ref_001_parsed.psd
     │   ├── blog_ref_001_parsed.psd
-    │   └── ...
-    ├── llm_continuations_preprocessed/       # Þáttuð LLM-framhöld
-    │   ├── gemini_3_thinking/
-    │   │   ├── academic/
-    │   │   │   └── gemini_academic_prompt_010_parsed.psd
-    │   │   ├── blog/
-    │   │   └── news/
-    │   ├── gpt_5/...
-    │   ├── le_chat_fast/...
-    │   └── le_chat_thinking/...
-    └── prompts/                              # Þáttuð prompt-gögn (óséð)
-    │   ├── unseen_prompt_001_parsed.psd      #   (frá experiment_unseen/prompts/)
-    │   └── ...
-    └── human_reference/                      # Þáttuð viðmiðsgögn (óséð)
-        ├── unseen_ref_001_parsed.psd         #   (frá experiment_unseen/human_reference/)
-        └── ...
+    │   ├── news_ref_001_parsed.psd
+    │   └── unseen_ref_001_parsed.psd
+    └── llm_continuations_clean/              # Þáttuð LLM-framhöld
+        ├── claude_sonnet46/
+        │   ├── academic/
+        │   │   └── claude_sonnet46_academic_prompt_001_parsed.psd
+        │   ├── blog/
+        │   ├── news/
+        │   └── unseen/
+        ├── deepseek_V32_expert/...
+        ├── gemini_3_thinking/...
+        ├── gpt_5/...
+        ├── le_chat_balanced/...
+        ├── le_chat_fast/...
+        └── le_chat_thinking/...
 
     Hvert tré er ein lína í .psd skrá. Stjörnur (*) í þáttunartréum eru
     skiptar út fyrir bandstrik (-) til samræmis við IcePaHC-skemað.
@@ -97,7 +100,7 @@ KEYRSLA / USAGE:
     python scripts/parse_texts.py
 
     # Þátta aðeins ákveðna möppu:
-    python scripts/parse_texts.py --input-dirs data/experiment/human_reference
+    python scripts/parse_texts.py --input-dirs data/experiment/human_texts
 
     # Nota annað líkan:
     python scripts/parse_texts.py --model-path models/is_icepahc_transformer_finetuned_constituency.pt
@@ -128,28 +131,25 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # Þetta er Stanza-líkan sem Ingunn Jóhanna Kristjánsdóttir þjálfaði á IcePaHC.
 DEFAULT_MODEL_PATH = PROJECT_ROOT / "models" / "is_icepahc_transformer_finetuned_constituency.pt"
 
-# Inntak: þrjár möppur sem innihalda textaskrár til þáttunar.
+# Inntak: þrjár rótarmöppur sem innihalda textaskrár til þáttunar.
+# Hver inniheldur undirmöppur per textaflokk: academic/, blog/, news/, unseen/.
+# Áður voru óséðu textarnir í sér möppu (data/experiment_unseen/) en voru
+# sameinaðir inn í data/experiment/<flokkur>/unseen/ fyrir samræmi.
 #
 # 1. prompts/ — fyrri helmingur mannlegra texta (notaður sem human baseline).
 #    MIKILVÆGT: Leiðbeiningarlína fremst í hverri skrá er fjarlægð fyrir þáttun.
 #
-# 2. human_reference/ — seinni helmingur mannlegra texta (viðmið).
+# 2. human_texts/ — seinni helmingur mannlegra texta (viðmið).
 #    Þáttað eins og er.
 #
-# 3. llm_continuations_preprocessed/ — LLM-framhöld eftir forvinnslu.
-#    Hvert líkan í sinni undirmöppu (gemini_3_thinking/, gpt_5/, o.s.frv.),
-#    með academic/, blog/, news/ undir hverju.
-#
-# 4. experiment_unseen/prompts/ — fyrri helmingur óséðra höfundatexta.
-#    Sama leiðbeiningarlína og í aðaltilrauninni — fjarlægð á sama hátt.
-#
-# 5. experiment_unseen/human_reference/ — seinni helmingur óséðra höfundatexta.
+# 3. llm_continuations_clean/ — LLM-framhöld eftir forvinnslu.
+#    Hvert líkan í sinni undirmöppu (claude_sonnet46/, gemini_3_thinking/,
+#    gpt_5/, le_chat_fast/, o.s.frv.), með academic/, blog/, news/, unseen/
+#    undir hverju.
 DEFAULT_INPUT_DIRS = [
     PROJECT_ROOT / "data" / "experiment" / "prompts",
-    PROJECT_ROOT / "data" / "experiment" / "human_reference",
-    PROJECT_ROOT / "data" / "experiment" / "llm_continuations_preprocessed",
-    PROJECT_ROOT / "data" / "experiment_unseen" / "prompts",
-    PROJECT_ROOT / "data" / "experiment_unseen" / "human_reference",
+    PROJECT_ROOT / "data" / "experiment" / "human_texts",
+    PROJECT_ROOT / "data" / "experiment" / "llm_continuations_clean",
 ]
 
 # Úttak: rótarmappa þar sem þáttuð tré verða vistuð.
@@ -161,7 +161,15 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output" / "parsed"
 # Möppur sem á að hundsá (sleppa) við endurkvæma leit.
 # „excluded" inniheldur skrár sem voru fjarlægðar úr tilrauninni
 # (t.d. LLM-framhöld sem voru of mikil endurtekning á prompt-texta).
-EXCLUDED_DIR_NAMES = {'excluded'}
+# „excluded_from_pipeline" liggur sem efsta-stigs mappa undir
+# data/experiment/ og inniheldur tæknibilanir (núll-orða úttak,
+# prompt-endurtekningar, o.þ.h.) sem mega ekki fara inn í pípuna.
+# Þessi vörn er einnig til staðar ef notandi setur víðari --input-dirs
+# slóð sem grípur í þá möppu.
+EXCLUDED_DIR_NAMES = {
+    'excluded',
+    'excluded_from_pipeline',
+}
 
 # ============================================================
 # LEIÐBEININGARLÍNA Í PROMPTSKRÁM / PROMPT INSTRUCTION LINE
@@ -230,7 +238,7 @@ def load_parser(model_path: Path) -> stanza.Pipeline:
 # ============================================================
 # LESA TEXTA ÚR SKRÁ / READ TEXT FROM FILE
 # Textaskrárnar geta verið á ýmsu sniði:
-#   - Ein löng lína (~1.000 orð á einni línu) — algengast í human_reference/
+#   - Ein löng lína (~1.000 orð á einni línu) — algengast í human_texts/
 #   - Margar línur (ein setning per línu, eða málsgreinar) — algengast í LLM-úttaki
 # Stanza sér um setningarskiptingu (sentence segmentation) svo
 # við lesum allan texta sem einn streng og látum Stanza skipta.
@@ -411,15 +419,20 @@ def find_text_files(input_dir: Path) -> list[Path]:
 # inntaksmöppuna er notuð sem undirmappa í úttakinu.
 #
 # Dæmi:
-#   input_dir  = data/experiment/llm_continuations_preprocessed
-#   txt_file   = data/experiment/llm_continuations_preprocessed/gpt_5/news/foo.txt
+#   input_dir  = data/experiment/llm_continuations_clean
+#   txt_file   = data/experiment/llm_continuations_clean/gpt_5/news/foo.txt
 #   output_dir = output/parsed
-#   → output/parsed/llm_continuations_preprocessed/gpt_5/news/foo_parsed.psd
+#   → output/parsed/llm_continuations_clean/gpt_5/news/foo_parsed.psd
 #
 #   input_dir  = data/experiment/prompts
-#   txt_file   = data/experiment/prompts/academic_prompt_001.txt
+#   txt_file   = data/experiment/prompts/academic/academic_prompt_001.txt
 #   output_dir = output/parsed
-#   → output/parsed/prompts/academic_prompt_001_parsed.psd
+#   → output/parsed/prompts/academic/academic_prompt_001_parsed.psd
+#
+#   input_dir  = data/experiment/human_texts
+#   txt_file   = data/experiment/human_texts/unseen/unseen_ref_001.txt
+#   output_dir = output/parsed
+#   → output/parsed/human_texts/unseen/unseen_ref_001_parsed.psd
 # ============================================================
 
 def compute_output_path(
@@ -446,9 +459,9 @@ def compute_output_path(
     output_name = f"{txt_file.stem}_parsed.psd"
 
     # Sameina: output_dir / nafn rótarmöppu / möppuskipulag / nýtt skráarheiti
-    # input_dir.name er nafn rótarmöppunnar (t.d. prompts, human_reference,
-    # llm_continuations_preprocessed)
-    # relative.parent er möppuhlutinn (t.d. . eða gpt_5/news/)
+    # input_dir.name er nafn rótarmöppunnar (t.d. prompts, human_texts,
+    # llm_continuations_clean)
+    # relative.parent er möppuhlutinn (t.d. academic/, unseen/, eða gpt_5/news/)
     return output_dir / input_dir.name / relative.parent / output_name
 
 
@@ -576,15 +589,15 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Dæmi um keyrslu:
-  # Þátta öll tilraunagögn (sjálfgefið: prompts, human_reference,
-  # llm_continuations_preprocessed):
+  # Þátta öll tilraunagögn (sjálfgefið: prompts, human_texts,
+  # llm_continuations_clean):
   python scripts/parse_texts.py
 
   # Þátta aðeins ákveðnar möppur:
-  python scripts/parse_texts.py --input-dirs data/experiment/human_reference
+  python scripts/parse_texts.py --input-dirs data/experiment/human_texts
 
   # Þátta fleiri en eina möppu:
-  python scripts/parse_texts.py --input-dirs data/experiment/prompts data/experiment/human_reference
+  python scripts/parse_texts.py --input-dirs data/experiment/prompts data/experiment/human_texts
 
   # Nota annað líkan eða aðra úttaksmöppu:
   python scripts/parse_texts.py --model-path models/other.pt --output-dir output/parsed_v2
@@ -604,7 +617,7 @@ Dæmi um keyrslu:
         default=None,
         help="Ein eða fleiri möppur með textaskrám til þáttunar. "
              "Leitað er endurkvæmt í undirmöppum. "
-             "Sjálfgefið: prompts, human_reference, llm_continuations_preprocessed."
+             "Sjálfgefið: prompts, human_texts, llm_continuations_clean."
     )
     parser.add_argument(
         '--output-dir',
