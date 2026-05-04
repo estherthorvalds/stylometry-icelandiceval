@@ -1,0 +1,4 @@
+filename,total_words,mean_length,median_length,std_length,pct_long_words
+academic_ref_001.txt,1044,4.82,4.0,3.11,16.9
+news_ref_001.txt,1045,5.44,5.0,3.40,21.4
+blog_ref_001.txt,1093,5.27,5.0,3.37,20.0

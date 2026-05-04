@@ -1,0 +1,18 @@
+# Required for parsing pipeline
+stanza>=1.7
+
+# Required for dim8 (BÍN vocabulary coverage); pipeline runs without it but dim8 is skipped
+islenska>=1.0
+
+# Required for dim10 (LIX) — Icelandic-aware sentence splitting
+tokenizer>=3.4
+
+# Optional: needed only for run_milicka.py --plot
+matplotlib>=3.7
+numpy>=1.24
+
+# Optional: needed only for style_score_leaderboard.py
+pandas>=2.0
+
+# Optional: needed only for generate_claude_continuations.py and test_api_anthropic.py
+anthropic>=0.40

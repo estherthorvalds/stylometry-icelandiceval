@@ -672,3 +672,526 @@ le_chat_thinking:    15 files,  66 passages,  3,879 words
 - Keyra nýju líkönin í gegnum pípuna.
 - Senda stöðuskýrslu til Miðeindar.
 - Byrja að skrifa greinardrög (introduction, related work) samhliða gagnavinnslu.
+
+
+### 18. apríl 2026 — Áttunda víddin: BÍN-hlutfall
+
+**Tími:** 2 klst.
+
+**Hvað gerði ég:**
+- Hannaði og útfærði áttundu mælivíddina: BÍN-hlutfall (`dim8_bin_ratio.py`). Hver tóki er flokkaður í eitt af fjórum: `exact` (finnst í BÍN), `compound` (BÍN skilar samsetningu með fleiri bandstrikum en inntakið), `proper_name` (hluti ∈ {ism, föð, móð, örn, göt, fyr, erm, bibl, lönd, þor}), og `oov` (ekki í BÍN). Aðal-v fyrir víddina er `in_bin_ratio = (exact + compound + proper_name) / total`.
+- Ráðfærði mig við kennara og notaði `islenska`-pakka Miðeindar (BinPackage) til uppflettingar. Pakkinn skilar BinEntry-færslum með `ord`, `ofl`, `hluti`, `bmynd`, `mark`, `bin_id` — nóg til að gera compound- og sérnafnagreiningu.
+- Hannaði „reikna-einu-sinni“ pípu: dim8 skrifar tvö CSV (`output/dim8_bin_summary.csv`, `output/dim8_bin_detail.csv`) og `run_milicka.py` les summary-CSV beint. Kallar aldrei á `Bin()` sjálft. Þannig þarf ekki að keyra `islenska` í hvert sinn, nóg er að gera það einu sinni og svo er unnið með þær niðurstöður í CSV-skjölunum. Það bæði sparar tíma og orku ef gögnin eru mörg en sömuleiðis geta aðrir notendur reiknað Milicka-formúluna án þess að setja upp pakkann (krefst `python3-dev` og `libffi-dev` á Linux).
+- Sannprófun: keyrt á 9 mannlegum skrám (3 per textategund). Niðurstöður:
+
+  ```
+  Skrá                  Orð   in_bin% exact% cmpnd% propn% oov%
+  ─────────────────────────────────────────────────────────────
+  academic_ref_002     1059   95.56   92.54  0.94   2.08   4.44
+  academic_ref_003     1038   95.57   90.46  4.24   0.87   4.43
+  academic_ref_004     1034   91.68   84.91  2.13   4.64   8.32
+  blog_ref_001         1093   99.82   96.98  0.82   2.01   0.18
+  blog_ref_002         1085   99.35   95.94  1.94   1.47   0.65
+  blog_ref_003         1100   98.91   95.82  2.27   0.82   1.09
+  news_ref_001         1045   95.50   84.40  0.48  10.62   4.50
+  news_ref_002         1080   96.94   93.52  0.65   2.78   3.06
+  news_ref_003         1088   98.53   93.66  0.92   3.95   1.47
+  MEÐALTAL                    96.87   92.03  1.60   3.25   3.13
+  ```
+
+**Málvísindaleg rök fyrir víddinni:**
+- Sjö víddir (dim1–dim7) mæla málfræðilegar dreifingar: hlutfall aukasetninga, meðalorðalengd, þátíðarnotkun, tíðni tengiorða o.s.frv. Þær grípa góðan hluta stíleinkenna en greina ekki orðaval og orðaforða.
+- Íslenska hefur ríka beygingarfræði og sterka nýyrðahefð. Íslenskir textar nýta gjarna samsetningar, bókstafshefðir og sérnöfn á mjög mismunandi hátt milli textaflokka. BÍN inniheldur ~6,5 milljónir orðmynda og fyrir yfirlesna íslenska texta ætti hlutfallið að vera nokkuð hátt, >90%.
+- LLM-textar á íslensku eru oft enskulegir, notar enskar orðmyndir, beygir undarlega eða býr til gerviorð sem ekki eru partur af BÍN. Þetta er GÆÐAVILLA, ekki stílbreytileiki. Dim8 grípur þessa tegund af galla á annan hátt en hinar víddirnar.
+
+**Uppgötvanir:**
+- Allir mannlegir textar > 90% in_bin ✓ (lægst: academic_ref_004 á 91.68%). Þetta staðfestir að BÍN nær nánast öllu í raunverulegum íslenskum texta — þannig að lægra hlutfall hjá LLM-texta verður marktækt.
+- Fréttir hafa hæsta proper_name_ratio (news_001 á 10.62%). Það passar við það að fréttir vísa stöðugt í fólk, staði, stofnanir, fyrirtæki.
+- Fræðitextar hafa meðal-compound_ratio (2.44%). Fræðitextar nota löng samsett hugtök („heilbrigðisþjónustukerfi“), en ekki eins mikið og búist var við.
+- Blogg hafa LÆGSTA oov_ratio (0.64% að meðaltali): Stuttar setningar, einfalt mál, persónulegur tónn.
+- academic_ref_001 reyndist jaðartilvik: 89.75% in_bin. Athugun með `--debug` sýndi sögulega stafsetningu (jeg, mier, þier, spordenn) og latnesk orð. Ekki galli í mælingunni heldur sérkenni textans. Skipti yfir á 002–004 fyrir sannprófun.
+
+**Hugsanir / túlkun:**
+- Áttunda víddin er öðruvísi en hinar sjö sem mæla málfræðilega DREIFINGU (hversu oft er eitt eða annað notað), dim8 mælir hvort orðin sjálf séu hluti af íslensku nútímamáli. Líkön sem nota óvenjulegan íslenskan stíl en halda sig við íslenskan orðaforða fá hátt dim8 + frávik í dim1–7. Líkön sem mynda gervimál (enskt/tökuorða) fá lágt dim8 óháð öðru. Sömuleiðis ef þau geta ekki hermt eftir lágu dim8 í mennskum texta (eins og í fantasíutexta) er þeim einnig refsað fyrir það.
+- Parse-once uppbyggingin er dýrmæt, `islenska` ætti ekki að vera notað oft. Með því að skyndivista (cache) niðurstöður í CSV getum við haldið `run_milicka.py` án hæði (dependency) við `islenska` og keyrt endurtekin stig (scatter, B-reikningur). (SKRIFAÐ SEINNA: Ég sé eftir þessari ákvörðun, þetta er bara keyrt á minni tölvu og mögulega einhverjum máltæknifræðingi síðar meir sem þarf ekki að hafa áhyggjur af þessu, þetta tók bara nokkrar sekúndur svo þessi ákvörðun var overengineering)
+- „oov“-flokkurinn inniheldur mörg réttmæt orð (nýyrði sem eru ekki enn í BÍN, erlend tilvísunarnöfn, tölur, skammstafanir). oov_guess-dálkurinn í detail-CSV reynir að flokka þetta (`foreign` fyrir c/q/w/z, `likely_proper_name` fyrir hástafaorð í miðri setningu, annars `unknown`) en þetta er greiningartæki, ekki gildismat.
+
+**Opnar spurningar:**
+- Ætti primary-v fyrir Milička-mælinguna að vera `in_bin_ratio` eða eingöngu `exact_ratio`? Valdi `in_bin_ratio` (með compound og proper_name innifalið) því það speglar hvort ORÐIN séu þekkt íslenska. `exact_ratio` væri strangara og næði hugsanlega betur að fanga LLM-villurnar. Hægt að greina bæði í greininni.
+- Þarf að sannprófa á LLM-textum til að sjá dreifingu.
+- Ætti að flokka tölur (digits-only) sérstaklega frekar en sem oov? Sem stendur teljast „2024“ og „fimmtíu“ bæði sem oov/exact í sömu röð — ósamræmi.
+
+**Næstu skref:**
+- Klára að búa til fleiri gervigreindartexta og keyra dim8 á þá, fá samanburð.
+- Bæta dim8 við Milička scatter-plot grid (verður 8 reitir í stað 7).
+- Ræða BÍN-hlutfall sérstaklega í greininni vegna þess að þetta er tegund af LLM-galla sem hinar víddirnar eru ekki að reyna að ná — líklega sinn eigin undirkafli í discussion.
+
+
+### 20. apríl 2026 — API-tilraun stöðvuð: prefill-vandinn og skipting verkefnisins
+
+**Tími:** 3 klst.
+
+**Hvað gerði ég:**
+- Keyrði API-tilraunina með Claude Sonnet 4.5 (`claude_sonnet46_api_t0.0` og `claude_sonnet46_api_t1.0`). Stoppaði eftir 52 skrár þegar í ljós kom að framhöldin voru bæði of stutt (~1.000 orð í stað 2.000+) og að megnið af innihaldinu var orðrétt endurritun úr upprunalegu skipuninni, ekki raunverulegt framhald.
+- Greindi vandann á academic_cont_001: af 1.092 orðum voru fyrstu ~810 orðrétt endurrit (með smávægilegri ritstýringu: hástafir lagaðir o.s.frv.), aðeins síðustu ~280 orðin reyndust vera raunverulegt nýtt efni. Það endaði í miðri setningu („Í öllum söfn“).
+- Prófaði temperature 1.0 til samanburðar — sama mynstur: 1.091 orð, ~1.000 endurrit, ~90 nýtt. Það segir mér að þetta sé ekki vandamál sem tengist hitastigi.
+- Las Milička et al. (2509.10179 og skylda 2505.01877) til að athuga hvort þetta væri skjalfest hjá þeim. Fann ekki umfjöllun um preamble-repetition, EN: sýnidæmi Milička um GPT-4.5 og LLasumarframhöld sýna augljóslega að þeirra skipun endar í miðri setningu. Líkönin byrja framhaldið sitt með því að klára þá setningu. Mínar skipanir enda á punkti eftir heilli setningu og það gefur líkaninu „hrein“ mörk til að byrja upp á nýtt með eigin fyrirsögn og endurrit (sem er greinilega ekki gott).
+- Einnig sá ég að Milička skrifar upphafið að skipuninni á ensku, líka í tékknesku tilrauninni. Ég þýddi hana á íslensku. Spurning hvort þetta hefði átt að vera á ensku svo líkanið áttaði sig betur á reglunum? Verði tilraunin endurtekin væri það örugglega betri kostur, í það minnsta þess virði að prófa.
+- Skoðaði preprocess_llm_output.py: endurtekningargreiningin þar (--remove-repetitions) er hönnuð fyrir Le Chat-mynstrið (endurtekning á eftir framhaldinu), ekki preamble-endurtekningu (framhald byrjar á endurriti af promptinu). Grípur þetta væntanlega ekki án breytinga.
+- Ákvað að skipta verkefninu í tvo hluta. Annars vegar ljúka lokaverkefni námskeiðsins á spjallviðmótsgögnunum og skjalfesta API-tilraunina sem misheppnaða frumraun og hvaða breytingar þarf að gera áður en hún er endurtekin. Hins vegar byrja sumarverkefnið á því að útbúa ný gögn þar sem skipunin hefst á útskýringu á ensku og inniheldur 500 orða textadæmi (eða meiru?) sem lýkur í miðri setningu.
+
+**Uppgötvanir:**
+- Sonnet 4.5 sýnir kerfisbundna preamble-repetition á íslenskum stílframhaldsverkefnum við bæði t=0.0 og t=1.0. Fyrirsagnir í markdown-sniði birtast fremst í báðum útgáfum („# Orðasafn Baska og Íslendinga: Frekari skoðun“ / „# Hald áfram með textann“) — líkanið túlkar verkefnið sem nýtt skjal með inngangi, ekki framhald.
+- Milička ber saman líkön með mismunandi API í sömu rannsókn. Mitt plan var alltaf að hafa mismunandi líkön líka en þar sem ég vildi ekki greiða fyrir að búa til rannsóknina byrjaði ég á spjallútgáfum risamállíkananna. Hefði ég prófað API útgáfurnar strax í upphafi hefði ég séð að skipanirnar þyrftu breytingar til þess að hægt væri að gera tilraunina á sama hátt og Milicka. Eflaust útskýrir þetta líka vandamálið með Le Chat líkönin þó svo að þau séu í spjall-útgáfum.
+- 500 + 1.500 skipting væri betri en mitt núverandi „sjáðu til þess að hann innihaldi að minnsta kosti tvö þúsund orð“ sem hægt er að túlka sem ~1.000 + ~1.000. Ég áttaði mig ekki á því að sum líkön gætu túlka það sem 2000 orða framhald og önnur 2000 orða heild. Með þvi að breyta í 500 + 1000 og hafa upphaf skipunar á ensku yrði það (a) í samræmi við Milička (500 orð í prompti), (b) stærri textabútur til að mæla fyrir stílmælinguna, (c) minna samhengi til að freista líkansins til að endurtaka. (SKRIFAÐ SEINNA: Sumar víddir krefjast mikils orðafjölda til að fá marktækar greiningar á prompti svo 500 gæti verið of lítið fyrir þetta próf)
+- 52 misheppnaðar skrár, API-kostnaður féll til án nothæfra gagna. Lexía fyrir næstu lotu: Ekki nóg að keyra bara eitt API kall á eina skrá og sjá hvort það hafi virkað, ég þarf að greina skrána líka og passa að hún sé nothæf, líklegast með því að keyra hana í gegnum formúluna og sjá útkomuna. Ef útkoman er skrítin (eins og hún hefði verið í þessu tilfelli) þá þarf að skoða það handvirkt OG renna í gegnum preprocessing til að sjá það sem mannsaugað sér ekki.
+
+**Hugsanir / túlkun:**
+- Clean break. Námskeiðsverkefnið var alltaf hugsað sem proof-of-concept fyrir stærri endurtekningu á Milicka. Fyrri hlutinn: fjögur líkön (næ kannski að bæta við Claude Sonnet 4.6 og DeepSeek áður en ég skila inn), spjallviðmót, handvirk gagnasöfnun, grunnur fyrir aðferðafræðina og átta víddirnar. Seinni hlutinn (sumar): API-aðgangur, mid-sentence prefill, óséðir textar (ef þarf), 500+ og 1500 skipting, fleiri líkön, hitastigstilraunir.
+- Preamble-repetition hjá Sonnet 4.5 á íslensku er í sjálfu sér skráanleg niðurstaða, jafnvel þótt ég lagi hana ekki í þessari lotu. Fer í limitations-kaflann sem dæmi um hvers vegna aðferðafræðin þarf að þróast fyrir næsta hluta.
+
+**Opnar spurningar fyrir seinni hlutann:**
+- Hvernig á að kljúfa 2.000 orða texta í 500 + ~1.500 í staðinn fyrir ~1.000 + ~1.000? Þarf að endurskrifa `prepare_paired_experiment.py` eða bæta við valkosti.
+- Hvernig á að klippa í miðri setningu án þess að lenda í miðju orði eða á ónáttúrulegum stað? Milička sýndi einfaldlega „I'd feel the urge“ sem endar á heilu orði og er fullkominn staður til að enda á. Klippa á bili milli orða en ekki á setningarmörkum?
+- Í nýrri tilraun þarf að endurkeyra allt á nýjum forsendum. Milička o.fl. birta niðurstöður fyrir mismunandi hitastillingar (t=0, t=1) fyrir öll metin líkön, sem gefur til kynna að API-líkön hafi verið notuð við alla textagerð. Ég notaði hins vegar aðeins spjallviðmót sem kosta ekkert, þar sem hitastig er ekki breytanlegt. Til að gera þessa tilraun vel þarf ég að skipta henni í tvennt og aðgreina - á spjallmennum annars vegar og á API líkönum hins vegar.
+
+**Næstu skref:**
+- Klára greinardrögin á núverandi gagnasetti (4 líkön × 3 textaflokkar + 1 flokkur óséðs × Le Chat Balanced fyrir 4. flokkinn).
+- Í aðferðafræðikafla: lýsa báðum lotum skýrt. Fyrsta lota = spjallviðmót, núverandi niðurstöður. Önnur lota (fyrirhuguð) = API með mid-sentence prefill, 500+1500 skipting, skjalfest sem næsta skref. Líklega þarf 1500+1500 samt.
+- Í limitations: skrá preamble-repetition hjá Sonnet 4.5, styttri prompts en Milička, spjallviðmótsmiðlun er erfitt að endurtaka.
+
+
+### 20. apríl 2026 — Níunda víddin: trédýpt (setningarþyngd úr IcePaHC-trjám)
+
+**Hvað var gert:**
+- Útfærði níundu mælivíddina: trédýpt (`dim9_tree_depth.py`) sem mælir dýpt IcePaHC-liðgerðartrjáa — setningarþyngd skv. framsetningu Steinþórs Steingrímssonar á Hugvísindaþingi (sem mældi það á UD-gögnum) en aðlagað að liðgerðartrjám.
+- Þrjár undirmælingar í CSV: `mean_tree_depth` (aðal-v), `std_tree_depth`, `pct_complex_trees` (≥ 3 dýpt), `total_ip_sub`, `mean_ip_sub_nesting`.
+- Tré-dýpt reiknuð með bracket-counting: `max_paren_nesting - 1` svo ROOT = 0 og fyrsta constituent-lag = 1. IP-SUB hreiðrun reiknuð með label-stack-göngu yfir bracket-strenginn.
+- Engin utanaðkomandi hæði. Endurnýtti `mean`/`stdev` úr dim6_word_length til að halda standard-library-eingöngu.
+- Bætti dim9 í `run_milicka.py` DIMENSIONS skrá (`input='parsed'`, `key='mean_tree_depth'`).
+
+**Hvað var fært inn í gögn/skriftir með Claude Code:**
+- `scripts/dim9_tree_depth.py` — ný skrá með sömu CLI-viðmóti og dim2 (`--parsed-dir`, `--files`, `--output-csv`, `--debug`, `--dry-run`).
+- `run_milicka.py` — útvíkkun á DIMENSIONS (10 víddir í heildina) og útfærsluathugasemdum (parsed-sjá og dict-skilauppröðun).
+- `ARCHITECTURE.md` — ný dim9-kafli með skýringu á sambandi við dim2 (orthogonal merki), þrjár undirmælingar, þröskuldur- og methodological-parallel umræðu.
+- `decisions_log.md` — ákvörðun 024 (rökstuðningur, valkostir, sannprófun).
+- `reference_tracker.csv` — færsla #21 (Steinþór Steingrímsson, fyrirlestur um setningarþyngd).
+- `README.md` — ný lína í víddatöflu og project-tree.
+
+**Linguistic motivation — af hverju dim9?**
+- Fyrirlestur Steinþórs fjallaði um hvernig flókinn texti hafi oft mikla dýpt aukasetninga og langar keðjum af tengiliðum. Hann sýndi það á UD-trjám en sama mynstur á að sjást á IcePaHC-liðgerðartrjám (dýpt er alhæfð stærð þegar tré eru borin saman innan sömu þáttunaraðferðar).
+- Biber-MDA „informational production“ víddin (Dimension 1 í upprunalegu 1988-greiningunni) byggir meðal annars á merkjum um hversu upplýsingaþéttur og flókinn textinn er. Trédýpt gefur vísbendingu þetta, samhliða dim3 (nafnliðalengd) og dim2 (undirskipun).
+
+**Orthogonality við dim2:**
+- dim2 mælir TÍÐNI undirskipunar: count(IP-SUB) / count(IP-MAT). Þetta segir hversu oft höfundur bætir við aukasetningu.
+- dim9 (meðaldýpt + mean_ip_sub_nesting) mælir DÝPT hreiðrunar: hversu djúpt IP-SUB eru hreiðruð hvert í öðru, og heildardýpt trésins sem slíks.
+- Tvær setningar geta haft sama dim2-gildi en ólíkt dim9. Dæmi:
+  - Grunn hreiðrun: [IP-MAT ... [IP-SUB ...] [IP-SUB ...] ...] — tvær IP-SUB, báðar beint undir IP-MAT (dim9 gefur 0 mean_ip_sub_nesting).
+  - Djúp hreiðrun: [IP-MAT ... [IP-SUB ... [IP-SUB ... [IP-SUB ...]]]] — tvær IP-SUB hreiðraðar (dim9 gefur hærra mean_ip_sub_nesting).
+  - dim2 gefur sömu niðurstöðu í báðum tilvikum (sami IP-SUB / IP-MAT hlutfall), dim9 aðgreinir.
+- Þess vegna eru þetta SJÁLFSTÆÐ merki sem bæði ættu að vera með í B-skori.
+
+**Sannprófun á öllum 45 mannlegum viðmiðsskrám:**
+
+```
+Flokkur     n    mean_depth   range            pct_complex   mean_ip_sub_nest
+academic   15    8.35         [6.27, 10.32]    99.4%         0.51
+news       15    7.72         [5.90,  9.48]    99.2%         0.45
+blog       15    7.57         [5.92,  9.17]    99.7%         0.44
+```
+
+- **Röð eins og búist var við:** academic > news > blog fyrir bæði mean_tree_depth og mean_ip_sub_nesting. Staðfestir að dim9 aðgreinir textaflokka í sömu átt og aðrar víddir.
+- **Allar meðaltöl > 2.0:** sanity check stenst (ekkert tré með dýpt 0 eða 1 eftir að parse-failures voru síaðar).
+- **Spannið innan flokks er breitt:** academic tekur [6.27, 10.32] sem er næstum 2× munur milli grynnsta og dýpsta texta í sama flokki. Þetta er áhugavert — bendir til að Læknablaðið hafi innri breytileika (yfirlitsgreinar vs. rannsóknargreinar?). Mögulega eru einhver yfirlit innan rannsóknargreina að skekkja þetta. Það skiptir ekki öllu máli því frávik er mælt út frá hverjum texta fyrir sig. 
+
+**`pct_complex_trees` kvörðunarvandinn:**
+- Þröskuldurinn ≥ 3 var tekinn beint frá Steinþóri (UD) sem methodological parallel, EKKI sem íslenskt kvarðað gildi. Liðgerðartré eru kerfisbundið dýpri en UD-tré vegna POS-umbúða sem bæta 1–2 lögum. Afleiðingin: pct_complex lendir í ~99% fyrir ALLA flokka í íslensku — 99.4% academic, 99.2% news, 99.7% blog. Þetta aðgreinir nánast ekki neitt.
+- Ég lét mæliniguna halda áfram vegna þess að hún er hliðstæða við Steinþór og því gagnleg til samanburðar, en TÆKIÐ sem aðgreinir er `mean_tree_depth`, ekki pct_complex. Þetta er skjalfest í docstring, console-úttaki (NOTE-lína) og ARCHITECTURE.md.
+- Fyrir sumarverkefnið: væri hægt að kvarða þröskuldinn fyrir IcePaHC með því að nota miðgildi/efri-þriðjung mannlegra gagna sem „complex“-skilgreiningu. Það myndi gera pct_complex að raunverulega greinandi mælikvarða fyrir íslensk liðgerðartré. Í augnablikinu held ég því upphaflega þröskuldinum til að hliðstæðan við Steinþór sé skýr.
+
+**Fræðileg rök — af hverju mean_tree_depth er aðal-v:**
+- Milička-formúlan ber saman v_human og v_model innan sömu textategundar á sömu kvörðuninni. mean_tree_depth er STÖÐUG mæling sem gefur samfellda dreifingu (sjáum 6.27–10.32 spann) — hentug fyrir B-skor-útreikninginn.
+- pct_complex er kategorísk mæling sem er næm fyrir þröskuldsvali. Að gera hana að aðal-v myndi gefa tilefni til þess að nota hana sem full vídd en við nýttum hana sem „auxiliary“ í CSV.
+- mean_ip_sub_nesting er mjög sérstök mæling (fjöldi IP-SUB forfeðra fyrir hvert IP-SUB), sem er áhugaverð en minna alhæfð en heildardýpt. Henni er haldið sem undirmælingu en ekki aðal-v.
+
+**Samanburður við aðrar víddir:**
+- dim2 (aukasetningarhlutfall): mælir hversu oft undirskipun kemur fyrir. dim9 mælir hversu flókin hún er. Saman: „hversu oft og hversu djúpt hreiðrast“.
+- dim3 (nafnliðalengd): mælir NP-lengd. dim9 mælir tré-dýpt. Tengd en ekki sömu merki: NP gæti verið langt án þess að vera djúpt (röð af fylgiliðum) og tré gæti verið djúpt án þess að NP séu löng.
+- dim10 (LIX): mælir læsileika úr orða/setninga-lengd. dim9 mælir uppbyggingarflækjur. Tengt en ekki eins: LIX næm fyrir orðalengd + setningalengd, dim9 næm fyrir liðgerðarhreiðrun.
+
+**Athugasemdir fyrir greinina:**
+- Orthogonality dim2 vs. dim9 er ritað í aðferðafræðikafla: „Two independent signals of subordination — frequency and depth.“
+- Kvörðunarvandi pct_complex er viðurkenndur í limitations: „the complex-tree percentage is retained as a methodological parallel to Steingrímsson's UD-based sentence weight measure; it is not calibrated for IcePaHC constituency trees and saturates near 99% across all registers in our data. The primary differentiation signal in dim9 is mean_tree_depth.“
+
+**Næstu skref:**
+- Keyra dim9 á öllum LLM-textum næst þegar `run_milicka.py` er keyrt. Niðurstöður birtast í greininni ásamt dim2-niðurstöðum sem beinum samanburði.
+- Reikna Pearson-fylgni dim2↔dim9 á mannlegum gögnum. Ef fylgni er lág (< 0.5), þá eru þetta sjálfstæð merki (eins og tilgátan segir). Ef fylgni er há (> 0.8), þá þarf að endurskoða hvort báðar eigi heima í B-skori.
+- Fyrir sumarverkefnið: kvarða pct_complex-þröskuld fyrir IcePaHC með empirískum mannlegum gögnum. Gera grein fyrir því hvernig liðgerðartré hækka dýpt í samanburði við UD (meta í bókmenntum).
+
+
+### 20. apríl 2026 — Tíunda víddinn: LIX-læsilegskor (Läsbarhetsindex)
+
+**Tími:** 2 klst.
+
+**Hvað gerði ég:**
+- Útfærði tíundu mælivíddina: LIX-læsilegsskor (`dim10_lix.py`). Formúla: `LIX = (orð/setn) + (löng_orð/orð × 100)`, þar sem „löng orð“ = lengd > 6 stafir (LIX-staðall Björnsson 1968).
+- Endurnýtti tókunarreglur dim6 beint — `PUNCT_TO_STRIP` og `HAS_LETTER` fluttar inn úr dim6 — svo dim6 og dim10 telja NÁKVÆMLEGA sömu orð á sömu skrá. Staðfest með `--debug` á þremur sýnum: academic_ref_001 (1044 orð í báðum), news_ref_001 (1045), blog_ref_001 (1093).
+- Setningaskilming með `tokenizer`-pakka Miðeindar (`split_into_sentences`). Bætt við `requirements.txt` (`tokenizer>=3.4`). Bara Python — ekkert C-hæði ólíkt `islenska`.
+- Víkkaði `run_milicka.py`: dim10 bætt í `DIMENSIONS` með `input='raw'`. Endurnefndi `measure_word_length_stripped` → `measure_raw_stripped(dim, path)` svo prompt-instruction stripping sé alhæft fyrir hvaða hrátextavídd sem er (ekki bara dim6). Dim10 notar því sömu promptmeðferð og dim6.
+- Sannprófun á öllum 45 mannlegum viðmiðsskrám. Meðaltöl per textategund:
+
+  ```
+  Flokkur    n   LIX     Mlengd   >6staf%
+  ─────────────────────────────────────────
+  academic  15   49.3    18.26    30.8
+  news      15   42.5    14.96    27.5
+  blog      15   41.9    14.74    27.1
+  ```
+
+- Röð eins og við var að búast: academic > news > blog. Academic rétt undir 50-þröskuldi (Swedish calibration), blog rétt yfir 40 — grófir vísar en mynstrið er stöðugt.
+
+**Um LIX og íslensku — fræðileg rök:**
+- LIX var hannaður af Carl-Hugo Björnsson (1968) sem einföld, tölvuvæn læsilegsmæling fyrir sænsku. Formúlan sameinar tvo þætti sem hafa verið staðfestir sem helstu vísbendar um læsilega þyngd: orðalengd (meira samsetningarmál = þyngri texti) og setningalengd (flóknara setningaform = þyngri texti).
+- Staðallinn > 6 stafir kemur frá sænskri grunnrannsókn Björnssons. Í öðrum málum (þýsku, frönsku) hefur verið reynt að aðlaga þröskuldinn en fyrir íslensku hefur það EKKI verið gert kerfisbundið eftir því sem ég fæ best séð.
+- Íslenska hefur ríkt samsetningarkerfi (eins og sænska og þýska) en virkara en í sænsku. Það þýðir að LIX hækkar kerfisbundið á íslenskum textum, ekki vegna þess að textarnir séu ólæsilegir heldur vegna þess að fleiri orð komast yfir 6-stafa þröskuldinn. 
+- Niðurstaða: raw-LIX er ekki hægt að lesa beint á sænska kvarðanum fyrir íslensku. ÞETTA ER SKJALFEST OPINSKÁLEGA sem takmörkun í bæði skriftadocstring og console-úttaki. Þröskuldarnir eru birtir sem „rough indicators“ — raunverulegir íslenskir kvarðar þyrftu reynslugögn sem ég hef ekki.
+
+**Af hverju dim10 þrátt fyrir kvörðunarvandann?** — framing fyrir proof-of-concept:
+- Milička-formúlan ber saman v_human og v_model á SAMA kvarða innan sömu textategundar. SE(I_d) er reiknað úr mannlegum gögnum. Þetta þarf því ekki að vera „rétt kvarðað“ miðað við íslensku (þótt það væri vissulega skárra), þau þurfa aðeins að vera STÖÐUG og mælikvarðinn skal vera sá sami fyrir bæði mennskan og LLM-texta. LIX uppfyllir þau skilyrði.
+- Aðaltilgangur dim10 í þessu verkefni er HLIÐSTÆÐ VÍDD við dim6 (meðalorðalengd). Báðar mæla orðaþyngd; dim10 bætir setningalengd við. Spurningin er hvort dim10 hafi meira greinandi afl á milli textategunda / LLM-líkana en dim6 eina og sér, eða hvort fylgnin sé svo há að önnur sé óþörf.
+- Niðurstaða samanburðarins mun ákvarða hvort báðar haldist, ein falli út, eða báðar séu endurskoðaðar í dimension-selection fyrir sumarverkefnið. Þetta er skrifað beint í dim10-docstring og í decisions_log (023).
+
+**Væntanleg mynstur milli textategunda:**
+- Academic: HÆSTA LIX — löng samsett hugtök (heilbrigðisþjónustukerfi), löng formleg setningaform, margar aukasetningar → hátt á báðum þáttum. Sannprófað: ≈ 49.3.
+- News: MIÐLUNGS — formlegt mál en styttri setningar (fréttastíll), sérnöfn eru oft löng. Sannprófað: ≈ 42.5.
+- Blog: LÆGRA — persónulegri tónn, styttri orð, oft styttri setningar. Sannprófað: ≈ 41.9.
+
+**Uppgötvanir:**
+- `tokenizer`-pakkinn kann að þekkja íslenskar skammstafanir án þess að maður þurfi að sérstilla neitt. Á news_ref_001 fann pakkinn „Febrúar til vors 2015 : Gagnaöflun , undirbúningur rannsókna o.fl. - Sumar 2015 : Rannsóknir o.fl. ...“ sem EINA setningu, ekki fimm (eins og regex myndi gera). Þetta er mjög mikilvægt — án þessa hefði setningalengd verið stórlega vanreiknuð í fréttatextum með bulletpoint-lista.
+- `pct_long_words` er NÁTTÚRULEGA hærri í dim10 en dim6 vegna ólíkra þröskulda (>6 vs. ≥8). Til dæmis á academic_ref_001: dim10 gefur 21.3%, dim6 gefur 16.9%. Þetta er ekki villa heldur skilgreiningarmunur — skjalfest í báðum docstrengjum.
+- Sanity-check sentence counts: 45/45 skrár > 5 setningar. Engar skrár með vafasamar tölur (2 eða 200 fyrir ~1000 orð). Skýrt bil: news_ref_001 hæst (108 setningar, stuttar bullet-línur), academic_ref_002 lægst (39, löng fræðileg setningaform). Allt trúverðugt.
+
+**Hugsanir / túlkun:**
+- LIX er einfalt tæki og það að bæta því við er ódýrt (endurnýting á dim6-tókun, ein ný dependency). Ef það veitir ekki meira greinandi afl en dim6 eitt og sér þá verður það ekki gott fyrir sumarverkefnið. Þess vegna er gott að mæla það fyrst í áfangaverkefninu og taka svo ákvörðun um það. Of mörg benchmark papers sleppa því að birta „þetta virkaði ekki betur en einfaldara valkostur“ og það er einmitt það sem heldur víddarfjöldanum uppi í stílmælingum.
+- Milli dim6 og dim10 er einn lykilmunur: dim10 gefur setningalengd inn sem hluta af formúlunni. Ef LLM-líkön breyta setningalengd án þess að breyta orðalengd (t.d. með því að skrifa fleiri stuttar setningar), þá er dim6 blindur á þetta en dim10 ekki. Ef LLM-líkön breyta orðalengd án þess að breyta setningalengd, þá sést það bæði í dim6 og dim10. Þriðja tilvikið, ef bæði setningar og orð lengjast, magnast upp aðhvarfs-merkið í dim10. Þetta er aðferðafræðileg rök fyrir því að halda dim10 a.m.k. fram að samanburði á LLM-gögnum. Mögulega mætti sleppa dim6
+- Proof-of-concept er mikilvægt hér. Ef ég framkvæmdi þessa mælingu út frá læsilegsmælikvarða á íslensku (ekki sænskum). Ef ég aðlaga þá myndi verkefnið þenjast út. Það er réttlætanlegt að nota LIX eins og það er til að svara spurningunni „gefur tveggja-þátta mæling meiri upplýsingar en einna-þátta mæling?“, hvorki með eða án séríslensks kvarða.
+
+**Opnar spurningar:**
+- Fyrir sumarverkefnið: er hægt að kvarða LIX-þröskulda fyrir íslensku út frá benchmark-gögnunum sjálfum? Þ.e. nota dreifingu dim10 á mannlegum RÚV-texta sem „miðlungs“-skilgreiningu og skýra aðra flokka í samræmi? Þetta myndi gera LIX að raunverulega íslenskri læsilegsmælingu, ekki bara flutningi á sænskum.
+- Hvernig bregðast LLM-líkön við LIX vs. dim6? Búist er við að líkön sem framleiða enskulega texta á íslensku fái lægra dim6 + lægra dim10 (tvöföld refsing). Líkön sem framleiða rétt löng orð en stuttar setningar fá rétt dim6 en rangt dim10 (eingöngu dim10 nær villunni). Þetta er empirískt spurning sem verður svarað þegar dim10 er keyrt á LLM-gögnum.
+- Skal dim10 vera með í Milička-B-skori sem full vídd, eða aðeins sem „ancillary“ vídd sem er birt sér? Í augnablikinu er hún full vídd og hefur sömu þyngd og aðrar. Ef fylgni dim6↔dim10 er há, þá er hún að tvítelja sömu upplýsingar í B-skori og það þarf að endurskoða.
+
+**Næstu skref:**
+- Keyra dim10 á öllum LLM-textum (eftir að `run_milicka.py` er keyrt næst) og birta niðurstöðurnar í greininni.
+- Í greinarkafla um víddarval: rökstyðja að dim10 sé með sem PROOF-OF-CONCEPT hliðstæða við dim6, ekki sem sjálfstætt íslenskt læsilegsmat. Takmörkunin (sænsk kvörðun) fari í limitations-kafla.
+- Fyrir sumarverkefnið: kanna empirísk íslensk læsilegsmörk úr benchmark-gögnunum og bera saman við LIX, Flesch-reading-ease, Flesch-Kincaid og aðrar klassískar formúlur.
+
+
+### 20. apríl 2026 — Skerpa á dim8 oov_guess: z-stafsetning sér flokk
+
+**Tími:** 1 klst.
+
+**Hvað gerði ég:**
+- Aðgreindi z-stafsetningu frá c/q/w í oov_guess heuristic dim8 (sjá ákvörðun 025). Ný flokkun: foreign (c/q/w) > archaic_icelandic (z) > likely_proper_name > unknown.
+- Bætti við `archaic_z_count` og `archaic_z_ratio` í summary CSV. `in_bin_ratio` er óbreytt — archaic-z tökin teljast áfram sem oov, aðeins skerpt á undirflokkun.
+- Keyrði dim8 aftur á öllum gögnum. 103 tókar færðust úr „foreign“ í „archaic_icelandic“: 33 í prompts, 25 í human_reference, 25 í gemini_3_thinking, 14 í le_chat_thinking, 5 í le_chat_fast, 1 í gpt_5.
+
+**Uppgötvanir:**
+- Raunverulega fornleg íslenska í núverandi gögnum er sjaldgæf. Meirihluti „archaic_icelandic“ tóka er í raun erlend sérnöfn (Zoëga, Sarkozy, Galiziu, Zornoza, Palazzo) eða baskneskt textabrot í academic_ref_001 (itzatzu, pizka, orratz, zaite). Þetta er takmörkun staflaga-heuristic — það aðgreinir ekki z-forn íslensku frá z-erlendum orðum án c/q/w.
+- Í gamaldags textum (t.d. Morgunblaðinu fyrir 2000) myndu fleiri raunveruleg z-dæmi birtast.
+- Skerpan á foreign-greiningu er alltaf í lagi: erlent sérnafn eins og „Zoëga“ bjagar ekki lengur foreign-talningu. Það er aðalávinningurinn, jafnvel þótt archaic-greiningin sé ennþá ófullkomin.
+
+**Hugsanir / túlkun:**
+- Archaic_z_ratio er stílvísir sem hefur ekki mikil áhrif á núverandi gögn. En það kostar ekkert að mæla og þegar slíkum textum yrði bætt við yrði dálkurinn mælanlegur.
+- Bætt við uppflettingu á nútímavæddri mynd z-tókans (z → s umritun): ef `íslenzkur` → `íslenskur` → BÍN-smellur, þá er þetta raunverulega fornleg íslenska. Erlend z-orð (Zoëga, Palazzo) eða enskar slettur (zippa, hazard) fá ekki BÍN-smell á s-útgáfu og hægt er að aðgreina þau. Einföld z→s regla.
+- Takmörkun vegna sérhljóðabreytinga í tökuorðum (banzíni → bensín) mun alltaf gilda fyrir einfalda breytingu. 
+
+**Sannprófun (öll 6 gagnasett, 266 skrár):**
+
+```
+dataset                files   ice  ice_files   unv  unv_files
+prompts                   45     0          0    33         15
+human_reference           45     0          0    25         10
+gemini_3_thinking         45     0          0    25         10
+gpt_5                     45     0          0     1          1
+le_chat_fast              41     0          0     5          4
+le_chat_thinking          45     0          0    14          8
+```
+
+- Staðfest archaic_icelandic: 0 í öllu gagnasettinu.
+- Óstaðfestir archaic_z tókar: 103 (nákvæmlega sama heildartala og í staflaga-útgáfunni í ákvörðun 025).
+- 10 stök sýnishorn úr `archaic_z_unverified` (z-tóki → z→s mynd): Palazzo→Palasso, Druz→Drus, Galiziu→Galisiu, Sarkozy→Sarkosy, Zoega→Soega, Renzi→Rensi, Piazza→Piassa, itzatzu→itsatsu, Zoëga→Soëga, Gonzalez-Moreno→Gonsales-Moreno. Allir erlendir tókar — flokkunin rétt.
+
+**Rannsókn á zero-archaic_icelandic niðurstöðu:**
+
+Fyrst sýndist grunsamlegt að EKKERT tókist að staðfesta. En beinar BÍN-uppflettingar afhjúpuðu af hverju:
+
+```
+token            in BÍN     athugasemd
+banzín           False      OOV-tóki; z→s = bansín (ekki í BÍN heldur) → unverified
+bensín           True       sem færsla — en þessu mætir heuristic ekki
+íslenzkur        True       í BÍN sem færsla → flokkast sem `exact`
+lízt             True       í BÍN sem færsla → flokkast sem `exact`
+verzlun          True       í BÍN sem færsla → flokkast sem `exact`
+```
+
+`archaic_icelandic`-dálkurinn er tilbúinn og virkur fyrir framtíðarúrtök með pre-1974 textum. Í núverandi mæliprófi fyrir greinina er `arch-is% = 0` fyrir allar skrár, og `arch-unv%` endurspeglar fjölda erlendra z-sérnafna (fréttir) og z-tökuorða (blogg, academic). 
+
+
+### 24. apríl 2026 — Lagfæring á dim7 (sem/(sem+að)) + NaN-meðferð í pípulagi + RMS-B
+
+**Tími:** 3 klst.
+
+**Hvað gerði ég:**
+- Lagfærði `dim7_complementizers.py` til að nota `comp_ratio = sem / (sem + að)` sem aðal-v-gildi (áður `comp_per_1000_words`). Nýr dálkur `comp_freq` heldur tíðnimælingunni sem aukamælikvarða. Eldri dálkar (`sem_ratio`, `comp_per_1000_words` o.s.frv.) eru áfram til staðar fyrir afturábaksamhæfi við áður vistað CSV.
+- Bætti við NaN-meðferð í dim7: ef `sem + að == 0` skilum við `float('nan')` og skráum skráarheitið í stderr með skýrum skilaboðum. 
+- Uppfærði `run_milicka.py` til að höndla NaN per (sampl, vídd) á öruggan hátt: NaN-tilvik eru skráð í `nan_log`, b-vektor inniheldur aðeins víddir með ≥1 gild Δv-pör, og B-formúlan er nú `B = sqrt(meðaltal(b_d²))` (RMS) í stað `B = sqrt(Σ b_d²)` (Euclidean norm).
+- Bætti við summary-skýrslukafla í lok keyrslu: dreifing gildra vídda per sampl og listi yfir samplar með vantandi víddir.
+- Audit á öllum öðrum víddum (1–11) og skjalfesti niðurstöðu í nýjum `audit_nan_handling.md`. Engin önnur vídd þarfnast lagfæringar á núverandi 2000-orða gagnasafni.
+- Skjalfesti ákvörðun 028 í `decisions_log.md`.
+
+**Hvers vegna núna:** Vandamál kom fram í drögum lokaverkefnisins við yfirferð á dim7-niðurstöðum. Það sem byrjaði sem skjalfestingarspurning um hvers vegna `comp_per_1000_words` var aðal-v-gildi (frekar en `sem_ratio` sem er nær rökstuðningi víddarinnar) þróaðist í að sjá að (a) valið var ekki vísvitandi heldur var það draugur frá fyrstu prótotípu, (b) `sem_ratio` í núverandi kóða er með falda `else 0.0`-grein sem gefur röng gögn fyrir tómatengiorða-skrá, og (c) pípan sjálf nýtir ekki NaN sem þegar berst frá vídd 8 (þegar BÍN-cache vantar). Því var réttara að byggja NaN-meðferðina einu sinni á pípustigi en að sérmeðhöndla dim7.
+
+**Hvað lærðist:**
+- Fleiri víddir gætu fræðilega skilað NaN (t.d. dim4 ef texti hefur enga finita sögn, dim2 ef engin IP-hnúti er).
+- Pípu-NaN-meðferð er almenn lausn sem virkar fyrir framtíðarvíddir og gagnabilanir. Mun ódýrari en að bæta NaN-grein við hverja vídd fyrir sig.
+- RMS-B er aðlögun frá Milička, ekki nýr ramma. Þegar n er fast (öll sömpl á sama víddafjölda) er hún sama gildi og `‖b‖` upp að fastri kvarðabreytingu sqrt(n). Þegar n er breytilegur er RMS-formið nauðsynlegt til samanburðar — `sqrt(Σ b_d²)` myndi það refsa sömplum með fleiri víddum (fleiri liðir í summu).
+- Skala-breytingin: B-gildi minnka um sqrt(10)≈3.16 þegar allar 10 víddir eru gildar. Túlkunarþröskuldar í `run_milicka.py` voru uppfærðir samsvarandi (`B < ~0.3` jafngilt eldra `B < ~1.0`, `B > ~1.5` jafngilt eldra `B > ~5`).
+- Frávik frá Milička þarf að skjalfesta í aðferðafræðikafla greinarinnar.
+
+**Næstu skref:**
+- Bæta tilvitnun í dim7-uppfærsluna í aðferðafræðikafla greinarinnar þegar að honum kemur.
+
+## 24. apríl 2026 — Áætlun um adversarial test-fixtures fyrir pípu
+
+**Samhengi.** Í dag voru gerðar breytingar á dim7 og `run_milicka.py` (sjá ákvörðun 028 og fyrri færslu dagsins). Vandamálið sem kveikti á breytingunum — deiling með núlli í `sem/að` — hefði fundist áður ef pípan hefði haft kerfisbundna edge-case prófun. Í stað þess að bíða eftir að næsta edge case komi fram í raungögnum, ætti að smíða **adversarial test-fixtures**: litlar textaskrár sem sérstaklega eru hannaðar til að kveikja á þekktum bilanaflokkum í pípu.
+
+Þetta verkefni er ekki forgangsmál fyrir lokaverkefnið en er nauðsynleg undirstaða fyrir stærra verkefnið (sumarritgerðin, frekari líkön eins og Claude API, DeepSeek og GPT via API). Nýir textar frá nýjum líkönum munu innihalda edge cases sem núverandi gögn hafa ekki.
+
+**Markmið.** Smíða endurnýtanlega prófunarsmiðju sem:
+
+1. Sannar að hver skrifta í pípunni meðhöndli þekkt jaðartilvik á réttan hátt (skilar NaN þegar við á, hrynur ekki).
+2. Er keyrt sjálfvirkt í hvert sinn sem breyting er gerð á pipeline.
+3. Vex með verkefninu — nýr bilanaflokkur sem finnst í raungögnum verður nýtt fixture.
+
+**Áætluð uppbygging.**
+
+Ný mappa: `tests/adversarial_fixtures/`. Undirmöppur eftir bilanaflokki, ekki eftir vídd — sömu jaðartilvik hafa áhrif á fleiri en eina vídd.
+
+Jaðartilvik sem á að ná yfir:
+
+| Flokkur | Lýsing | Víddir í hættu |
+|---------|--------|-----------------|
+| zero_finite_clauses | Texti sem er eingöngu brot eða nafnliðalistar | dim1, dim2, dim4 |
+| zero_complementizers | Stuttur texti án `sem` eða `að` | dim7 |
+| zero_nps | Eingöngu upphrópanir (t.d. „Vá! Hvað? Já!") | dim3 |
+| single_sentence | Ein setning sem heil skrá | dim9, dim11 |
+| english_text | Ensk svör sem sleppa inn í pípu (slík bilun gerðist með DeepSeek en henni var sleppt) | dim6, dim8 |
+| empty_or_oneword | Tóm skrá eða einar orða skrá | Allar |
+| parse_failure | Setning sem IceConParse getur ekki þáttað rétt | Allar þáttaðar víddir |
+| repetitive_loop | Texti sem endurtekur sömu orð (LLM-lykkja) | dim11, dim8 |
+
+**Prófunarsmiðja.** Ný skrifta, t.d. `tests/run_adversarial.py`, sem:
+
+- Keyrir hverja skriftu úr pípu á hverju fixture.
+- Staðfestir að víddir sem eiga að skila NaN skili NaN (ekki 0, ekki None, ekki þögul villa).
+- Staðfestir að víddir sem eiga að geta reiknað gildi geri það án þess að hrynja.
+- Staðfestir að `run_milicka.py` keyri til enda og skrái NaN-víddirnar í summary.
+
+**Tenging við lokaverkefnið.** Ekki framkvæmt áður en skilað er. Nefnt í kafla um næstu skref fyrir sumarritgerð. Rökstuðningur: núverandi pípa hefur sannað sig á 4 líkönum × 3 textaflokkum × 15 sýnum; fjölgun í 7+ líkön, fleiri textaflokka, og hitastigstilraunir eykur líkur á jaðartilvikum sem núverandi próf ná ekki yfir. Adversarial fixtures eru gæðatrygging fyrir þessa stigstækkun.
+
+**Næstu skref.**
+
+1. Smíða Claude Code prompt sem tilgreinir fixture-safnið, prófunarsmiðjuna og assertions.
+2. Keyra í kjölfar þess að lokaverkefni hefur verið skilað.
+3. Bæta við fixture í hvert sinn sem nýr bilanaflokkur finnst í raungögnum.
+
+
+## 24. apríl 2026 — DeepSeek neitar að halda áfram með news 008 og skiptir yfir í ensku
+
+**Samhengi.** Við söfnun framhaldstexta frá DeepSeek í spjallviðmóti kom upp bilun við news 008. Líkanið hafnaði upphaflega verkefninu á þeim forsendum að það vildi ekki „búa til falskar fréttir“. Í annarri tilraun var framhaldið skrifað á ensku, ekki íslensku. Þetta var eina tilvikið þar sem öryggisviðvörun kom við gerð textanna.
+
+**Svar DeepSeek: 1**
+Ég vil taka skýrt fram að ég get ekki haldið áfram með þennan texta á sama hátt og í sama stíl þannig að hann innihaldi að minnsta kosti tvö þúsund orð, þar sem slík beiðni myndi fela í sér að búa til mikið magn af upplýsingum sem líkjast fréttaflutningi en eru jafnframt beinlínis beðnar um að innihalda ekki réttar staðreyndir. Að framleiða langa, ítarlega og stílhreina eftirmynd af fréttatexta sem er vísvitandi byggð á ósannindum eða rangfærslum – sérstaklega um nafngreinda einstaklinga, viðkvæma atburði í íslenskum stjórnmálum og alþjóðleg málefni – stríðir gegn grunnreglum um ábyrga notkun gervigreindar og dreifingu upplýsinga.
+
+Að auki vísar textinn sem þú gafst upp í raunveruleg mál (lögbann á fjölmiðla, stjórnmálaumræðu um fiskveiðiauðlindina, morð á rannsóknarblaðakonunni Daphne Galizia) sem er blandað saman við íþróttafréttamennsku. Að spinna upp 2000 orða skáldskap undir þeim formerkjum að hann sé "ekki réttar staðreyndir" en sé samt í fréttastíl gæti auðveldlega verið misskilið sem raunveruleg frétt eða falsfrétt (e. disinformation) ef hún er lesin úr samhengi. Ég er hannaður til að aðstoða við skapandi skrif, skáldskap, greiningu og fræðslu, en ekki til að taka þátt í að búa til vísvitandi rangfærslur dulbúnar sem fréttamiðlun.
+
+[Deepseek stingur því næst upp á öðrum verkefnum sem það getur gert.]
+
+**Svar Deepseek: 2** 
+Í annarri tilraun bjó það til langan texta á ensku. 
+
+Fyrsta málsgreinin:
+
+> *„And it is precisely at this intersection, where the lofty principles of parliamentary sovereignty over natural resources meet the raw, physical theatre of international sport, that a strange and unexpected symmetry begins to emerge..."*
+
+Textinn er ekki bara á ensku, þrátt fyrir íslenska skipun, heldur einnig stílrænt frávik frá hlutlausum fréttastíl — gildishlaðinn og ljóðrænn sem passar ekki við fréttir.
+
+**Þrjú vandamál samtímis.**
+
+1. Öryggisatferli líkansins flokkar framhald fréttatexta sem „falskar fréttir“ og neitar. Raunverulegt fyrirbæri í framleiðslu-LLM.
+2. Við endurtilraun skiptir líkanið yfir í ensku — lesskilningsbilun á íslensku eða vísvitandi gert til að forðast verkefnið, mögulega hvort tveggja.
+3. Enski textinn höfur öðruvísi stíl, er ekki hlutlaus svo hann er ekki samanburðarhæfur og ég skil ekki almennilega hvers vegna líkanið fór þessa leið (en meikar hvort eð er ekki sens því hann er á ensku).
+
+**Viðbótarathugun — pólitískt innihald promptsins.** Prompt fyrir news 008 inniheldur pólitíska nafngreiningu þar sem verið var að gagnrýna: Barack Obama gagnrýndi Donald Trump. Einnig er fjallað um morð á fréttamanni sem og lögbann á umfjöllun um Glitni. Ég prófaði að taka eitt út í einu og allt virkaði, neitunin kemur aðeins fram þegar allt er inni. Neitunin gæti stafað af (a) nafngreiningunni sjálfri, (b) pólitísku innihaldi almennt, (c) fréttasniðinu (líkön kunna að vera þjálfuð til að vera varkár við „fréttaframleiðslu“), eða (d) einhverju öðru sem ekki sést af promptinu einu. Núverandi gagnasafn er of lítið til að greina þetta í sundur.
+
+**Ákvörðun um news 008.** Útilokað frá DeepSeek-safninu í samræmi við fyrri fordæmi (Le Chat). Tæknileg bilun er útilokuð og skjalfest, ekki refsað á stílmælingum. Sömu meðferð á að fá frá öllum líkönum í framtíðinni: Reyna aftur, ef það virkar ekki þá er gögnunum sleppt.
+
+**Tilgáta fyrir stærra verkefnið.** Neitun og málskipti í íslenskri framhaldsgerð tengjast skipana-innihaldi, sérstaklega pólitísku samhengi og nafngreindum persónum. Þetta mynstur hefur þegar komið fram hjá fleiri en einu líkani: Le Chat (token collapse, paraphrase), GPT-5 (mæliskekkja á dim1), nú DeepSeek (neitun + málskipti). Stílmæliaðferð er að finna LLM-bilanir sem þekkingar-mæliviðmið missa af — og innihald promptsins virðist skipta máli sem núverandi uppsetning getur ekki metið. Mögulega þyrfti að passa að hafa ekkert of pólitískt umfjöllunarefni svo líkönin neiti ekki að framkvæma verkefnið.
+
+**Mælt með fyrir sumarritgerð.** Kerfisbundin innihaldsflokkun á öllum skipunum áður en framhaldsgerð er endurtekin í gegnum API. Lögð er til eftirfarandi aðferð:
+
+1. **Prompt-inventory.** Fyrir öll 45+ prompts (fréttir, blogg, fræðitextar og óséð gögn) merkja kerfisbundið hvort hvert innihaldi: nafngreinda stjórnmálamenn, átök (Úkraína, Gaza, Íran o.fl.), innlenda pólitíska deilu, opinber heilsumálefni eða önnur mögulega viðkvæm viðfangsefni. Flokkun er tvíþætt (er/er ekki), ekki mat.
+2. **Hegðunarskráning á (líkan × prompt) pörum.** Fyrir hvert par merkja: lauk eðlilega / neitaði / skipti um mál / stílræn frávik / annað.
+3. **Krosstafla.** Tengsl milli innihaldsflokkunar og hegðunartegunda per líkan. Gefur hlutfallslega tíðni neitanna/málskipta per flokk — tölfræðilega prófanlegt, ekki bara tilfallandi dæmi.
+4. **API-endurtekning.** Prófa hvort sama hegðun komi fram í API-aðgangi með skipun sem tilgreinir íslensku. Ef hegðunin hverfur í API er þetta chat-interface-tengt vandamál; ef hún er viðvarandi er það dýpri eiginleiki líkansins.
+
+Þessi vinna er utan umfangs núverandi lokaverkefnis en er nauðsynleg undirstaða fyrir áreiðanlega niðurstöðu í sumarritgerðinni. Ef mynstur staðfestist gæti þetta orðið sjálfstætt framlag til greinarinnar: pólitískt innihald skipunar sem orsök tæknilegrar bilunar í íslenskri textagerð LLM.
+
+**Líkansútgáfa DeepSeek** Ekki staðfest. Spjallviðmót í vafra gefur ekki upp útgáfunúmer. Gerðist 24. apríl 2026, hægt að þrengja útgáfuna eftir á með útgáfulista DeepSeek ef þörf krefur.
+
+
+## 24. apríl 2026 — BÍN-staðfest aðgreining samskeyttra tóka í forvinnslu LLM-úttaka
+
+**Uppruni athugunar.** Við handavirka skoðun á Gemini 3 Thinking úttaki fyrir akademíska skipun 004 (heilbrigðisfræðileg umræða um útfjólublátt ljós) sást mynstur sem hafði ekki verið gripið af núverandi forvinnslu: LLM-úttakið inniheldur reglulega textasamskeyti án bils milli orða. Þrjú mynstur:
+
+1. **Lágstafur→hástafur án bils.** Dæmi: „forvörnumEins", „roðaáhrifaÚtfjólublá", „LíffæriBráð". Uppruninn er að módelið framleiðir markdown-hausa eða punktalista og þegar forvinnslan fjarlægir þá samskeyti haus og næsta málsgrein saman án bils.
+2. **Tala→hástafur án bils.** Dæmi: „0-2Lágt" (úr töflu með húðgerðarflokkum 0–2 og áhættustigi „Lágt"). Sami uppruni: markdown-tafla hreinsuð í línulegan texta án þess að skilja eftir bil.
+3. **Stafur→tala án bils.** Dæmi: „PGE2", „IL-6", „TNF-alpha", „VEGF". Vísindalegar skammstafnir sem koma eðlilega fram í akademískum texta.
+
+**Áhrif á stílmælingar.** Þessi samskeyti eru gölluð í tóka-talningu: dim6 (orðalengd) telur „forvörnumEins" sem einn langan tóka (13 stafir) í stað tveggja eðlilegra (9 og 4). Dim10 (setningalengd) fær ranglega lága talningu vegna færri tóka á setningu. Dim11 (MTLD) fær ranglega hátt skor vegna „nýrra" samsettra tegunda sem birtast einu sinni. Dim8 (hlutfall BÍN-orða) sleppir þeim í gegn sem „ekki í BÍN", sem er rétt skýring en rangt áhrif á heildarskor. Án aðgerða bjagast samanburður milli LLM og mennskra texta.
+
+**Hönnun lausnarinnar.** Þrjú regex-mynstur með BÍN-staðfestingu á (1) og (3). Mynstur (2) aðgreint vegna þess að tala→stór-stafur er ekki íslenskt - ATHUGA BETUR. Fyrir (1) og (3) er aðgreining aðeins gerð þegar báðir hlutar eru gildir íslenskir orðstofnar samkvæmt BÍN (bein fletting EÐA samsetning með bandstriki í `bmynd`). Þetta aðskilur ekta íslensk samskeyti frá enskum CamelCase-myndunum (iPhone, macOS) og vísindalegum skammstöfunum (PGE2, IL-6).
+
+LaTeX-formúlur (`$...$` og `$$...$$`) eru vistaðar með staðgengils-merkjum (`__MATH_N__`) áður en regex-aðgreining keyrir og skipt aftur inn á eftir. Þetta varðveitir formúlur eins og `$E_{eff} = \int S(\lambda) d\lambda$` sem annars myndu rofna við undirstrik og kommur.
+
+**Útfærsluákvarðanir.**
+
+- BÍN-fletting notar sama `islenska.Bin`-wrapper og dim8, með module-level lazy-singleton og persistent skyndiminni yfir allar skrár í einni keyrslu.
+- Stafur→tala mynstrið (iii) aðgreinir aðeins ef undanfarandi stafaruna er ≥4 stafir OG BÍN-gild. Heuristic sem sparar PGE2/IL-6/TNF-alpha (2–3 stafa forskeyti) en grípur raunveruleg textamynstur þar sem íslenskt orð snertir tölu.
+- Lágstafur→hástafur aðgreining sækir vinstri tóka með því að ganga aftur á bak meðan á lágstafi stendur, og (valfrítt) tekur einn hástaf að auki til að höndla titilsnið („Líffæri" + „Bráð"). Hægri tóki er safnað áfram meðan á lágstöfum stendur til að forðast að grípa í næsta hástaf.
+
+**Samþættingar-prófun á Gemini 3 Thinking, akademíska 004.** 32 samskeyti aðgreind á einni skrá. Handavirk staðfesting: „forvörnumEins" → „forvörnum Eins", „roðaáhrifaÚtfjólublá" → „roðaáhrifa Útfjólublá", „LíffæriBráð" → „Líffæri Bráð", „0-2Lágt" → „0-2 Lágt". PGE2, IL-6, TNF varðveitt. LaTeX-formúlur (`$E_{eff}$`, `$E_{eff} = \int S(\lambda) \cdot Ser(\lambda) d\lambda$`, og fleiri) óbreyttar staf-fyrir-staf.
+
+**Afturför-prófun á GPT-5 akademískum textum.** Þrjár skrár (prompt 001, 002, 003) keyrðar í gegnum sömu forvinnslu: 0 aðgreiningar samtals. Þetta staðfestir að GPT-5 býr ekki til sama samskeytingarmynstur (beinn LLM-mismunur, ekki bara artefakt af markdown-hreinsun), og að aðgreiningin er ekki false positive á hreinum texta.
+
+**13 einingaprófanir** í `tests/test_split_concatenated_tokens.py` fylla öll tilvik úr verklýsingu: „forvörnumEins" (aðgreint), „iPhone" (óbreytt — „i" ekki í BÍN), „macOS" (óbreytt — „mac" ekki gilt íslenskt), „roðaáhrifaÚtfjólublá" (aðgreint — samsetning í BÍN), „0-2Lágt" (aðgreint), „PGE2" (óbreytt — of stutt forskeyti), „IL-6" (óbreytt — enginn stafur beint á undan tölu), LaTeX-varðveisla (bæði inline og display), margföld aðgreining í sömu línu, og jaðartilvik með venjulegu setningarskilum („Endir. Upphaf.") sem EKKI á að aðgreina.
+
+**Breyting á forvinnslu-pípu.** Ný SKREF 3 í `clean_llm_text` (milli markdown-fjarlægingar og endurtekningargreiningar). Ný lína í skýrslu per skrá („samskeyti aðgreind: N") og í HEILDARSAMANTEKT („Samskeyttir tókar aðgreindir: N staðir"). Nýr `--split-concatenated` flagg í `extract_samples.py` fyrir sömu aðgerð á mennskum textum (sjálfgefið SLÖKKT — mennskir textar í núverandi safni hafa ekki þetta vandamál ... en möguleikinn er til).
+
+**Tillaga fyrir stærra verkefnið.** LLM-framleiðsla á íslensku er breytilegri en áður var gert ráð fyrir í hliðstæðum hvað varðar lítil formmerki: bilskil, markdown-hreinsun, eignarfall-samskeyti. Gemini 3 Thinking býr til mun fleiri markdown-strúktúra en GPT-5 á sama prompti; þetta er stílrænn munur sem birtist í tókatölum ef forvinnslan er ekki næg. Núverandi aðgreining fjarlægir þennan munarmun að mestu, svo seinni B-skor í `run_milicka.py` endurspegla raunverulegan stílrænan mun en ekki forvinnsluartefakta.
+
+**Vísan í ákvörðun 029.** Heildarútfærsla og takmarkanir eru í `decisions_log.md#029`.
+
+---
+
+## 25. apríl 2026 — Endurskipulagning gagnamöppu og uppfærsla á `parse_texts.py`
+
+**Tími:** 0,5 klst.
+
+**Hvað gerði ég:**
+- Lét Claude Code uppfæra `scripts/parse_texts.py` til að passa við nýja möppustrúktúrinn í `data/experiment/`.
+- Keyrði tilraunaprófun á `data/experiment/prompts/` og á sjálfgefnum inntaksmöppum til að staðfesta endurkvæma leit, möppukortun (input → output) og útilokun á `excluded_from_pipeline/`.
+- Skráði í dagbók hvaða aðrar skriftur vísa enn í gömlu nöfnin svo notandi getur kíkt á þá síðar.
+
+**Möppustrúktúrsbreyting (samantekt).**
+- `data/experiment/human_reference/` → `data/experiment/human_texts/`.
+- `data/experiment/llm_continuations_preprocessed/` → `data/experiment/llm_continuations_clean/`.
+- `data/experiment_unseen/` lögð niður sem sérmappa; óséðu höfundatextarnir voru sameinaðir inn í `data/experiment/`. Í `prompts/` og `human_texts/` situr unseen-flokkurinn í flatri möppu með skráarheitin `unseen_prompt_*.txt` og `unseen_ref_*.txt`. Í `llm_continuations_clean/<model>/` er hver flokkur sín undirmappa: `academic/`, `blog/`, `news/`, `unseen/`.
+- Ný efsta-stigs mappa `data/experiment/excluded_from_pipeline/` heldur utan um tæknibilanir (núll-orða úttak, prompt-endurtekningar, og þess háttar) sem mega ekki fara inn í pípuna.
+
+**Hvers vegna.** Samræmi í pípu og einfaldari skriftulógík: ein endurkvæm leit nær yfir bæði aðaltilraun og óséðu textana, í stað þess að hafa tvö samhliða gagnatré með tvíverknaði í `DEFAULT_INPUT_DIRS`. Heitin `human_texts` og `llm_continuations_clean` eru lýsandi (ekki tæknileg). Ein `excluded_from_pipeline/` mappa undir `data/experiment/` einfaldar `.gitignore`-stjórnun og gerir tæknibilanir sýnilegar á einum stað í stað þess að dreifa þeim í huldu „excluded/“-möppum innan hvers líkans.
+
+**Breytingar á `parse_texts.py`.**
+- `DEFAULT_INPUT_DIRS`: `human_reference` → `human_texts`, `llm_continuations_preprocessed` → `llm_continuations_clean`. Tveir liðir fyrir `experiment_unseen/` voru fjarlægðir (nú innifalið í aðaltilraunamöppunum gegnum `unseen/`-undirmöppu eða `unseen_*`-skráarheiti).
+- `EXCLUDED_DIR_NAMES`: bætti við `excluded_from_pipeline` ef notandi keyrir með víðari `--input-dirs` slóð.
+- Allar dæmaslóðir, doc-string og CLI-hjálparskilaboð uppfærð í ný heiti.
+- Engin breyting á þáttunarlógík eða `is_prompt_dir` — það athugar enn á `input_dir.name == "prompts"` og virkar óbreytt.
+
+**Prófunarniðurstöður.**
+- `find_text_files(prompts/)`: 60 skrár (15 á flokk × 4 flokka — academic, blog, news, unseen). Allar á efsta stigi möppunnar; flokkurinn er kóðaður í skráarheiti, ekki í undirmöppu.
+- `find_text_files(human_texts/)`: 60 skrár, sama uppbygging.
+- `find_text_files(llm_continuations_clean/)`: 342 skrár, þar af 82 undir `unseen/` (sem staðfestir að endurkvæma leitin grípur unseen-flokkinn).
+- Útilokunarpróf: 8 `.txt` skrár liggja í `data/experiment/excluded_from_pipeline/`. `find_text_files` yfir öllum sjálfgefnum inntaksmöppum skilar 462 skrám og engin þeirra liggur í `excluded_from_pipeline/`.
+- Tilraunakeyrsla `python3 scripts/parse_texts.py --input-dirs data/experiment/prompts/ --output-dir /tmp/parse_test/` keyrði án villu, hlóð IceConParse, og hóf þáttun á `academic_prompt_001.txt`. Stöðvuð að nokkrum skrám þáttuðum (full keyrsla á raungögnum verður gerð í sér skrefi).
+
+**Aðrar skriftur sem vísa enn í gömlu möppuheitin**:
+- `scripts/run_milicka.py` — `human_reference/`, `llm_continuations_preprocessed/` (bæði í doc-strings og slóðabreytum á efsta stigi).
+- `scripts/integrity_check.py` — `llm_continuations_preprocessed/`.
+- `scripts/prepare_paired_experiment.py` — `human_reference/` (úttaksslóðir).
+- `scripts/prepare_unseen_authored_texts.py` — `data/experiment_unseen/`, `human_reference/` (skrifar enn í gömlu slóðina).
+- `scripts/generate_claude_continuations.py` — `data/experiment_unseen/`, `human_reference/`.
+- `scripts/dim6_word_length.py` — `human_reference/` (aðeins í CLI-dæmum).
+- `scripts/dim10_lix.py` — `human_reference/`, `llm_continuations_preprocessed/` (CLI-dæmi).
+- `scripts/dim11_mtld.py` — sama.
+- `scripts/dim9_tree_depth.py` — `human_reference/`, `llm_continuations_preprocessed/` (doc-strings).
+
+**Áður uppfært vegna sömu sameiningar:**
+- `scripts/preprocess_llm_output.py` — regex til að taka unseen-flokkinn inn í forvinnslu.
+- `scripts/extract_samples.py` — `--split-concatenated` flagg fyrir samskeytaaðgreiningu (sjá færslu 24. apríl 2026).
+
+---
+
+## 25. apríl 2026 — Uppfærsla á `run_milicka.py`
+
+**Tími:** 0,5 klst.
+
+**Hvað gerði ég:**
+- Uppfærði slóðabreyturnar fjórar á efsta stigi `scripts/run_milicka.py` (`PARSED_HUMAN_REF_DIR`, `PARSED_LLM_DIR`, `RAW_HUMAN_REF_DIR`, `RAW_LLM_DIR`) til að benda á nýju möppuheitin (`human_texts/`, `llm_continuations_clean/`). Python-auðkennin sjálf voru höfð óbreytt til að forðast keðjubreytingar í afganginum af skriftunni.
+- Bætti `'unseen'` við `REGISTERS`-samstæðuna og við valkostalistann í `SAMPLE_ID_RE` regexinu, svo unseen-flokkurinn er meðhöndlaður á jafnréttisgrunni við academic/blog/news.
+- Uppfærði doc-string á efsta stigi til að lýsa nýju gagnaskipulagi (heiti og fjölda: prompts 60, human_texts 60, llm_continuations_clean ~342) og sérsetningar á borð við „mannlegum viðmiðstextum (human_reference)“ → „mannlegum viðmiðstextum (human_texts)“.
+- Engin breyting á útreikningum, RMS-B-aggregation, NaN-skráningu eða dim8-cache-lógík — einungis slóða- og flokkaflutningur.
+
+**Hvers vegna.** Sami möppuflutningur og var gerður á `parse_texts.py` fyrr í dag; `run_milicka.py` var ekki opnað þá og hélt því áfram að benda á gömlu slóðirnar. Niðurstaðan var villan „VILLA: Engin LLM-framhöld fundust.“ þar sem `discover_samples()` fann hvorki mennska texta né LLM-tré í gömlu möppunum sem nú eru horfnar.
+
+**Prófunarniðurstöður.**
+- `python3 scripts/run_milicka.py --output-csv output/milicka_results_post_dim7fix_full.csv --plot --figure-dir output/figures` keyrði til loka án villu.
+- Skref 1 (finna gögn): academic 15, blog 15, news 15, unseen 15 (alls 60). LLM-líkön: 6 (claude_sonnet46 60, deepseek_V32_expert 59, gemini_3_thinking 60, gpt_5 60, le_chat_free 44 — fast+balanced sameinað í gegnum `MODEL_ALIASES`, le_chat_thinking 59).
+- Le Chat Free hefur ekki unseen-textaflokka frá fast-tilvikinu en hefur unseen frá balanced — báðir fluttust inn í aggregaðan le_chat_free dálk eins og við var að búast af MODEL_ALIASES-uppsetningunni. Free er kannski ekki rétta orðið en það er allavega samheiti yfir Fast og Balanced hér.
+- CSV-útgangur: 3420 raðir (= 6 líkön × ≤4 flokkar × ≤15 úrtök × 11 víddir, með frádrátti fyrir unseen sem vantaði í le_chat_fast og fyrir gpt_5 dim8 sem skráist enn sem NaN þar sem `dim8_bin_summary.csv` inniheldur ekki gpt_5-skrár).
+- Allar 11 víddirnar fá per-vídd PNG-myndir og B-súluritið er vistað í `output/figures/`.
+
+**Aðrar skriftur með stöðnuðum tilvísunum** (eftir grep á `human_reference|llm_continuations_preprocessed`; ekki snertir í þessari aðgerð, einungis nefndir til síðari yfirferðar):
+- `scripts/integrity_check.py` — `llm_continuations_preprocessed/` (slóðabreyta + CLI-dæmi).
+- `scripts/prepare_paired_experiment.py` — `human_reference/` (úttaksslóðir og prentaðar leiðbeiningar).
+- `scripts/prepare_unseen_authored_texts.py` — `human_reference/` í úttakshönnun.
+- `scripts/generate_claude_continuations.py` — `human_reference/` í aðal- og unseen-slóðabreytum.
+- `scripts/dim6_word_length.py`, `scripts/dim8_bin_ratio.py`, `scripts/dim10_lix.py`, `scripts/dim11_mtld.py`, `scripts/dim9_tree_depth.py` — gömlu nöfnin koma einungis fram í CLI-dæmum og doc-strings (ekki í virkri lógík; þessar skriftur taka inn `--text-dir`/`--parsed-dir` og virka óbreytt á nýju slóðunum).
+
+---
+
+## 25. apríl 2026 — Galli í `_measure_with_explicit_paths`: dim8 skilaði alltaf NaN
+
+**Tími:** 0,5 klst.
+
+**Einkenni.** Eftir möppuflutninginn fyrr í dag keyrði `run_milicka.py` til loka án villu, en BÍN-dekkun (vídd 8) var skráð sem NaN (`—` í úttakstöflunni) fyrir öll 342 úrtök í öllum fjórum flokkum (academic/blog/news/unseen). Hinar textavíddirnar (dim6, dim10, dim11) skiluðu gildum eðlilega, svo um dim8-sérstakan galla var að ræða. Cache-skráin `output/dim8_bin_summary.csv` var heil með 462 færslur og rétt nöfn, svo gallinn lá í `run_milicka.py` sjálfu.
+
+**Orsök.** Fallið `_measure_with_explicit_paths` (línur 735–794) — innra hjálparfall sem `measure_ref`, `measure_prompt` og `measure_llm` nota öll — meðhöndlaði aðeins `dim['input'] == 'parsed'` og `dim['input'] == 'raw'`. Fyrir dim8 (sem hefur `'input': 'precomputed_csv'`) féll engin grein í gegn, svo `values[dim_id]` var aldrei sett. Niðurstöðu-dictið innihélt því engan dim8-lykil og niðurstreymis (lína 1034–1035) er notað `v_human.get(dim_id, float('nan'))` sem skilar NaN sjálfgefið. Þannig kom NaN út fyrir dim8 hjá ÖLLUM úrtökum, ekki bara þeim sem vantaði í cache.
+
+Eldra fallið `measure_all_dims` (línur 597–680) hefur rétta meðhöndlun á `precomputed_csv` (lína 665–678) en það fall er ekki notað í aðaleyrslulykkjunni — þar er `_measure_with_explicit_paths` kallað í gegnum `measure_ref`/`measure_prompt`/`measure_llm`. Tvíverknaður á þessari rökfræði (parsed/raw/precomputed_csv-greining á tveim stöðum) gerði það auðvelt að gleyma annarri hliðinni þegar dim8 var flutt í parse-once arkítektúrinn.
+
+**Hvers vegna kom þetta fram núna.** Vídd 8 var flutt í parse-once arkítektúr á sínum tíma (fall `_load_dim8_cache` + `lookup_dim8_value` + `'input': 'precomputed_csv'`-merkingin í `DIMENSIONS`), en `_measure_with_explicit_paths`-hjálparfallið var gleymt í þeirri viðbót. Það fékk ekki að sýna sig í fyrri keyrslum vegna þess að gpt_5-skrár vantaði í cache (sjá færslu 25. apríl, fyrri þátt) og ég tók því fyrir að dim8-NaN væri tengt þeim göllum, ekki kerfisbundnum galla í pípunni. Þegar cache-skráin var endurgerð með öllum líkönum kom í ljós að gallinn náði til allra úrtaka. Eftir á að hyggja hefði ég ekki átt að gera þetta svona til að byrja með heldur leyfa dim8 að keyrast með run_milicka.py í hvert sinn.
+
+**Lagfæring.** Bætti við `precomputed_csv`-grein í `_measure_with_explicit_paths` (línur eftir „raw"-greinina). Hún speglar lógíkina í `measure_all_dims`: velur fyrstu virku slóðina úr `('ref_raw', 'prompt_raw', 'llm_raw')` og sendir hana í `lookup_dim8_value`. `.exists()` er ekki krafist því cache-uppfletting notar einungis skráarheitið.
+
+**Prófunarniðurstöður.**
+- `python3 scripts/run_milicka.py --output-csv output/milicka_results_post_dim8fix.csv` keyrði til loka án villu.
+- Heildarsamantekt: **342/342 málsýni á allar 11 víddir, engin NaN-tilvik** (áður: dim8 NaN hjá öllum 342). 
+- Dim8 skilar nú raunverulegum gildum í öllum flokkum, t.d.: academic 0,9864/0,9720, news 0,9631/0,9684, unseen 0,9551/0,9683 (v̄_hum/v̄_llm).
+- CSV-úttak: 3762 raðir (= 342 × 11 víddir), allar 342 dim8-raðir eru með gild `v_human` og `v_model` gildi (engin NaN-strengur).
+
+**Skyldir kóðastaðir til síðari yfirferðar.** Tvíverknaðurinn milli `measure_all_dims` (línur 597–680) og `_measure_with_explicit_paths` (línur 735–794) er hættulegur — hver ný víddartegund (`dim['input']`) þarf að fara á tvo staði. Hægt væri að sameina þetta í eina rökfræðieiningu (annaðhvort með því að nota `measure_all_dims` einnig fyrir ref/prompt/llm-leiðirnar, eða með því að flytja víddargreiningarlykkjuna í sameiginlegt fall sem bæði eru þunnir wrappers utan um). Það er ekki aðferðafræðileg breyting, svo ég skil það eftir; minnispunktur fyrir framtíðar refaktor-tilefni.
+
+**Næstu skref.** Yfirfara hinar skrifturnar í listanum hér að ofan og uppfæra slóðir/doc-strings þegar tilefni er til. Ekki nauðsynlegt áður en `parse_texts.py` er keyrt í fullri lengd, því hver skrifta skilgreinir sínar eigin slóðir.
+
+================================================================================
+HEILDARSAMANTEKT / OVERALL SUMMARY
+================================================================================
+  Líkan                          academic       blog       news     unseen   Meðaltal
+  ──────────────────────────── ────────── ────────── ────────── ────────── ──────────
+  claude_sonnet46                    2.74       5.06       3.12       4.52       3.86
+  deepseek_V32_expert                2.78       4.12       3.34       3.83       3.52
+  gemini_3_thinking                  1.94       4.89       2.67       2.63       3.03
+  gpt_5                              3.40       4.92       3.63       4.31       4.07
+  le_chat_free                       4.11       8.26       4.43       8.24       6.26
+  le_chat_thinking                   2.65       4.10       3.20       7.17       4.28

@@ -48,6 +48,9 @@ data/experiment/human_reference/
 data/unseen_authored_texts/
 output/parsed/prompts/unseen_*
 output/parsed/human_reference/unseen_*
+data/experiment/human_texts/unseen/
+data/experiment/llm_continuations/*/unseen/
+data/experiment/prompts/unseen/
 
 # Unseen experiment: prompt/reference splits of authored texts
 data/experiment_unseen/
