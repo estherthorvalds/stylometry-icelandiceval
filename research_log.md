@@ -1195,3 +1195,23 @@ HEILDARSAMANTEKT / OVERALL SUMMARY
   gpt_5                              3.40       4.92       3.63       4.31       4.07
   le_chat_free                       4.11       8.26       4.43       8.24       6.26
   le_chat_thinking                   2.65       4.10       3.20       7.17       4.28
+
+---
+
+## 29. maí 2026 — Sannprófun á niðurstöðum (`scripts/abstract_verification.py`)
+
+**dim5 (3. persónu fornöfn).** Lét Claude Code gera Analysis möppu, hér er útkoman:
+Mennsk röð: `unseen > blog > news > academic`. 6/6 líkön ná sömu röð. Á `unseen` (mennskt hámark, +59,32) skýtur yfir í 5/6 (+1% til +34%); gemini_3_thinking eitt skýtur undir (−4,5%).
+
+**dim3 (NP-lengd).** Mennsk röð: `academic > blog > news > unseen`. Aðeins 3/6 ná sömu röð (hin þrjú víxla blog↔news). Á `academic` (+3,34) skýtur þó yfir 6/6 (+3% til +14%).
+
+**dim11 (MTLD).** Mennskt hámark er `blog` (+170,69). 1/6 líkön (le_chat_thinking) topparar þar; 4/6 hafa blog sem LÆGSTA flokk (claude_sonnet46, gemini_3_thinking, gpt_5, le_chat_free). Eftir að le_chat_free er fjarlægt verður inversion-talningin 3/5 (veikari). Líkanið með hæsta heildar-meðal-v_model á dim11 (gemini_3_thinking, +155,18) topparar á `academic` og lægst á `blog` — invertar líka, svo mynstrið er ekki bara gæða-artifact.
+
+**5.2-misræmið leyst.** Þrjár samansafnsaðferðir prófaðar fyrir `mean |b|`:
+- A (`mean(|b_d|)` yfir allar raðir): max-skekkja +2,77 vs. birt gildi.
+- B (per-cella `mean(|b_d|)`, svo meðaltal yfir 24 cellur): max-skekkja +2,77.
+- **C** (per-cella `mean(b_d)` *með formerki*, svo `|·|`, svo meðaltal yfir 24 cellur): max-skekkja 0,0044 — endurgerir öll 11 gildi innan 0,05.
+
+Birta `mean |b|` í kafla 5.2 er því reiknuð á cell-meðaltals-formerkjuðum delta-gildum, ekki á per-sample-absolútum frávikum. Þetta skýrir ~1,5–2× offsetið sem `human_register_spread.py` rakst á.
+
+Útkoma: `analysis/abstract_verification_summary.csv` (86 raðir).

@@ -1,0 +1,86 @@
+claim,sub_item,value,supports_abstract_claim
+claim1,dim5_human_ordering_by_magnitude,unseen > blog > news > academic,
+claim1,dim5_claude_sonnet46_ordering_matches_human,yes,True
+claim1,dim5_deepseek_V32_expert_ordering_matches_human,yes,True
+claim1,dim5_gemini_3_thinking_ordering_matches_human,yes,True
+claim1,dim5_gpt_5_ordering_matches_human,yes,True
+claim1,dim5_le_chat_free_ordering_matches_human,yes,True
+claim1,dim5_le_chat_thinking_ordering_matches_human,yes,True
+claim1,dim5_count_models_matching_human_ordering,6/6,True
+claim1,dim5_claude_sonnet46_overshoot_pct_on_unseen,+4.8%,True
+claim1,dim5_deepseek_V32_expert_overshoot_pct_on_unseen,+1.2%,True
+claim1,dim5_gemini_3_thinking_overshoot_pct_on_unseen,-4.5%,False
+claim1,dim5_gpt_5_overshoot_pct_on_unseen,+7.3%,True
+claim1,dim5_le_chat_free_overshoot_pct_on_unseen,+34.0%,True
+claim1,dim5_le_chat_thinking_overshoot_pct_on_unseen,+4.1%,True
+claim1,dim5_all_models_overshoot_on_unseen,no,False
+claim1,dim3_human_ordering_by_magnitude,academic > blog > news > unseen,
+claim1,dim3_claude_sonnet46_ordering_matches_human,yes,True
+claim1,dim3_deepseek_V32_expert_ordering_matches_human,"no; model=['academic', 'news', 'blog', 'unseen']",False
+claim1,dim3_gemini_3_thinking_ordering_matches_human,"no; model=['academic', 'news', 'blog', 'unseen']",False
+claim1,dim3_gpt_5_ordering_matches_human,"no; model=['academic', 'news', 'blog', 'unseen']",False
+claim1,dim3_le_chat_free_ordering_matches_human,yes,True
+claim1,dim3_le_chat_thinking_ordering_matches_human,yes,True
+claim1,dim3_count_models_matching_human_ordering,3/6,False
+claim1,dim3_claude_sonnet46_overshoot_pct_on_academic,+13.5%,True
+claim1,dim3_deepseek_V32_expert_overshoot_pct_on_academic,+13.5%,True
+claim1,dim3_gemini_3_thinking_overshoot_pct_on_academic,+7.8%,True
+claim1,dim3_gpt_5_overshoot_pct_on_academic,+9.8%,True
+claim1,dim3_le_chat_free_overshoot_pct_on_academic,+7.7%,True
+claim1,dim3_le_chat_thinking_overshoot_pct_on_academic,+3.0%,True
+claim1,dim3_all_models_overshoot_on_academic,yes,True
+claim2,dim11_human_peak_register,blog,
+claim2,dim11_claude_sonnet46_peak_matches_human,news (human peak=blog),False
+claim2,dim11_deepseek_V32_expert_peak_matches_human,academic (human peak=blog),False
+claim2,dim11_gemini_3_thinking_peak_matches_human,academic (human peak=blog),False
+claim2,dim11_gpt_5_peak_matches_human,news (human peak=blog),False
+claim2,dim11_le_chat_free_peak_matches_human,news (human peak=blog),False
+claim2,dim11_le_chat_thinking_peak_matches_human,blog (human peak=blog),True
+claim2,dim11_count_models_peak_matches_human,1/6,False
+claim2,dim11_count_models_with_blog_as_lowest,"4/6; models=claude_sonnet46,gemini_3_thinking,gpt_5,le_chat_free",False
+claim3,dim11_human_peak_register,blog,
+claim3,dim11_claude_sonnet46_peak_matches_human,news (human peak=blog),False
+claim3,dim11_deepseek_V32_expert_peak_matches_human,academic (human peak=blog),False
+claim3,dim11_gemini_3_thinking_peak_matches_human,academic (human peak=blog),False
+claim3,dim11_gpt_5_peak_matches_human,news (human peak=blog),False
+claim3,dim11_le_chat_thinking_peak_matches_human,blog (human peak=blog),True
+claim3,dim11_count_models_peak_matches_human,1/5,False
+claim3,dim11_count_models_with_blog_as_lowest,"3/5; models=claude_sonnet46,gemini_3_thinking,gpt_5",False
+claim3,dim11_highest_overall_model,gemini_3_thinking (mean=+155.1837),
+claim3,dim11_highest_overall_model_inverts,"peak=academic, trough=blog, human_peak=blog -> inverts",True
+claim4,variant_A_dim1,"3.8376 (pub=1.62, diff=+2.2176)",
+claim4,variant_A_dim2,"5.9588 (pub=4.44, diff=+1.5188)",
+claim4,variant_A_dim3,"4.8904 (pub=2.60, diff=+2.2904)",
+claim4,variant_A_dim4,"4.0582 (pub=1.71, diff=+2.3482)",
+claim4,variant_A_dim5,"5.3958 (pub=2.90, diff=+2.4958)",
+claim4,variant_A_dim6,"5.6756 (pub=4.09, diff=+1.5856)",
+claim4,variant_A_dim7,"5.1300 (pub=3.26, diff=+1.8700)",
+claim4,variant_A_dim8,"2.8572 (pub=1.89, diff=+0.9672)",
+claim4,variant_A_dim9,"5.5283 (pub=3.21, diff=+2.3183)",
+claim4,variant_A_dim10,"4.8886 (pub=2.88, diff=+2.0086)",
+claim4,variant_A_dim11,"8.1684 (pub=7.14, diff=+1.0284)",
+claim4,variant_A_reproduces_published_within_0.05,max|diff|=2.4958 at dim5,False
+claim4,variant_B_dim1,"3.8519 (pub=1.62, diff=+2.2319)",
+claim4,variant_B_dim2,"6.0524 (pub=4.44, diff=+1.6124)",
+claim4,variant_B_dim3,"4.9888 (pub=2.60, diff=+2.3888)",
+claim4,variant_B_dim4,"4.1486 (pub=1.71, diff=+2.4386)",
+claim4,variant_B_dim5,"5.6653 (pub=2.90, diff=+2.7653)",
+claim4,variant_B_dim6,"6.0147 (pub=4.09, diff=+1.9247)",
+claim4,variant_B_dim7,"5.1898 (pub=3.26, diff=+1.9298)",
+claim4,variant_B_dim8,"2.7920 (pub=1.89, diff=+0.9020)",
+claim4,variant_B_dim9,"5.6055 (pub=3.21, diff=+2.3955)",
+claim4,variant_B_dim10,"5.1341 (pub=2.88, diff=+2.2541)",
+claim4,variant_B_dim11,"8.6570 (pub=7.14, diff=+1.5170)",
+claim4,variant_B_reproduces_published_within_0.05,max|diff|=2.7653 at dim5,False
+claim4,variant_C_dim1,"1.6192 (pub=1.62, diff=-0.0008)",
+claim4,variant_C_dim2,"4.4435 (pub=4.44, diff=+0.0035)",
+claim4,variant_C_dim3,"2.6043 (pub=2.60, diff=+0.0043)",
+claim4,variant_C_dim4,"1.7065 (pub=1.71, diff=-0.0035)",
+claim4,variant_C_dim5,"2.8966 (pub=2.90, diff=-0.0034)",
+claim4,variant_C_dim6,"4.0880 (pub=4.09, diff=-0.0020)",
+claim4,variant_C_dim7,"3.2595 (pub=3.26, diff=-0.0005)",
+claim4,variant_C_dim8,"1.8881 (pub=1.89, diff=-0.0019)",
+claim4,variant_C_dim9,"3.2056 (pub=3.21, diff=-0.0044)",
+claim4,variant_C_dim10,"2.8825 (pub=2.88, diff=+0.0025)",
+claim4,variant_C_dim11,"7.1400 (pub=7.14, diff=+0.0000)",
+claim4,variant_C_reproduces_published_within_0.05,max|diff|=0.0044 at dim9,True

@@ -526,7 +526,7 @@ def discover_samples() -> tuple[dict, dict]:
     samples: dict[tuple[str, str], dict[str, Path]] = {}
     models: dict[str, dict[tuple[str, str], dict[str, Path]]] = {}
 
-    # --- 1. ÞÁTTUÐ MANNLEG GÖGN / PARSED HUMAN DATA ---
+    # --- 1. ÞÁTTUÐ MENNSK GÖGN / PARSED HUMAN DATA ---
 
     # Prompt-tré (.psd)
     if PARSED_PROMPTS_DIR.exists():
@@ -535,14 +535,14 @@ def discover_samples() -> tuple[dict, dict]:
             if sid:
                 samples.setdefault(sid, {})['prompt_parsed'] = f
 
-    # Viðmiðstré (.psd)
+    # Viðmiðunartré (.psd)
     if PARSED_HUMAN_REF_DIR.exists():
         for f in sorted(PARSED_HUMAN_REF_DIR.glob('*_parsed.psd')):
             sid = extract_sample_id(f.name)
             if sid:
                 samples.setdefault(sid, {})['ref_parsed'] = f
 
-    # --- 2. HRÁR MANNLEGUR TEXTI / RAW HUMAN TEXT (fyrir dim6) ---
+    # --- 2. HRÁR MENNSKUR TEXTI / RAW HUMAN TEXT (fyrir dim6) ---
 
     if RAW_PROMPTS_DIR.exists():
         for f in sorted(RAW_PROMPTS_DIR.glob('*.txt')):
