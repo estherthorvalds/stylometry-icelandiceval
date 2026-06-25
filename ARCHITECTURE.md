@@ -363,7 +363,7 @@ gildir `√(mean(b_d²)) = ‖b‖ / √n` — sama röðun, fastur kvarðamunur
 
 ## Þáttari / Parser
 
-IceConParse eftir Ingunn Jóhönnu Kristjánsdóttur (2024)
+IceConParse eftir Ingunni Jóhönnu Kristjánsdóttur (2024)
 - Stanza-þáttunarpípa með IceBERT orðgreypingum
 - Þjálfað á IcePaHC trjábankanum
 - F-mæling: 90,38%
