@@ -456,7 +456,7 @@ Sami þröskuldur og í fyrirlestri Steinþórs (UD-byggt). IcePaHC
 liðgerðartré eru KERFISBUNDIÐ DÝPRI en UD-háðartré vegna POS-hnúta
 sem vefja utan um orð, svo `pct_complex_trees` verður hátt (~99%)
 á flestum textategundum. Þröskuldurinn er AÐFERÐAFRÆÐILEG HLIÐSTÆÐA,
-ekki kvarðaður sérstaklega fyrir IcePaHC. Fyrir MA-verkefnið mætti
+ekki kvarðaður sérstaklega fyrir IcePaHC. Í stærri rannsókn mætti
 kalibrera þröskuldinn út frá empirískri dreifingu trédýpta í
 benchmark-gögnunum sjálfum.
 
