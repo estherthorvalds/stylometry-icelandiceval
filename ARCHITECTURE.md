@@ -480,10 +480,10 @@ vídda.
 
 Aðal-v fyrir Milička: `mean_tree_depth`.
 
-## LIX-læsilegskor (dim10)
+## LIX-læsileikaskor (dim10)
 
-`dim10_lix.py` reiknar LIX-læsilegskor (Läsbarhetsindex, Björnsson 1968),
-klassískan sænskan læsilegsstuðul sem sameinar orðalengd og setningalengd:
+`dim10_lix.py` reiknar LIX-læsileikaskor (Läsbarhetsindex, Björnsson 1968),
+klassískan sænskan læsileikastuðul sem sameinar orðalengd og setningalengd:
 
 ```
 LIX = (words / sentences) + (long_words / words × 100)
@@ -494,7 +494,7 @@ en dim6 sem notar ≥ 8 stafi).
 
 ### Tvíþætt hlutverk / Dual purpose
 
-1. **Klassísk læsilegsmæling** í sjálfu sér: birtir hversu „þungur“
+1. **Klassísk læsileikamæling** í sjálfu sér: birtir hversu „þungur“
    textinn er á sömu formúlu og víða er notuð fyrir norrænar tungur.
 2. **Hliðstæð mæling við dim6** (meðalorðalengd). Bæði mæla orðaþyngd,
    en dim10 bætir setningalengd við. Í greiningarkafla verður borin
